@@ -1,0 +1,36 @@
+{
+  "name": "{{name}}",
+  "version": "0.0.0",
+  "description": "{{description}}",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest",
+    "start": "node index.js",
+    "doc": "apidoc -i api/v1/actions/ -o apidoc/",
+    "build": "grunt package-4-prod && grunt package"
+  },
+  "homepage": "https://webuxlab.com",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/studiowebux/webuxjs.git"
+  },
+  "author": "{{author}}",
+  "license": "SEE LICENSE IN license.txt",
+  "dependencies": {
+    "@hapi/joi": "^15.1.1",
+    "async": "^3.1.0",
+    "bcrypt": "^3.0.6",
+    "path": "^0.12.7",
+    "@studiowebux/app": "latest"
+  },
+  "devDependencies": {
+    "redis-mock": "^0.46.0",
+    "apidoc-markdown": "^0.2.1",
+    "mongo-in-memory": "0.0.5",
+    "jest": "^24.9.0",
+    "grunt": "^1.0.4",
+    "grunt-contrib-compress": "^1.6.0",
+    "grunt-contrib-copy": "^1.0.0",
+    "grunt-jslint": "^1.1.15"
+  }
+}

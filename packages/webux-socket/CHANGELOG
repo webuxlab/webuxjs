@@ -1,0 +1,8 @@
+[2021-04-01]
+- Fixing Issue with path and windows
+
+[2020-07-15]
+- Added CHANGELOG
+- Added jest + tests
+- Added eslint
+- Added jsdoc
