@@ -1,0 +1,49 @@
+{
+  "name": "@studiowebux/socket",
+  "version": "2.0.11",
+  "description": "A wrapper around socket.io",
+  "main": "src/index.js",
+  "directories": {
+    "example": "examples",
+    "doc": "docs"
+  },
+  "homepage": "https://github.com/webulab/webuxjs/packages/webux-socket",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/webulab/webuxjs.git"
+  },
+  "scripts": {
+    "test": "jest",
+    "lint": "eslint src/**",
+    "doc": "jsdoc src -d jsdoc/",
+    "installdeps": "npm install"
+  },
+  "author": "Studio Webux S.E.N.C",
+  "license": "SEE LICENSE IN license.txt",
+  "dependencies": {
+    "cookie": "^0.4.1",
+    "fs": "0.0.1-security",
+    "path": "^0.12.7",
+    "socket.io": "^2.2.0",
+    "socket.io-redis": "^5.4.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.11.6",
+    "@babel/preset-env": "^7.11.5",
+    "babel-jest": "^26.5.2",
+    "cluster": "^0.7.7",
+    "cors": "^2.8.5",
+    "eslint": "^7.11.0",
+    "eslint-config-airbnb-base": "^14.2.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-jest": "^23.20.0",
+    "express": "^4.17.1",
+    "http": "0.0.0",
+    "jest": "^26.5.2",
+    "jsdoc": "^3.6.6",
+    "jsonwebtoken": "^8.5.1",
+    "redis-mock": "^0.46.0",
+    "socket.io-client": "^2.3.1",
+    "supertest": "^4.0.2"
+  }
+}

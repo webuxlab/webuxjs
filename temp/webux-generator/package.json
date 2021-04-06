@@ -1,0 +1,35 @@
+{
+  "name": "@studiowebux/generator",
+  "version": "2.6.2",
+  "description": "webux lab template generator",
+  "main": "index.js",
+  "bin": {
+    "webux": "./index.js"
+  },
+  "scripts": {
+    "start": "node index.js",
+    "generate-module": "node generator/module/index.js",
+    "generate-app": "node generator/app/index.js",
+    "generate-resource": "node generator/resource/index.js",
+    "generate-model": "node generator/model/index.js",
+    "test": "jest",
+    "lint": "eslint src/**",
+    "doc": "jsdoc src -d jsdoc/",
+    "installdeps": "npm install"
+  },
+  "author": "Studio Webux S.E.N.C",
+  "license": "SEE LICENSE IN license.txt",
+  "dependencies": {
+    "fs": "0.0.1-security",
+    "fs-copy-file": "^2.1.2",
+    "fs-extra": "^8.1.0",
+    "inquirer": "^6.5.0",
+    "pluralize": "^7.0.0",
+    "replace-in-file": "^3.4.3",
+    "shelljs": "^0.8.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://git.webux.lab/studiowebux/webux-generator.git"
+  }
+}

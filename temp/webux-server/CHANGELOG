@@ -1,0 +1,6 @@
+[2020-07-18]
+- Added CHANGELOG
+- Added jest + tests
+- Added eslint
+- Added jsdoc
+- npm update
