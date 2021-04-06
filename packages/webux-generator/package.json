@@ -6,6 +6,11 @@
   "bin": {
     "webux": "./index.js"
   },
+  "homepage": "https://github.com/webuxlab/webuxjs/packages/webux-generator/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/webuxlab/webuxjs.git"
+  },
   "scripts": {
     "start": "node index.js",
     "generate-module": "node generator/module/index.js",
@@ -27,9 +32,5 @@
     "pluralize": "^7.0.0",
     "replace-in-file": "^3.4.3",
     "shelljs": "^0.8.3"
-  },
-  "repository": {
-    "type": "git",
-    "url": "http://git.webux.lab/studiowebux/webux-generator.git"
   }
 }
