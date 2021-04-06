@@ -1,0 +1,17 @@
+[2020-07-16]
+- Added CHANGELOG
+- Added jest + tests
+- Added eslint
+- Added jsdoc
+- npm update
+
+[2020-07-18]
+- renamed example directory to examples
+
+[2020-07-25]
+- finished the test with postgresql
+- tested the behavior with Jenkins
+
+[2021-03-13]
+- Upgrade knex version to 0.95.2
+- Written tests

@@ -1,0 +1,18 @@
+{
+  "name": "@webuxlab/webuxjs-root",
+  "private": true,
+  "devDependencies": {
+    "lerna": "^3.22.1"
+  },
+  "scripts": {
+    "test": "lerna run test",
+    "lint": "lerna run lint",
+    "doc": "lerna run doc",
+    "install-all": "lerna run installdeps"
+  },
+  "homepage": "https://github.com/webuxlab/webuxjs",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/webuxlab/webuxjs.git"
+  }
+}
