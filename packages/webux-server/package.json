@@ -1,0 +1,37 @@
+{
+  "name": "@studiowebux/server",
+  "version": "2.0.4",
+  "description": "The entry point for our framework, http or https and port configuration",
+  "main": "src/index.js",
+  "author": "Studio Webux S.E.N.C",
+  "license": "SEE LICENSE IN license.txt",
+  "directories": {
+    "example": "examples",
+    "doc": "docs"
+  },
+  "homepage": "https://github.com/webuxlab/webuxjs/packages/webux-server/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/webuxlab/webuxjs.git"
+  },
+  "scripts": {
+    "test": "jest",
+    "lint": "eslint src/**",
+    "doc": "jsdoc src -d jsdoc/",
+    "installdeps": "npm install"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@babel/core": "^7.11.4",
+    "@babel/preset-env": "^7.11.0",
+    "babel-jest": "^26.3.0",
+    "dotenv": "^8.0.0",
+    "eslint": "^7.7.0",
+    "eslint-config-airbnb-base": "^14.2.0",
+    "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-jest": "^23.20.0",
+    "express": "^4.17.1",
+    "jest": "^26.4.2",
+    "jsdoc": "^3.6.5"
+  }
+}
