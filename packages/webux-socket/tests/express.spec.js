@@ -35,10 +35,7 @@ test('Using the authentication and express', async () => {
   app.use(cors());
 
   app.use('/giveme', (req, res) => {
-    const token = jwt.sign(
-      { aString: 'SHuuut ! this is my payload' },
-      'HARDCODED_JWT_SECRET',
-    );
+    const token = jwt.sign({ aString: 'SHuuut ! this is my payload' }, 'HARDCODED_JWT_SECRET');
 
     res.status(200).json({
       accessToken: token,
@@ -46,24 +43,23 @@ test('Using the authentication and express', async () => {
   });
 
   // loading the webux socket module
-  const webuxSocket = new WebuxSocket({
-    authentication: {
-      namespaces: ['default'],
-      accessTokenKey: 'accessToken', // The cookie key name
-      isAuthenticated: isAuth,
+  const webuxSocket = new WebuxSocket(
+    {
+      authentication: {
+        namespaces: ['default'],
+        accessTokenKey: 'accessToken', // The cookie key name
+        isAuthenticated: isAuth,
+      },
     },
-  }, server);
+    server,
+  );
 
   webuxSocket.AddAuthentication();
   webuxSocket.Standalone();
 
   console.log('|-| Socket loaded !');
 
-  const res = await request(server)
-    .get('/giveme')
-    .set('Accept', 'application/json')
-    .expect('Content-Type', /json/)
-    .expect(200);
+  const res = await request(server).get('/giveme').set('Accept', 'application/json').expect('Content-Type', /json/).expect(200);
 
   expect(res.statusCode).toEqual(200);
   expect(res.body.accessToken).toBeDefined();

@@ -16,7 +16,8 @@
     "test": "jest",
     "lint": "eslint src/**",
     "doc": "jsdoc src -d jsdoc/",
-    "installdeps": "npm install"
+    "installdeps": "npm install",
+    "auditfix": "npm audit fix"
   },
   "author": "Studio Webux S.E.N.C",
   "license": "SEE LICENSE IN license.txt",
@@ -24,26 +25,29 @@
     "cookie": "^0.4.1",
     "fs": "0.0.1-security",
     "path": "^0.12.7",
-    "socket.io": "^2.2.0",
+    "socket.io": "^2.4.1",
     "socket.io-redis": "^5.4.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.11.6",
-    "@babel/preset-env": "^7.11.5",
-    "babel-jest": "^26.5.2",
+    "@babel/core": "^7.13.14",
+    "@babel/preset-env": "^7.13.12",
+    "babel-jest": "^26.6.3",
     "cluster": "^0.7.7",
     "cors": "^2.8.5",
-    "eslint": "^7.11.0",
-    "eslint-config-airbnb-base": "^14.2.0",
+    "eslint": "^7.23.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-config-prettier": "^8.1.0",
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-jest": "^23.20.0",
+    "eslint-plugin-prettier": "^3.3.1",
     "express": "^4.17.1",
     "http": "0.0.0",
-    "jest": "^26.5.2",
+    "jest": "^26.6.3",
     "jsdoc": "^3.6.6",
     "jsonwebtoken": "^8.5.1",
+    "prettier": "^2.2.1",
     "redis-mock": "^0.46.0",
-    "socket.io-client": "^2.3.1",
+    "socket.io-client": "^2.4.0",
     "supertest": "^4.0.2"
   }
 }

@@ -44,12 +44,7 @@ class Route {
    * @returns {Promise}
    */
   LoadStatic(app, express, resources = null) {
-    return serveStatic(
-      resources || this.config.resources,
-      app,
-      express,
-      this.log,
-    );
+    return serveStatic(resources || this.config.resources, app, express, this.log);
   }
 
   /**

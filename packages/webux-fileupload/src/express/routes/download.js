@@ -5,9 +5,7 @@
  * License: All rights reserved Studio Webux S.E.N.C 2015-Present
  */
 
-"use strict";
-
-const path = require("path");
+const path = require('path');
 
 /**
  * The default download action
@@ -16,11 +14,9 @@ const path = require("path");
  * @param {String} destination The base path where the file is stored
  * @returns {Promise<String>} The file path
  */
-const download = (filename, destination) => {
+const download = (filename, destination) =>
   // Default function to get started quickly
-  return Promise.resolve(path.join(destination, filename));
-};
-
+  Promise.resolve(path.join(destination, filename));
 /**
  * Default download route
  * It allows to use this module quickly
@@ -29,36 +25,25 @@ const download = (filename, destination) => {
  * @param {Function} downloadFn Custom download action : downloadFn(destination)(req)=>{return Promise<String>}
  * @param {Object} log Custom logger, by default : console
  */
-const downloadRoute = (
-  destination,
-  key = "id",
-  downloadFn = null,
-  log = console
-) => {
-  return async (req, res, next) => {
-    try {
-      const pictureURL = await (downloadFn
-        ? downloadFn(destination)(req)
-        : download(req.params[key], destination));
+const downloadRoute = (destination, key = 'id', downloadFn = null, log = console) => async (req, res) => {
+  try {
+    const pictureURL = await (downloadFn ? downloadFn(destination)(req) : download(req.params[key], destination));
 
-      if (!pictureURL) {
-        log.error(`Image not Found - ${pictureURL}`);
-        return res.status(404).json({ message: "Image not found !" });
-      }
-
-      return res.sendFile(path.resolve(pictureURL), (err) => {
-        if (err) {
-          log.error(err);
-          res
-            .status(422)
-            .json({ message: "Image unprocessable !", error: err });
-        }
-      });
-    } catch (e) {
-      log.error(e);
-      res.status(422).json({ message: "Image unprocessable !", error: e });
+    if (!pictureURL) {
+      log.error(`Image not Found - ${pictureURL}`);
+      return res.status(404).json({ message: 'Image not found !' });
     }
-  };
+
+    return res.sendFile(path.resolve(pictureURL), (err) => {
+      if (err) {
+        log.error(err);
+        res.status(422).json({ message: 'Image unprocessable !', error: err });
+      }
+    });
+  } catch (e) {
+    log.error(e);
+    return res.status(422).json({ message: 'Image unprocessable !', error: e });
+  }
 };
 
 module.exports = { downloadRoute };

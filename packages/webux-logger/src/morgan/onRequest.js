@@ -20,12 +20,7 @@ const defaultTokens = require('./defaultRequest');
  * @param {Object} log The log function, optional
  * @returns {VoidFunction} return nothing
  */
-const Logging = (
-  type = 'common',
-  format = null,
-  tokens = null,
-  log = console,
-) => {
+const Logging = (type = 'common', format = null, tokens = null, log = console) => {
   log.info('Webux-logging - Configuring morgan');
   let tokensToIterate = [];
 

@@ -5,9 +5,7 @@
  * License: All rights reserved Studio Webux S.E.N.C 2015-Present
  */
 
-"use strict";
-
-const fileUpload = require("express-fileupload");
+const fileUpload = require('express-fileupload');
 
 /**
  * The express middleware to upload files
@@ -15,7 +13,6 @@ const fileUpload = require("express-fileupload");
  * @returns {Function} the express-fileupload module configured
  */
 function fileUploadMiddleware(options) {
-  
   return fileUpload(options);
 }
 

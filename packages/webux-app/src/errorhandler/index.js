@@ -75,10 +75,7 @@ const GlobalHandler = (log = console) => {
     };
 
     // It allows to sort the recurence easily in the logging system
-    error.hash = crypto
-      .createHmac('sha256', 'logging')
-      .update(JSON.stringify(error))
-      .digest('hex');
+    error.hash = crypto.createHmac('sha256', 'logging').update(JSON.stringify(error)).digest('hex');
 
     // It timestamps the entry and allows the user to contact us with the code,
     // that way we can check quickly the issue.
