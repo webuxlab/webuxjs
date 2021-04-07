@@ -18,23 +18,18 @@ const copy = require("fs-copy-file");
 const fs = require("fs");
 const path = require("path");
 
-let slash = "/";
-if (process.platform === "win32") {
-  slash = "\\";
-}
-
-const FirstLetterCap = word => {
+const FirstLetterCap = (word) => {
   return word.charAt(0).toUpperCase() + word.slice(1);
 };
 
 function CopyFile(dest) {
   return new Promise((resolve, reject) => {
     try {
-      const template = dest.split(slash);
+      const template = dest.split(path.sep);
 
       // the filepath content the template path.
       const filepath =
-        dest.indexOf(slash + "actions" + slash) === -1
+        dest.indexOf(path.sep + "actions" + path.sep) === -1
           ? path.join(
               __dirname,
               "templates",
@@ -47,7 +42,7 @@ function CopyFile(dest) {
             );
 
       // copy the template to the final destination.
-      copy(filepath, dest, function(err) {
+      copy(filepath, dest, function (err) {
         if (err) {
           reject(
             new Error(
@@ -74,13 +69,13 @@ async function createFile(dest) {
           reject(err);
         } else if (err && err.code === "ENOENT") {
           if (dest.indexOf("actions") !== -1) {
-            let splitModuleName = dest.split(slash);
+            let splitModuleName = dest.split(path.sep);
 
             let moduleName =
-              dest.substr(0, dest.lastIndexOf("actions" + slash) + 8) + // base
+              dest.substr(0, dest.lastIndexOf("actions" + path.sep) + 8) + // base
               splitModuleName[splitModuleName.length - 2]; // module name
 
-            fs.mkdir(moduleName, err => {
+            fs.mkdir(moduleName, (err) => {
               if (err && err.code !== "ENOENT" && err.code !== "EEXIST") {
                 reject(err);
               }
@@ -88,7 +83,7 @@ async function createFile(dest) {
                 .then(() => {
                   return resolve();
                 })
-                .catch(e => {
+                .catch((e) => {
                   return reject(e);
                 });
             });
@@ -97,7 +92,7 @@ async function createFile(dest) {
               .then(() => {
                 return resolve();
               })
-              .catch(e => {
+              .catch((e) => {
                 return reject(e);
               });
           }
@@ -117,7 +112,7 @@ async function createFile(dest) {
 async function processFiles(files) {
   try {
     for (const dest of files) {
-      await createFile(dest).catch(e => {
+      await createFile(dest).catch((e) => {
         throw e;
       });
     }
@@ -128,5 +123,5 @@ async function processFiles(files) {
 }
 module.exports = {
   processFiles,
-  FirstLetterCap
+  FirstLetterCap,
 };

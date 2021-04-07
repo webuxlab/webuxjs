@@ -18,11 +18,6 @@ const fs = require("fs");
 const path = require("path");
 const fse = require("fs-extra");
 
-let slash = "/";
-if (process.platform === "win32") {
-  slash = "\\";
-}
-
 const hasChildren = (files, base, parent, child, file) => {
   let filename = file ? path.join(file) : path.join(base);
   if (
@@ -31,7 +26,7 @@ const hasChildren = (files, base, parent, child, file) => {
   ) {
     filename = path.join(filename, child);
 
-    Object.keys(parent[child]).forEach(element => {
+    Object.keys(parent[child]).forEach((element) => {
       hasChildren(files, base, parent[child], element, filename);
     });
   } else {
@@ -67,9 +62,9 @@ async function createFile(file, templatePath, projectDirectory) {
         }
 
         const newDir = path.join(projectDirectory, sanitizeFile);
-        const dir = newDir.substr(0, newDir.lastIndexOf(slash));
+        const dir = newDir.substr(0, newDir.lastIndexOf(path.sep));
 
-        fse.ensureDir(dir, err => {
+        fse.ensureDir(dir, (err) => {
           // if dir not exists, create it.
           if (err) {
             reject(err);
@@ -78,7 +73,7 @@ async function createFile(file, templatePath, projectDirectory) {
           fse.copy(
             path.join(file), // from
             path.join(projectDirectory, sanitizeFile), //to
-            err => {
+            (err) => {
               if (err) {
                 reject(err);
               }
@@ -95,18 +90,17 @@ async function createFile(file, templatePath, projectDirectory) {
   });
 }
 
-
 /**
  * For each required files, check if it already exist
  * Or copy it and replace the variable with the good values.
- * @param {*} files 
- * @param {*} templatePath 
- * @param {*} projectDirectory 
+ * @param {*} files
+ * @param {*} templatePath
+ * @param {*} projectDirectory
  */
 async function processFiles(files, templatePath, projectDirectory) {
   try {
     for (const dest of files) {
-      await createFile(dest, templatePath, projectDirectory).catch(e => {
+      await createFile(dest, templatePath, projectDirectory).catch((e) => {
         throw e;
       });
     }
@@ -130,5 +124,5 @@ function createGitignore(dir) {
 module.exports = {
   hasChildren,
   processFiles,
-  createGitignore
+  createGitignore,
 };
