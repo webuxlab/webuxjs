@@ -8,7 +8,8 @@ test('Create webuxRoute instance without options', () => {
   const Route = new WebuxRoute();
 
   expect(Route).toMatchObject({
-    config: {}, log: console,
+    config: {},
+    log: console,
   });
 });
 
@@ -23,9 +24,10 @@ test('Create WebuxRoute instance with default options', () => {
             {
               method: 'get',
               middlewares: [],
-              action: (req, res) => res.success({
-                msg: 'Welcome ! The Documentation is available here : /api/',
-              }),
+              action: (req, res) =>
+                res.success({
+                  msg: 'Welcome ! The Documentation is available here : /api/',
+                }),
             },
           ],
           '/healthcheck': [
@@ -55,7 +57,8 @@ test('Create WebuxRoute instance with default options', () => {
   const Route = new WebuxRoute(opts);
 
   expect(Route).toMatchObject({
-    config: opts, log: console,
+    config: opts,
+    log: console,
   });
 });
 
@@ -70,9 +73,10 @@ test('Create WebuxRoute instance with some routes', () => {
             {
               method: 'get',
               middlewares: [],
-              action: (req, res) => res.success({
-                msg: 'Welcome ! The Documentation is available here : /api/',
-              }),
+              action: (req, res) =>
+                res.success({
+                  msg: 'Welcome ! The Documentation is available here : /api/',
+                }),
             },
           ],
           '/healthcheck': [
@@ -92,34 +96,29 @@ test('Create WebuxRoute instance with some routes', () => {
             {
               method: 'get',
               middlewares: [],
-              action: require(path.join(__dirname, '..', 'examples', 'actions', 'user', 'find'))
-                .route,
+              action: require(path.join(__dirname, '..', 'examples', 'actions', 'user', 'find')).route,
             },
             {
               method: 'post',
               middlewares: [],
-              action: require(path.join(__dirname, '..', 'examples', 'actions', 'user', 'create'))
-                .route,
+              action: require(path.join(__dirname, '..', 'examples', 'actions', 'user', 'create')).route,
             },
           ],
           '/:id': [
             {
               method: 'get',
               middlewares: [],
-              action: require(path.join(__dirname, '..', 'examples', 'actions', 'user', 'findOne'))
-                .route,
+              action: require(path.join(__dirname, '..', 'examples', 'actions', 'user', 'findOne')).route,
             },
             {
               method: 'put',
               middlewares: [],
-              action: require(path.join(__dirname, '..', 'examples', 'actions', 'user', 'update'))
-                .route,
+              action: require(path.join(__dirname, '..', 'examples', 'actions', 'user', 'update')).route,
             },
             {
               method: 'delete',
               middlewares: [],
-              action: require(path.join(__dirname, '..', 'examples', 'actions', 'user', 'remove'))
-                .route,
+              action: require(path.join(__dirname, '..', 'examples', 'actions', 'user', 'remove')).route,
             },
           ],
         },
@@ -146,7 +145,10 @@ test('LoadResponse', () => {
   const Route = new WebuxRoute();
   const app = express();
 
-  const check = jest.fn(() => { Route.LoadResponse(app); return true; });
+  const check = jest.fn(() => {
+    Route.LoadResponse(app);
+    return true;
+  });
 
   check();
 
@@ -166,9 +168,10 @@ test('LoadRoute', () => {
             {
               method: 'get',
               middlewares: [],
-              action: (req, res) => res.success({
-                msg: 'Welcome ! The Documentation is available here : /api/',
-              }),
+              action: (req, res) =>
+                res.success({
+                  msg: 'Welcome ! The Documentation is available here : /api/',
+                }),
             },
           ],
           '/healthcheck': [

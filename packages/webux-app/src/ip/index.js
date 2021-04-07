@@ -15,9 +15,9 @@ module.exports = (req) => {
     throw new Error('req parameter is required.');
   }
   return (
-    req.headers['x-forwarded-for']
-    || req.connection.remoteAddress
-    || req.socket.remoteAddress
-    || (req.connection.socket ? req.connection.socket.remoteAddress : null)
+    req.headers['x-forwarded-for'] ||
+    req.connection.remoteAddress ||
+    req.socket.remoteAddress ||
+    (req.connection.socket ? req.connection.socket.remoteAddress : null)
   );
 };

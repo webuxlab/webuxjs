@@ -8,7 +8,8 @@
     "test": "lerna run test",
     "lint": "lerna run lint",
     "doc": "lerna run doc",
-    "install-all": "lerna run installdeps"
+    "install-all": "lerna run installdeps",
+    "audit-fix": "lerna run auditfix"
   },
   "homepage": "https://github.com/webuxlab/webuxjs",
   "repository": {

@@ -31,19 +31,11 @@ function sanitizeURL(url) {
 function routeType(router, action, URL) {
   if (typeof action.action === 'string') {
     // This is the path to the action
-    return router[action.method.toLowerCase()](
-      URL.toLowerCase(),
-      action.middlewares,
-      require(action.action),
-    );
+    return router[action.method.toLowerCase()](URL.toLowerCase(), action.middlewares, require(action.action));
   }
   if (typeof action.action === 'function') {
     // This is the action directly
-    return router[action.method.toLowerCase()](
-      URL.toLowerCase(),
-      action.middlewares,
-      action.action,
-    );
+    return router[action.method.toLowerCase()](URL.toLowerCase(), action.middlewares, action.action);
   }
 
   throw new Error('The action must be a path or a function.');

@@ -18,14 +18,9 @@ const path = require('path');
 const onRequest = (availableLanguage, i18n, log = console) => {
   log.debug('Webux-app - Attach i18n');
   return (req, res, next) => {
-    const lang = req.headers && req.headers['accept-language']
-      ? req.headers['accept-language']
-      : 'en';
+    const lang = req.headers && req.headers['accept-language'] ? req.headers['accept-language'] : 'en';
     // used to track which language should be added in the app.
-    if (
-      req.headers['accept-language']
-      && !availableLanguage.includes(req.headers['accept-language'])
-    ) {
+    if (req.headers['accept-language'] && !availableLanguage.includes(req.headers['accept-language'])) {
       log.warn(`Language not available, ${req.headers['accept-language']}`);
     }
     i18n.setLocale(lang);
