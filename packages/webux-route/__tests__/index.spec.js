@@ -157,7 +157,8 @@ test('LoadResponse', () => {
 
 test('LoadRoute', () => {
   const Route = new WebuxRoute();
-  const app = express();
+  const router = express.Router();
+
   const opts = {
     routes: {
       '/': {
@@ -189,7 +190,7 @@ test('LoadRoute', () => {
   };
 
   const check = jest.fn(async () => {
-    await Route.LoadRoute(app.router, opts.routes);
+    await Route.LoadRoute(router, opts.routes);
     return true;
   });
 

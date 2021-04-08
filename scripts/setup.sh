@@ -38,7 +38,7 @@ done;
 # Recreate package-lock
 for file in *; do
 pushd $file
-rm -rf package-lock.json && rm -rf node_modules && npm install
+[ -f package.json ] && rm -rf package-lock.json && rm -rf node_modules && npm install
 popd
 done;
 

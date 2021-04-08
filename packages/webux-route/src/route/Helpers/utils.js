@@ -38,7 +38,7 @@ function routeType(router, action, URL) {
     return router[action.method.toLowerCase()](URL.toLowerCase(), action.middlewares, action.action);
   }
 
-  throw new Error('The action must be a path or a function.');
+  throw new Error("The action must be a 'path' or a 'function'.");
 }
 
 module.exports = { sanitizeURL, routeType };
