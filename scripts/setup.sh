@@ -34,3 +34,16 @@ pushd $file
 npm audit
 popd
 done;
+
+# Recreate package-lock
+for file in *; do
+pushd $file
+rm -rf package-lock.json && rm -rf node_modules && npm install
+popd
+done;
+
+for file in *; do
+pushd $file
+rm -rf package-lock.json && rm -rf node_modules
+popd
+done;

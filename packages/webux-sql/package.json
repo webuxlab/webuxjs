@@ -13,7 +13,6 @@
     "url": "https://github.com/webuxlab/webuxjs.git"
   },
   "scripts": {
-    "test": "jest --runInBand",
     "lint": "eslint src/**",
     "doc": "jsdoc src -d jsdoc/",
     "installdeps": "npm install",
