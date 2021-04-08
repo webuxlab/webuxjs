@@ -2,14 +2,22 @@
   "name": "@webuxlab/webuxjs-root",
   "private": true,
   "devDependencies": {
-    "lerna": "^3.22.1"
+    "husky": "^6.0.0",
+    "lerna": "^3.22.1",
+    "lint-staged": "^10.5.4"
   },
   "scripts": {
     "test": "lerna run test",
     "lint": "lerna run lint",
     "doc": "lerna run doc",
     "install-all": "lerna run installdeps",
-    "audit-fix": "lerna run auditfix"
+    "audit-fix": "lerna run auditfix",
+    "prepare": "husky install",
+    "pre-commit": "lint-staged",
+    "pre-push":"lerna run --parallel --since origin/develop test"
+  },
+  "lint-staged": {
+    "packages/**/*.js": "eslint"
   },
   "homepage": "https://github.com/webuxlab/webuxjs",
   "repository": {
