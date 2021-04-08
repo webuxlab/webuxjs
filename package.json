@@ -2,6 +2,8 @@
   "name": "@webuxlab/webuxjs-root",
   "private": true,
   "devDependencies": {
+    "@commitlint/cli": "^12.1.1",
+    "@commitlint/config-conventional": "^12.1.1",
     "husky": "^6.0.0",
     "lerna": "^3.22.1",
     "lint-staged": "^10.5.4"
@@ -14,7 +16,7 @@
     "audit-fix": "lerna run auditfix",
     "prepare": "husky install",
     "pre-commit": "lint-staged",
-    "pre-push":"lerna run --parallel --since origin/develop test"
+    "pre-push": "lerna run --parallel --since origin/develop test"
   },
   "lint-staged": {
     "packages/**/*.js": "eslint"
