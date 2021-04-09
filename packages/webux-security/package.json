@@ -1,6 +1,6 @@
 {
   "name": "@studiowebux/security",
-  "version": "3.0.4",
+  "version": "5.0.1",
   "description": "This module is a wrapper for all the security stuff around the framework",
   "main": "src/index.js",
   "author": "Studio Webux S.E.N.C",
