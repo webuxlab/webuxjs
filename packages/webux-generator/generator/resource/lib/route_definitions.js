@@ -5,8 +5,6 @@
  * License: All rights reserved Studio Webux S.E.N.C 2015-Present
  */
 
-"use strict";
-
 /**
  *
  * @param {string} resourceName  the resource name entered
@@ -19,29 +17,13 @@
  */
 
 function NewRoute(resourceName, resourceFolder, method, apiVersion, data) {
-  let base = '"/' + (resourceFolder || resourceName) + '":{resources:{';
-  let resource = "";
+  let base = `"/${resourceFolder || resourceName}":{resources:{`;
+  let resource = '';
 
   if (resourceFolder) {
-    resource =
-      '{method:"' +
-      method +
-      '", middlewares:[], action: require(path.join(__dirname, "..", "api", "' +
-      apiVersion +
-      '", "actions","' +
-      resourceFolder +
-      '","' +
-      resourceName +
-      '")).route},';
+    resource = `{method:"${method}", middlewares:[], action: require(path.join(__dirname, "..", "api", "${apiVersion}", "actions","${resourceFolder}","${resourceName}")).route},`;
   } else {
-    resource =
-      '{method:"' +
-      method +
-      '", middlewares:[], action: require(path.join(__dirname, "..", "api", "' +
-      apiVersion +
-      '", "actions","' +
-      resourceName +
-      '")).route},';
+    resource = `{method:"${method}", middlewares:[], action: require(path.join(__dirname, "..", "api", "${apiVersion}", "actions","${resourceName}")).route},`;
   }
 
   if (!resourceFolder) {
@@ -51,18 +33,16 @@ function NewRoute(resourceName, resourceFolder, method, apiVersion, data) {
   }
 
   // Create resources accroding of the CRUD parameter
-  base += resource + "]}},";
+  base += `${resource}]}},`;
 
-  let current = data.substr(0, data.indexOf("};"));
+  let current = data.substr(0, data.indexOf('};'));
 
-  let lastChar = JSON.stringify(current)
-    .replace(/\\n/g, "")
-    .trim();
+  const lastChar = JSON.stringify(current).replace(/\\n/g, '').trim();
 
-  if (lastChar[lastChar.length - 2] === "}") {
-    current += ", " + base + "};";
+  if (lastChar[lastChar.length - 2] === '}') {
+    current += `, ${base}};`;
   } else {
-    current += base + "};";
+    current += `${base}};`;
   }
 
   return current;

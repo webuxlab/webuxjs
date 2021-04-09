@@ -5,13 +5,11 @@
  * License: All rights reserved Studio Webux S.E.N.C 2015-Present
  */
 
-"use strict";
-
-const { fileUploadMiddleware } = require("./express/index");
-const SocketIOFileUpload = require("./socketIO/index");
-const { UploadFile, DeleteFile, ProcessImage } = require("./validators/index");
-const { downloadRoute } = require("./express/routes/download");
-const { uploadRoute } = require("./express/routes/upload");
+const { fileUploadMiddleware } = require('./express/index');
+const SocketIOFileUpload = require('./socketIO/index');
+const { UploadFile, DeleteFile, ProcessImage } = require('./validators/index');
+const { downloadRoute } = require('./express/routes/download');
+const { uploadRoute } = require('./express/routes/upload');
 
 /**
  * @class fileupload
@@ -54,12 +52,7 @@ class fileupload {
    * @returns {Function} An express route function
    */
   DownloadRoute(downloadFn = null) {
-    return downloadRoute(
-      this.config.destination,
-      this.config.express.key,
-      downloadFn,
-      this.log
-    );
+    return downloadRoute(this.config.destination, this.config.express.key, downloadFn, this.log);
   }
 
   /**
@@ -101,14 +94,7 @@ class fileupload {
    * @returns {Promise<String>} the final filename
    */
   ProcessImage(filename, extension, file, realFilename) {
-    return ProcessImage(
-      this.config.tmp,
-      filename,
-      extension,
-      file,
-      this.config.width,
-      realFilename
-    );
+    return ProcessImage(this.config.tmp, filename, extension, file, this.config.width, realFilename);
   }
 }
 

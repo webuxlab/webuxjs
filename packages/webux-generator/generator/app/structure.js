@@ -12,10 +12,8 @@
  * License: All rights reserved Studio Webux S.E.N.C 2015-Present
  */
 
-"use strict";
-
 const backend = {
-  ".tmp": {},
+  '.tmp': {},
   api: {
     v1: {
       actions: {},
@@ -23,61 +21,61 @@ const backend = {
       helpers: {},
       middlewares: {},
       validations: {},
-      plugins: { auth: { "isAuth.js": "" } }
-    }
+      plugins: { auth: { 'isAuth.js': '' } },
+    },
   },
   app: {
-    "index.js": ""
+    'index.js': '',
   },
   config: {
-    "auth.js": "",
-    "db.js": "",
-    "language.js": "",
-    "limiter.js": "",
-    "logger.js": "",
-    "mailer.js": "",
-    "request.js": "",
-    "routes.js": "",
-    "security.js": "",
-    "seed.js": "",
-    "server.js": "",
-    "socket.js": "",
-    "static.js": "",
-    "upload.js": ""
+    'auth.js': '',
+    'db.js': '',
+    'language.js': '',
+    'limiter.js': '',
+    'logger.js': '',
+    'mailer.js': '',
+    'request.js': '',
+    'routes.js': '',
+    'security.js': '',
+    'seed.js': '',
+    'server.js': '',
+    'socket.js': '',
+    'static.js': '',
+    'upload.js': '',
   },
   defaults: {},
   locales: {},
   models: {},
   tests: {
-    cases: {}
+    cases: {},
   },
   uploads: {},
   public: {},
-  ".dockerignore": "",
-  ".eslintrc.json": "",
-  "jest.config.js": "",
-  "index.js": "",
-  Dockerfile: "",
-  "package.json": "",
-  "license.txt": "",
-  "Gruntfile.js": "",
-  "README.md": ""
+  '.dockerignore': '',
+  '.eslintrc.json': '',
+  'jest.config.js': '',
+  'index.js': '',
+  Dockerfile: '',
+  'package.json': '',
+  'license.txt': '',
+  'Gruntfile.js': '',
+  'README.md': '',
 };
 
 const frontend = {
   client: {
-    "README.md": ""
+    'README.md': '',
   },
   nginx: {
     certs: {},
-    "nginx.conf": ""
+    'nginx.conf': '',
   },
-  ".dockerignore": "",
-  Dockerfile: "",
-  "README.md": ""
+  '.dockerignore': '',
+  Dockerfile: '',
+  'README.md': '',
 };
 
 module.exports = {
   backend,
-  frontend
+  frontend,
 };

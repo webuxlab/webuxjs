@@ -7,15 +7,7 @@
  */
 
 const header = require('./Helpers/header');
-const {
-  normalizePort,
-  setNumCores,
-  onError,
-  onClose,
-  onListening,
-  parseSSL,
-  UpdatePort,
-} = require('./Helpers/Tools');
+const { normalizePort, setNumCores, onError, onClose, onListening, parseSSL, UpdatePort } = require('./Helpers/Tools');
 
 /**
  * Creates a simple HTTP or HTTPS server or a cluster.
@@ -48,9 +40,7 @@ class Server {
     process.env.PORT = this.port;
 
     // Configure the SSL if enabled
-    this.ssl = this.config.ssl && this.config.ssl.enabled
-      ? parseSSL(this.config.ssl)
-      : null;
+    this.ssl = this.config.ssl && this.config.ssl.enabled ? parseSSL(this.config.ssl) : null;
 
     this.server = null;
   }
@@ -62,18 +52,14 @@ class Server {
   StartServer() {
     return new Promise((resolve) => {
       if (this.ssl) {
-        this.log.info(
-          `webux-server - (${process.pid}) Starting an HTTPS server ...`,
-        );
+        this.log.info(`webux-server - (${process.pid}) Starting an HTTPS server ...`);
         this.server = require('https').createServer(this.ssl, this.app);
       } else {
         this.log.info('webux-server - Starting an HTTP server ...');
         this.server = require('http').createServer(this.app);
       }
 
-      this.log.debug(
-        `webux-server - (${process.pid}) Set the application port to ${this.port}`,
-      );
+      this.log.debug(`webux-server - (${process.pid}) Set the application port to ${this.port}`);
 
       // Events
       this.server.on('error', onError);
@@ -100,9 +86,7 @@ class Server {
         header(this.config, this.log);
 
         // Print pid of the process
-        this.log.info(
-          `webux-server - Worker ${process.pid} started @ ${address.address}:${address.port}`,
-        );
+        this.log.info(`webux-server - Worker ${process.pid} started @ ${address.address}:${address.port}`);
 
         // return the server instance
         return resolve(this.server);
@@ -130,9 +114,7 @@ class Server {
       }
 
       this.cluster.on('exit', (worker, code, signal) => {
-        this.log.error(
-          `webux-server - worker ${worker.process.pid} died with code : ${code} - ${signal}`,
-        );
+        this.log.error(`webux-server - worker ${worker.process.pid} died with code : ${code} - ${signal}`);
       });
 
       return Promise.resolve(this.cluster);

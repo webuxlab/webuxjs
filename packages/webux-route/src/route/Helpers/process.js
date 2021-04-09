@@ -25,9 +25,7 @@ function processAction(action, actions, route, router, log) {
 
     // Due to a bug with winston, the console.log will be printed correctly.
     // But not the winston message, it will appear 1-2 seconds later ...
-    log.info(
-      `\x1b[33mwebux-route - ${action.method.toLowerCase()} ${URL.toLowerCase()}\x1b[0m`,
-    );
+    log.info(`\x1b[33mwebux-route - ${action.method.toLowerCase()} ${URL.toLowerCase()}\x1b[0m`);
 
     return resolve();
   });

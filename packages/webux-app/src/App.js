@@ -40,10 +40,7 @@ class App {
   LoadConfiguration(configuration) {
     this.config = {
       ...this.config,
-      ...loadConfiguration(
-        configuration || this.config.configuration,
-        this.log,
-      ),
+      ...loadConfiguration(configuration || this.config.configuration, this.log),
     };
     return this.config;
   }

@@ -30,9 +30,7 @@ class Socket {
     if (server) {
       this.io = socketio(server); // Socket io instance with Express or HTTP
     } else {
-      log.debug(
-        'The io instance is not configured, to initialize it later, use Initialize(server)',
-      );
+      log.debug('The io instance is not configured, to initialize it later, use Initialize(server)');
       this.io = null;
     }
   }

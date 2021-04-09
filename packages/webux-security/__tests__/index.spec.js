@@ -7,7 +7,9 @@ test('Create security instance without options', () => {
   const Security = new WebuxSecurity();
 
   expect(Security).toMatchObject({
-    config: {}, validators: expect.any(Object), log: console,
+    config: {},
+    validators: expect.any(Object),
+    log: console,
   });
 });
 
@@ -59,7 +61,10 @@ test('Set global without options', () => {
   const app = express();
   const Security = new WebuxSecurity();
 
-  const check = jest.fn(() => { Security.SetGlobal(app); return true; });
+  const check = jest.fn(() => {
+    Security.SetGlobal(app);
+    return true;
+  });
 
   check();
 
@@ -84,13 +89,15 @@ test('Set response header with options', () => {
       trustProxy: true,
       allowedMethods: 'GET, POST, PUT, DELETE, PATCH, OPTIONS',
       allowedCredentials: false,
-      allowedHeaders:
-        'Origin, X-Requested-with, Accept, Authorization, Content-Type, Accept-Language',
+      allowedHeaders: 'Origin, X-Requested-with, Accept, Authorization, Content-Type, Accept-Language',
     },
   };
   const Security = new WebuxSecurity(opts);
 
-  const check = jest.fn(() => { Security.SetResponseHeader(app); return true; });
+  const check = jest.fn(() => {
+    Security.SetResponseHeader(app);
+    return true;
+  });
 
   check();
 
@@ -107,7 +114,10 @@ test('Set bodyParser with options', () => {
   };
   const Security = new WebuxSecurity(opts);
 
-  const check = jest.fn(() => { Security.SetBodyParser(app); return true; });
+  const check = jest.fn(() => {
+    Security.SetBodyParser(app);
+    return true;
+  });
 
   check();
 
@@ -123,7 +133,10 @@ test('Set cookieParser with options', () => {
   };
   const Security = new WebuxSecurity(opts);
 
-  const check = jest.fn(() => { Security.SetCookieParser(app); return true; });
+  const check = jest.fn(() => {
+    Security.SetCookieParser(app);
+    return true;
+  });
 
   check();
 
@@ -136,11 +149,13 @@ test('Set cors with options', () => {
     cors: {
       whitelist: ['https://webuxlab.com', 'http://127.0.0.1'], // or [] to disable cors
     },
-
   };
   const Security = new WebuxSecurity(opts);
 
-  const check = jest.fn(() => { Security.SetCors(app); return true; });
+  const check = jest.fn(() => {
+    Security.SetCors(app);
+    return true;
+  });
 
   check();
 
@@ -164,8 +179,7 @@ test('Set global with options', () => {
       trustProxy: true,
       allowedMethods: 'GET, POST, PUT, DELETE, PATCH, OPTIONS',
       allowedCredentials: false,
-      allowedHeaders:
-        'Origin, X-Requested-with, Accept, Authorization, Content-Type, Accept-Language',
+      allowedHeaders: 'Origin, X-Requested-with, Accept, Authorization, Content-Type, Accept-Language',
     },
     rateLimiters: [
       {
@@ -185,7 +199,10 @@ test('Set global with options', () => {
 
   const Security = new WebuxSecurity(opts);
 
-  const check = jest.fn(() => { Security.SetGlobal(app); return true; });
+  const check = jest.fn(() => {
+    Security.SetGlobal(app);
+    return true;
+  });
 
   check();
 
@@ -213,7 +230,10 @@ test('Create rate limiters with options', () => {
 
   const Security = new WebuxSecurity(opts);
 
-  const check = jest.fn(() => { Security.CreateRateLimiters(app); return true; });
+  const check = jest.fn(() => {
+    Security.CreateRateLimiters(app);
+    return true;
+  });
 
   check();
 
