@@ -14,9 +14,7 @@
 
 const { createLogger, format, transports } = require('winston');
 
-const {
-  combine, timestamp, label, json, colorize,
-} = format;
+const { combine, timestamp, label, json, colorize } = format;
 const { LogstashTransport } = require('winston-logstash-transport');
 const { filterSecret } = require('./filter');
 
@@ -90,18 +88,10 @@ module.exports = (options = {}) => {
 
       try {
         const cleaned = JSON.parse(message);
-        cleaned.body = JSON.parse(message).body
-          ? JSON.parse(JSON.parse(message).body)
-          : {};
-        cleaned.params = JSON.parse(message).params
-          ? JSON.parse(JSON.parse(message).params)
-          : {};
-        cleaned.headers = JSON.parse(message).headers
-          ? JSON.parse(JSON.parse(message).headers)
-          : {};
-        cleaned.query = JSON.parse(message).query
-          ? JSON.parse(JSON.parse(message).query)
-          : {};
+        cleaned.body = JSON.parse(message).body ? JSON.parse(JSON.parse(message).body) : {};
+        cleaned.params = JSON.parse(message).params ? JSON.parse(JSON.parse(message).params) : {};
+        cleaned.headers = JSON.parse(message).headers ? JSON.parse(JSON.parse(message).headers) : {};
+        cleaned.query = JSON.parse(message).query ? JSON.parse(JSON.parse(message).query) : {};
         cleaned.url = JSON.parse(message).url ? JSON.parse(message).url : '';
 
         logger.info({ ...object, ...cleaned });

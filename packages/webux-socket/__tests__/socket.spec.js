@@ -7,7 +7,9 @@ const WebuxSocket = require('../src');
 test('Create new WebuxSocket instance without options', () => {
   const socket = new WebuxSocket();
   expect(socket).toMatchObject({
-    config: undefined, io: null, log: console,
+    config: undefined,
+    io: null,
+    log: console,
   });
 });
 
@@ -31,7 +33,9 @@ test('Create new WebuxSocket instance with options', () => {
   const socket = new WebuxSocket(opts);
 
   expect(socket).toMatchObject({
-    config: opts, io: null, log: console,
+    config: opts,
+    io: null,
+    log: console,
   });
 });
 
@@ -56,7 +60,10 @@ test('Create new WebuxSocket instance with options and an express server start t
   const tmpServer = server.createServer(app);
 
   const socket = new WebuxSocket(opts, tmpServer);
-  const check = jest.fn(() => { socket.Start(); return true; });
+  const check = jest.fn(() => {
+    socket.Start();
+    return true;
+  });
 
   check();
 
@@ -79,7 +86,10 @@ test('Create new WebuxSocket instance with options and an express server start t
   const tmpServer = server.createServer(app);
 
   const socket = new WebuxSocket(opts, tmpServer);
-  const check = jest.fn(() => { socket.Standalone(); return true; });
+  const check = jest.fn(() => {
+    socket.Standalone();
+    return true;
+  });
 
   check();
 
@@ -91,7 +101,10 @@ test('Create new WebuxSocket instance with no options and an express server star
   const tmpServer = server.createServer(app);
 
   const socket = new WebuxSocket(null, tmpServer);
-  const check = jest.fn(() => { socket.Standalone(); return true; });
+  const check = jest.fn(() => {
+    socket.Standalone();
+    return true;
+  });
 
   check();
 
@@ -179,7 +192,10 @@ test('Create new WebuxSocket instance with no options, an express server, config
   const tmpServer = server.createServer(app);
 
   const socket = new WebuxSocket(opts, tmpServer);
-  const check = jest.fn(() => { socket.AddAuthentication(); return true; });
+  const check = jest.fn(() => {
+    socket.AddAuthentication();
+    return true;
+  });
 
   check();
 

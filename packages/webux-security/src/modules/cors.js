@@ -23,9 +23,7 @@ module.exports = (whitelist, app, log = console) => {
         return callback(null, true);
       }
       if (!origin) {
-        log.warn(
-          '\x1b[31mwebux-security - No origin is set for the request.\x1b[0m',
-        );
+        log.warn('\x1b[31mwebux-security - No origin is set for the request.\x1b[0m');
         return callback(null, true);
       }
       return callback(new Error('Not allowed by CORS.'));
@@ -34,9 +32,7 @@ module.exports = (whitelist, app, log = console) => {
 
   // Then pass the corsOptions
   if (process.env.NODE_ENV === 'production' || whitelist.length > 0) {
-    log.info(
-      `\x1b[33mwebux-security - CORS enabled. Allowed origins : ${whitelist}\x1b[0m`,
-    );
+    log.info(`\x1b[33mwebux-security - CORS enabled. Allowed origins : ${whitelist}\x1b[0m`);
     app.use(cors(corsOptions));
   } else {
     log.warn('\x1b[31mwebux-security - CORS disabled.\x1b[0m');

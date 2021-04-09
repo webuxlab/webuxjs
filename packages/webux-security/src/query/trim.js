@@ -22,9 +22,7 @@ const isEmptyObject = (object) => !Object.keys(object).length;
 module.exports = (select, limitation, validSelect) => {
   try {
     if (!select || !limitation) {
-      throw new Error(
-        'The select and limitation fields are required and must be an array',
-      );
+      throw new Error('The select and limitation fields are required and must be an array');
     }
     limitation.forEach((element) => {
       // eslint-disable-next-line no-param-reassign

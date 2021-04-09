@@ -57,20 +57,12 @@ test('test new features', async () => {
 
   await sql.Migration();
 
-  const response1 = await sql
-    .sql('Users')
-    .insert({ fullname: 'Tommy' })
-    .onConflict('fullname')
-    .merge();
+  const response1 = await sql.sql('Users').insert({ fullname: 'Tommy' }).onConflict('fullname').merge();
 
   expect(response1).toHaveProperty('command', 'INSERT');
   expect(response1).toHaveProperty('rowCount', 1);
 
-  const response2 = await sql
-    .sql('Users')
-    .insert({ fullname: 'Tommy' })
-    .onConflict('fullname')
-    .ignore();
+  const response2 = await sql.sql('Users').insert({ fullname: 'Tommy' }).onConflict('fullname').ignore();
 
   expect(response2).toHaveProperty('command', 'INSERT');
   expect(response2).toHaveProperty('rowCount', 0);

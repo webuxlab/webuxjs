@@ -47,9 +47,7 @@ module.exports = (configPath, log = console) => {
             const processedNamde = splitName(configName);
 
             modules[processedNamde] = require(path.join(configPath, file));
-            log.info(
-              `\x1b[32mwebux-loader - Configuration : ${processedNamde} loaded\x1b[0m`,
-            );
+            log.info(`\x1b[32mwebux-loader - Configuration : ${processedNamde} loaded\x1b[0m`);
           }
         });
       // return the mapping config/name
@@ -60,8 +58,6 @@ module.exports = (configPath, log = console) => {
       return {};
     }
   } else {
-    throw new Error(
-      'The configPath must be a string representing the absolute path of the configuration directory.',
-    );
+    throw new Error('The configPath must be a string representing the absolute path of the configuration directory.');
   }
 };

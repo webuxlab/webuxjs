@@ -40,12 +40,7 @@ class Log {
   OnRequest() {
     this.log.info('Webux-logging - Configuring the `on request` interceptor');
 
-    return require('./morgan/onRequest')(
-      this.config.type,
-      this.config.format,
-      this.config.tokens,
-      this.log,
-    );
+    return require('./morgan/onRequest')(this.config.type, this.config.format, this.config.tokens, this.log);
   }
 }
 
