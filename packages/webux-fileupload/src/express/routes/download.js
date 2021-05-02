@@ -37,12 +37,12 @@ const downloadRoute = (destination, key = 'id', downloadFn = null, log = console
     return res.sendFile(path.resolve(pictureURL), (err) => {
       if (err) {
         log.error(err);
-        res.status(422).json({ message: 'Image unprocessable !', error: err });
+        res.status(422).json({ message: 'File unprocessable !', error: err });
       }
     });
   } catch (e) {
     log.error(e);
-    return res.status(422).json({ message: 'Image unprocessable !', error: e });
+    return res.status(422).json({ message: 'File unprocessable !', error: e });
   }
 };
 
