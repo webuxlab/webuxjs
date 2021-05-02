@@ -23,11 +23,11 @@
   "license": "SEE LICENSE IN license.txt",
   "dependencies": {
     "express-fileupload": "^1.2.1",
-    "file-type": "^14.7.1",
+    "file-type": "^16.3.0",
     "image-type": "^4.1.0",
     "mime": "^2.5.2",
     "read-chunk": "^3.2.0",
-    "sharp": "^0.25.4",
+    "sharp": "^0.28.1",
     "socket.io-stream": "^0.9.1",
     "socketio-file-upload": "^0.7.3"
   },
@@ -40,13 +40,13 @@
     "eslint-config-airbnb-base": "^14.2.0",
     "eslint-config-prettier": "^8.1.0",
     "eslint-plugin-import": "^2.22.0",
-    "eslint-plugin-jest": "^23.20.0",
+    "eslint-plugin-jest": "^24.3.6",
     "eslint-plugin-prettier": "^3.3.1",
     "express": "^4.17.1",
     "jest": "^26.4.2",
     "jsdoc": "^3.6.5",
     "prettier": "^2.2.1",
-    "socket.io": "^2.4.1",
-    "supertest": "^4.0.2"
+    "socket.io": "^4.0.1",
+    "supertest": "^6.1.3"
   }
 }

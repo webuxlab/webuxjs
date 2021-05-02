@@ -13,6 +13,9 @@ const imageType = require('image-type');
 const fileType = require('file-type');
 const ErrorHandler = require('../defaults/errorHandler');
 
+const logDebug = (message) => (process.env.debug ? console.debug(message) : null);
+const logVerbose = (message) => (process.env.verbose ? console.debug(message) : null);
+
 /**
  * It deletes the file pass in parameter.
  * @param {String} filepath The full path to the file
@@ -44,6 +47,7 @@ const DeleteFile = (filepath) =>
  */
 function moveFile(file, destination) {
   return new Promise((resolve, reject) => {
+    logDebug(`Moving ${file.name} to ${destination}`);
     file.mv(destination, (err) => {
       if (err) {
         return reject(err);
@@ -128,47 +132,98 @@ async function ProcessImage(tmpDirectory, filename, extension, file, width, real
  */
 const UploadFile = (options, files, filename, label = '') =>
   new Promise(async (resolve, reject) => {
-    // req.files.KEY
-    const localFiles = files[options.express.key];
+    try {
+      // req.files.KEY
+      const localFiles = files[options.express.key];
+      let fileToProcess = [];
+      const fileProcessed = [];
+      const fileErrored = [];
 
-    // Check if the current mimetype is in the options
-    if (options.mimeTypes.includes(localFiles.mimetype)) {
-      const extension = mime.getExtension(localFiles.mimetype);
+      if (!localFiles || localFiles.length === 0) {
+        return reject(new Error(`No files provided using ${options.express.key} for the key.`));
+      }
 
-      const updatedFilename = `${(options.sanitizeFilename ? await options.sanitizeFilename(filename) : filename) + label}.${extension}`;
-
-      const uploadDestination = path.join(options.destination, updatedFilename);
-      const uploadTempDestination = path.join(options.tmp, updatedFilename);
-
-      // If the uploaded file is an image
-      // We can use sharp to resize it.
-      if (options.filetype === 'image' && imageType(localFiles.data) && options.mimeTypes.includes(imageType(localFiles.data).mime)) {
-        await ProcessImage(options.tmp, updatedFilename, extension, localFiles, options.width, uploadDestination);
+      if (localFiles.length > 0) {
+        fileToProcess = localFiles;
       } else {
-        const info = await fileType.fromBuffer(localFiles.data);
+        fileToProcess.push(localFiles);
+      }
 
-        if (!info || !options.mimeTypes.includes(info.mime)) {
-          // await DeleteFile(localFiles.name);
+      logDebug(`Will process ${fileToProcess.length} file(s)`);
+      // Process all uploaded files
+      for await (const file of fileToProcess) {
+        logDebug(`Processing '${file.name}' using this filename ${file.name || filename}`);
+        logVerbose(file);
+        // Check if the current mimetype is in the options
+        if (options.mimeTypes.includes(file.mimetype)) {
+          const extension = mime.getExtension(file.mimetype);
 
-          return reject(
+          const updatedFilename = `${
+            (options.sanitizeFilename ? await options.sanitizeFilename(file.name || filename) : file.name || filename) + label
+          }.${extension}`;
+
+          const uploadDestination = path.join(options.destination, updatedFilename);
+          const uploadTempDestination = path.join(options.tmp, updatedFilename);
+
+          // If the uploaded file is an image
+          // We can use sharp to resize it.
+          if (options.filetype === 'image' && imageType(file.data) && options.mimeTypes.includes(imageType(file.data).mime)) {
+            logDebug(`The file must be an 'image' file`);
+            return ProcessImage(options.tmp, updatedFilename, extension, file, options.width, uploadDestination);
+          }
+
+          if (options.filetype === 'text' || options.filetype === 'csv') {
+            logDebug(`The file must be a 'text' or a 'csv' file`);
+            if (!options.mimeTypes.includes(file.mimetype)) {
+              logDebug(`Invalid mimetype for ${file.name}`);
+
+              fileErrored.push(
+                ErrorHandler(422, 'Invalid Mime Type', {
+                  reason: `Received '${file.mimetype}', not in [${options.mimeTypes}] for '${file.name}'`,
+                }),
+              );
+            }
+          } else {
+            logDebug(`The file must be a 'binary' file`);
+            const info = await fileType.fromBuffer(file.data);
+            if (!info || !options.mimeTypes.includes(info.mime)) {
+              // await DeleteFile(file.name);
+              logDebug(`Invalid mimetype for ${file.name}`);
+              fileErrored.push(
+                ErrorHandler(422, 'Invalid Mime Type', {
+                  reason: `Received '${file.mimetype}', not in [${options.mimeTypes}] for '${file.name}'`,
+                }),
+              );
+            }
+          }
+
+          // The file is not an image, it can be a document or something else,
+          // Move the file directly to the temporary file to let the user
+          // move it in the wanted directory
+          // That way it is possible to apply some post processing on the file
+          await moveFile(file, uploadTempDestination).catch((err) => reject(err));
+          fileProcessed.push(uploadTempDestination);
+        } else {
+          fileErrored.push(
             ErrorHandler(422, 'Invalid Mime Type', {
-              reason: `Received ${info.mime}, not in ${options.mimeTypes}`,
+              reason: `Received '${file.mimetype}', not in [${options.mimeTypes}] for '${file.name}'`,
             }),
           );
         }
-        // The file is not an image, it can be a document or something else,
-        // Move the file directly to the temporary file to let the user
-        // move it in the wanted directory
-        // That way it is possible to apply some post processing on the file
-        await moveFile(localFiles, uploadTempDestination).catch((err) => reject(err));
       }
-      return resolve(uploadTempDestination);
+      if ((!fileProcessed || fileProcessed.length === 0) && (!fileErrored || fileErrored.length === 0)) {
+        return reject(new Error('An error has occured while processing uploaded files.'));
+      }
+
+      return resolve({ fileProcessed, fileErrored });
+    } catch (e) {
+      console.error(e.message);
+      return reject(
+        ErrorHandler(400, 'An error has occured', {
+          reason: e.message,
+        }),
+      );
     }
-    return reject(
-      ErrorHandler(422, 'Invalid Mime Type', {
-        reason: `Received ${localFiles.mimetype}, not in ${options.mimeTypes}`,
-      }),
-    );
   });
 
 module.exports = { UploadFile, DeleteFile, PostProcessing, ProcessImage };
