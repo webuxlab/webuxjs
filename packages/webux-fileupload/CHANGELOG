@@ -1,0 +1,7 @@
+2021-05-02
+
+- Upgraded packages for webux-fileupload
+- Copied the english readme to the french version
+- reviewed tests and examples, replaced to use index-audio, index-csv and index-image
+- Fixed issues that were blocking the multi files upload
+- Fixed issues when trying to upload csv files
