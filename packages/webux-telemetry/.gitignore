@@ -1,0 +1,5 @@
+node_modules/
+examples/ELK/elasticsearch/data/
+log/
+examples/log/
+.DS_Store
