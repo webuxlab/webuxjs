@@ -77,13 +77,13 @@ if (
   option &&
   action === "generate" &&
   (option === "app" ||
+    option === "app-v2" ||
     option === "module" ||
     option === "resource" ||
     option === "model")
 ) {
   try {
     require(path.join(__dirname, "generator", option));
-    return;
   } catch (e) {
     console.error(`\x1b[31m${e}\x1b[0m`);
   }
@@ -92,11 +92,13 @@ if (
 console.log("Version : " + require("./package.json")["version"]);
 console.log("Usage:");
 console.log("npm run generate-app");
+console.log("npm run generate-app-v2");
 console.log("npm run generate-module");
 console.log("npm run generate-resource");
 console.log("npm run generate-model");
 console.log("Or Globally");
 console.log("webux generate app");
+console.log("webux generate app-v2");
 console.log("webux generate module");
 console.log("webux generate resource");
 console.log("webux generate model");

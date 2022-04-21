@@ -15,6 +15,7 @@
     "start": "node index.js",
     "generate-module": "node generator/module/index.js",
     "generate-app": "node generator/app/index.js",
+    "generate-app-v2": "node generator/app-v2/index.js",
     "generate-resource": "node generator/resource/index.js",
     "generate-model": "node generator/model/index.js",
     "test": "jest || echo 'will handle it later' || true",
