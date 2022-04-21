@@ -2,12 +2,14 @@
   "name": "{{name}}",
   "version": "0.0.0",
   "description": "{{description}}",
-  "main": "index.js",
+  "main": "bin/index.js",
   "scripts": {
-    "test": "jest",
-    "start": "node index.js",
+    "test": "jest --coverage __tests__/",
+    "start": "node bin/index.js",
+    "start:dev": "nodemon bin/index.js",
+    "lint": "eslint src/**",
     "doc": "apidoc -i api/v1/actions/ -o apidoc/",
-    "build": "grunt package-4-prod && grunt package"
+    "create-db": "node ./db/run.js"
   },
   "homepage": "https://webuxlab.com",
   "repository": {
@@ -40,10 +42,23 @@
     "redis-mock": "^0.46.0",
     "apidoc-markdown": "^0.2.1",
     "mongo-in-memory": "0.0.5",
-    "jest": "^24.9.0",
     "grunt": "^1.0.4",
     "grunt-contrib-compress": "^1.6.0",
     "grunt-contrib-copy": "^1.0.0",
-    "grunt-jslint": "^1.1.15"
+    "grunt-jslint": "^1.1.15",
+    "@babel/core": "^7.13.10",
+    "@babel/preset-env": "^7.13.10",
+    "babel-jest": "^26.1.0",
+    "dotenv": "^8.2.0",
+    "eslint": "^7.22.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-config-prettier": "^8.1.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-jest": "^24.3.2",
+    "eslint-plugin-prettier": "^3.3.1",
+    "jest": "^26.6.3",
+    "jest-junit": "^13.0.0",
+    "nodemon": "^2.0.7",
+    "prettier": "^2.2.1"
   }
 }
