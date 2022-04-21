@@ -1,0 +1,42 @@
+{
+  "name": "@studiowebux/telemetry",
+  "version": "1.0.0",
+  "description": "Custom telemetry module",
+  "main": "src/index.js",
+  "author": "Studio Webux S.E.N.C",
+  "license": "SEE LICENSE IN license.txt",
+  "directories": {
+    "example": "examples",
+    "doc": "docs"
+  },
+  "homepage": "https://github.com/webuxlab/webuxjs/packages/webux-telemetry/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/webuxlab/webuxjs.git"
+  },
+  "scripts": {
+    "test": "jest",
+    "lint": "eslint src/**",
+    "doc": "jsdoc src -d jsdoc/",
+    "installdeps": "npm install",
+    "auditfix": "npm audit fix"
+  },
+  "dependencies": {
+    "axios": "^0.21.1",
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.14.6",
+    "@babel/preset-env": "^7.14.7",
+    "babel-jest": "^26.6.3",
+    "eslint": "^7.29.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-import": "^2.23.4",
+    "eslint-plugin-jest": "^23.20.0",
+    "eslint-plugin-prettier": "^3.4.0",
+    "jest": "^26.6.3",
+    "jsdoc": "^3.6.7",
+    "prettier": "^2.3.2"
+  }
+}

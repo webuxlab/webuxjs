@@ -5,8 +5,6 @@
  * License: All rights reserved Studio Webux S.E.N.C 2015-Present
  */
 
-"use strict";
-
 /**
  * Default errorHandler function
  * @param {Number} code HTTP Code
@@ -16,12 +14,12 @@
  * @returns {Error} An error
  */
 module.exports = (code, msg, extra, devMsg) => {
-  let error = new Error();
+  const error = new Error();
 
   error.code = code || 500;
-  error.message = msg || "";
+  error.message = msg || '';
   error.extra = extra || {};
-  error.devMessage = devMsg || "";
+  error.devMessage = devMsg || '';
 
   return error;
 };
