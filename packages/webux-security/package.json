@@ -1,6 +1,6 @@
 {
   "name": "@studiowebux/security",
-  "version": "3.0.4",
+  "version": "5.0.1",
   "description": "This module is a wrapper for all the security stuff around the framework",
   "main": "src/index.js",
   "author": "Studio Webux S.E.N.C",
@@ -17,7 +17,8 @@
     "test": "jest",
     "lint": "eslint src/**",
     "doc": "jsdoc src -d jsdoc/",
-    "installdeps": "npm install"
+    "installdeps": "npm install",
+    "auditfix": "npm audit fix"
   },
   "license": "SEE LICENSE IN license.txt",
   "dependencies": {
@@ -26,21 +27,24 @@
     "compression": "^1.7.4",
     "cookie-parser": "^1.4.4",
     "cors": "^2.8.5",
-    "express-rate-limit": "^5.1.3",
+    "express-rate-limit": "^5.2.6",
     "helmet": "^3.23.3",
     "mongo-qp": "^1.3.8",
     "wordfilter": "^0.2.6"
   },
   "devDependencies": {
-    "@babel/core": "^7.11.4",
-    "@babel/preset-env": "^7.11.0",
-    "babel-jest": "^26.3.0",
-    "eslint": "^7.7.0",
-    "eslint-config-airbnb-base": "^14.2.0",
-    "eslint-plugin-import": "^2.22.0",
+    "@babel/core": "^7.13.14",
+    "@babel/preset-env": "^7.13.12",
+    "babel-jest": "^26.6.3",
+    "eslint": "^7.23.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-config-prettier": "^8.1.0",
+    "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-jest": "^23.20.0",
+    "eslint-plugin-prettier": "^3.3.1",
     "express": "^4.17.1",
-    "jest": "^26.4.2",
-    "jsdoc": "^3.6.5"
+    "jest": "^26.6.3",
+    "jsdoc": "^3.6.6",
+    "prettier": "^2.2.1"
   }
 }

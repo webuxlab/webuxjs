@@ -43,11 +43,7 @@ module.exports = (blacklist, defaultSelect, errorHandler = null) => (req, res, n
 
     // create custom projection
     if (parsedQuery.projection) {
-      parsedQuery.projection = Trim(
-        parsedQuery.projection,
-        blacklist,
-        defaultSelect,
-      );
+      parsedQuery.projection = Trim(parsedQuery.projection, blacklist, defaultSelect);
     } else {
       parsedQuery.projection = defaultSelect; // return the default select
     }

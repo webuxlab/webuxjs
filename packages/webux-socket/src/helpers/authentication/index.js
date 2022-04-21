@@ -22,26 +22,18 @@ function useAuthentication(checkAuth, config, log) {
     const cookies = cookie.parse(String(socket.handshake.headers.cookie));
 
     if (!cookies || !cookies[config.authentication.accessTokenKey]) {
-      log.debug(
-        `webux-Socket - [io.use] Bad Cookie ${JSON.stringify(cookie)} for ${
-          socket.id
-        }`,
-      );
+      log.debug(`webux-Socket - [io.use] Bad Cookie ${JSON.stringify(cookie)} for ${socket.id}`);
       return next(new Error('Access Token Not Present or Malformed'));
     }
 
     const accessToken = cookies[config.authentication.accessTokenKey];
 
     log.debug(`The access token : ${accessToken}`);
-    log.debug(
-      `webux-Socket - [io.use] Cookie is present, starting the authentication for ${socket.id}...`,
-    );
+    log.debug(`webux-Socket - [io.use] Cookie is present, starting the authentication for ${socket.id}...`);
 
     // the socket instance and the access token value
     const user = await checkAuth(accessToken).catch((e) => {
-      log.debug(
-        `webux-socket - The authentication has failed for ${socket.id}.`,
-      );
+      log.debug(`webux-socket - The authentication has failed for ${socket.id}.`);
       log.debug(e);
       return next(new Error('The authentication has failed'));
     });
@@ -69,11 +61,7 @@ function useAuthentication(checkAuth, config, log) {
 function Authenticate() {
   let checkAuth = null;
 
-  if (
-    !this.config
-    || !this.config.authentication
-    || !this.config.authentication.namespaces
-  ) {
+  if (!this.config || !this.config.authentication || !this.config.authentication.namespaces) {
     this.log.debug('webux-Socket - Unable to configure the authentication.');
     throw new Error('No Options provided to configure the authentication');
   }
@@ -83,8 +71,8 @@ function Authenticate() {
   } else if (typeof this.config.authentication.isAuthenticated === 'function') {
     checkAuth = this.config.authentication.isAuthenticated;
   } else if (
-    typeof this.config.authentication.isAuthenticated === 'string'
-    && typeof require(this.config.authentication.isAuthenticated) === 'function'
+    typeof this.config.authentication.isAuthenticated === 'string' &&
+    typeof require(this.config.authentication.isAuthenticated) === 'function'
   ) {
     checkAuth = require(this.config.authentication.isAuthenticated);
   } else {
@@ -98,9 +86,7 @@ function Authenticate() {
     if (nsp === 'default') {
       this.io.use(useAuthentication(checkAuth, this.config, this.log));
     } else {
-      this.io
-        .of(`/${nsp}`)
-        .use(useAuthentication(checkAuth, this.config, this.log));
+      this.io.of(`/${nsp}`).use(useAuthentication(checkAuth, this.config, this.log));
     }
   });
 }

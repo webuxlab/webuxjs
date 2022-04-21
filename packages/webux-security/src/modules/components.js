@@ -16,9 +16,7 @@ const compression = require('compression');
  * @return {VoidFunction} Return nothing.
  */
 module.exports = (options, app, log = console) => {
-  log.info(
-    '\x1b[33mwebux-security - Initialize the security components\x1b[0m',
-  );
+  log.info('\x1b[33mwebux-security - Initialize the security components\x1b[0m');
   app.use(compression());
   app.enable('trust proxy');
   app.set('trust proxy', options.trustProxy || false);

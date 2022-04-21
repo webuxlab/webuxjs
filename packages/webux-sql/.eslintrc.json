@@ -1,20 +1,4 @@
 {
-  "env": {
-    "browser": true,
-    "commonjs": true,
-    "es2020": true,
-    "jest/globals": true
-  },
-  "plugins": ["jest"],
-  "extends": ["airbnb-base", "plugin:jest/recommended"],
-  "parserOptions": {
-    "ecmaVersion": 11
-  },
-  "rules": {
-    "jest/no-disabled-tests": "warn",
-    "jest/no-focused-tests": "error",
-    "jest/no-identical-title": "error",
-    "jest/prefer-to-have-length": "warn",
-    "jest/valid-expect": "error"
-  }
+  "extends": ["airbnb-base", "plugin:jest/recommended", "../.eslintrc.json", "prettier"],
+  "plugins": ["jest", "prettier"]
 }

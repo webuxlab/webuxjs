@@ -39,24 +39,16 @@ class Mailer {
    */
   Verify() {
     return new Promise(async (resolve, reject) => {
-      this.log.debug(
-        'webux-mailer - Verifying the transporter connection and authentication information',
-      );
+      this.log.debug('webux-mailer - Verifying the transporter connection and authentication information');
       const verified = await this.transporter.verify().catch((e) => reject(new Error(`webux-mailer - ${e.message}`)));
 
       if (!verified) {
-        return reject(new Error(
-          'webux-mailer - Please verify your connection or authentication information',
-        ));
+        return reject(new Error('webux-mailer - Please verify your connection or authentication information'));
       }
 
-      this.log.debug(
-        'webux-mailer - Transporter connection and authentication verified',
-      );
+      this.log.debug('webux-mailer - Transporter connection and authentication verified');
 
-      return resolve(
-        'webux-mailer - Transporter connection and authentication verified',
-      );
+      return resolve('webux-mailer - Transporter connection and authentication verified');
     });
   }
 

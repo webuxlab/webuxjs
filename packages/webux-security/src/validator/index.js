@@ -20,14 +20,7 @@ const Body = (schema, errorHandler = Handler) => async (req, res, next) => {
     });
     return next();
   } catch (e) {
-    return next(
-      errorHandler(
-        400,
-        e.details && e.details[0] ? e.details[0].message : e.details,
-        { type: 'Body Schema Validator' },
-        e,
-      ),
-    );
+    return next(errorHandler(400, e.details && e.details[0] ? e.details[0].message : e.details, { type: 'Body Schema Validator' }, e));
   }
 };
 
@@ -44,14 +37,7 @@ const MongoID = (schema, errorHandler = Handler) => async (req, res, next) => {
     });
     return next();
   } catch (e) {
-    return next(
-      errorHandler(
-        400,
-        e.details && e.details[0] ? e.details[0].message : e.details,
-        { type: 'MongoID Schema Validator' },
-        e,
-      ),
-    );
+    return next(errorHandler(400, e.details && e.details[0] ? e.details[0].message : e.details, { type: 'MongoID Schema Validator' }, e));
   }
 };
 
@@ -68,14 +54,7 @@ const Id = (schema, errorHandler = Handler) => async (req, res, next) => {
     });
     return next();
   } catch (e) {
-    return next(
-      errorHandler(
-        400,
-        e.details && e.details[0] ? e.details[0].message : e.details,
-        { type: 'ID Schema Validator' },
-        e,
-      ),
-    );
+    return next(errorHandler(400, e.details && e.details[0] ? e.details[0].message : e.details, { type: 'ID Schema Validator' }, e));
   }
 };
 
@@ -93,12 +72,7 @@ const MongoIdOrURL = (schema, errorHandler = Handler) => async (req, res, next) 
     return next();
   } catch (e) {
     return next(
-      errorHandler(
-        400,
-        e.details && e.details[0] ? e.details[0].message : e.details,
-        { type: 'MongoIDOrURL Schema Validator' },
-        e,
-      ),
+      errorHandler(400, e.details && e.details[0] ? e.details[0].message : e.details, { type: 'MongoIDOrURL Schema Validator' }, e),
     );
   }
 };
@@ -116,14 +90,7 @@ const User = (schema, errorHandler = Handler) => async (req, res, next) => {
     });
     return next();
   } catch (e) {
-    return next(
-      errorHandler(
-        400,
-        e.details && e.details[0] ? e.details[0].message : e.details,
-        { type: 'User Schema Validator' },
-        e,
-      ),
-    );
+    return next(errorHandler(400, e.details && e.details[0] ? e.details[0].message : e.details, { type: 'User Schema Validator' }, e));
   }
 };
 
@@ -140,14 +107,7 @@ const Headers = (schema, errorHandler = Handler) => async (req, res, next) => {
     });
     return next();
   } catch (e) {
-    return next(
-      errorHandler(
-        400,
-        e.details && e.details[0] ? e.details[0].message : e.details,
-        { type: 'Headers Schema Validator' },
-        e,
-      ),
-    );
+    return next(errorHandler(400, e.details && e.details[0] ? e.details[0].message : e.details, { type: 'Headers Schema Validator' }, e));
   }
 };
 
@@ -164,14 +124,7 @@ const Files = (schema, errorHandler = Handler) => async (req, res, next) => {
     });
     return next();
   } catch (e) {
-    return next(
-      errorHandler(
-        400,
-        e.details && e.details[0] ? e.details[0].message : e,
-        { type: 'File Schema Validator' },
-        e,
-      ),
-    );
+    return next(errorHandler(400, e.details && e.details[0] ? e.details[0].message : e, { type: 'File Schema Validator' }, e));
   }
 };
 
@@ -189,12 +142,9 @@ const Custom = (schema, object, errorHandler = Handler) => {
     });
     return Promise.resolve(value);
   } catch (e) {
-    throw new Error(errorHandler(
-      400,
-      e.details && e.details[0] ? e.details[0].message : e.details,
-      { type: 'Custom Object Schema Validator' },
-      e,
-    ));
+    throw new Error(
+      errorHandler(400, e.details && e.details[0] ? e.details[0].message : e.details, { type: 'Custom Object Schema Validator' }, e),
+    );
   }
 };
 
