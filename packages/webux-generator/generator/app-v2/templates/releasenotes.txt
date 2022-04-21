@@ -1,0 +1,24 @@
+2022-04-20
+** Version 1.7.0 **
+Updated everything; might have broken everything...
+
+2019-05-14
+** Version 1.6.0 **
+Started Socket.io integration
+The code is ready to be use to create an empty application
+Some bugs still remain, but the objective is to patch the core 
+  and release new version without impacting current development
+
+2019-05-25
+** Version 1.6.1 **
+Bugs fixes
+added header to all files.
+updated the default values mechanism
+
+2019-10-08
+** Version 1.7.0 **
+Added new version based on the demo.
+
+2019-10-26
+** Version 1.71 **
+Patch modification made in the application template.
