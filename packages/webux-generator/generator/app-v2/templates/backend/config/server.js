@@ -1,15 +1,15 @@
+/* eslint-disable global-require */
 module.exports = {
   ssl: {
-    enabled: false,
-    key: process.env.SSL_KEY || "", // base64 encode
-    crt: process.env.SSL_CERT || "" // base64 encode
+    enabled: !!(process.env.KEY && process.env.CERT),
+    key: process.env.KEY,
+    cert: process.env.CERT,
   },
-  endpoint: "/api/v1",
-  enterprise: "Your company",
-  author: "Your information",
-  project: "Your project",
-  version: require("../package.json")["version"],
+  enterprise: 'Your Company',
+  author: 'Your Name',
+  project: 'Your Project Name',
+  version: require('../package.json').version,
+  endpoint: '/api/v1',
   port: process.env.PORT || 1337,
-  cores: process.env.CORES || null,
-  clusterize: process.env.CLUSTERIZE && process.env.CLUSTERIZE == "true" ? true : false,
+  cores: 1,
 };
