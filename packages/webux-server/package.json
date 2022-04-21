@@ -1,6 +1,6 @@
 {
   "name": "@studiowebux/server",
-  "version": "2.0.4",
+  "version": "4.20.0",
   "description": "The entry point for our framework, http or https and port configuration",
   "main": "src/index.js",
   "author": "Studio Webux S.E.N.C",
@@ -20,7 +20,6 @@
     "doc": "jsdoc src -d jsdoc/",
     "installdeps": "npm install"
   },
-  "dependencies": {},
   "devDependencies": {
     "@babel/core": "^7.11.4",
     "@babel/preset-env": "^7.11.0",
