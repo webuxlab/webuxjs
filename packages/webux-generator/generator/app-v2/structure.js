@@ -55,7 +55,6 @@ const backend = {
     "static.js": "",
     "upload.js": "",
   },
-  defaults: {},
   locales: {
     "en.json": "",
     "fr.json": "",
