@@ -35,5 +35,6 @@
     "prettier": "^2.2.1"
   },
   "author": "Studio Webux S.E.N.C",
-  "license": "SEE LICENSE IN license.txt"
+  "license": "SEE LICENSE IN license.txt",
+  "gitHead": "f271abcd6276cd25e3aa7824c702355355879feb"
 }

@@ -74,7 +74,7 @@ class MyApp extends Webux.WebuxApp {
     /**
      * Webux Routes and resources
      */
-    this.Route = new WebuxRoute(this.config.routes, this.log);
+    this.Route = new WebuxRoute(this.config.routes(this), this.log);
 
     /**
      * Webux SQL

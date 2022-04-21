@@ -30,6 +30,9 @@
  
    Webux.app.use(Webux.Logger.OnRequest());
  
+   await Webux.Route.LoadRoute(Webux.router);
+   Webux.app.use('/', Webux.router);
+
    await Webux.Route.LoadResponse(Webux.app);
  
    await Webux.Server.StartServer();
