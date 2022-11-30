@@ -25,25 +25,27 @@ const download = (filename, destination) =>
  * @param {Function} downloadFn Custom download action : downloadFn(destination)(req)=>{return Promise<String>}
  * @param {Object} log Custom logger, by default : console
  */
-const downloadRoute = (destination, key = 'id', downloadFn = null, log = console) => async (req, res) => {
-  try {
-    const pictureURL = await (downloadFn ? downloadFn(destination)(req) : download(req.params[key], destination));
+const downloadRoute =
+  (destination, key = 'id', downloadFn = null, log = console) =>
+  async (req, res) => {
+    try {
+      const pictureURL = await (downloadFn ? downloadFn(destination)(req) : download(req.params[key], destination));
 
-    if (!pictureURL) {
-      log.error(`Image not Found - ${pictureURL}`);
-      return res.status(404).json({ message: 'Image not found !' });
-    }
-
-    return res.sendFile(path.resolve(pictureURL), (err) => {
-      if (err) {
-        log.error(err);
-        res.status(422).json({ message: 'File unprocessable !', error: err });
+      if (!pictureURL) {
+        log.error(`Image not Found - ${pictureURL}`);
+        return res.status(404).json({ message: 'Image not found !' });
       }
-    });
-  } catch (e) {
-    log.error(e);
-    return res.status(422).json({ message: 'File unprocessable !', error: e });
-  }
-};
+
+      return res.sendFile(path.resolve(pictureURL), (err) => {
+        if (err) {
+          log.error(err);
+          res.status(422).json({ message: 'File unprocessable !', error: err });
+        }
+      });
+    } catch (e) {
+      log.error(e);
+      return res.status(422).json({ message: 'File unprocessable !', error: e });
+    }
+  };
 
 module.exports = { downloadRoute };

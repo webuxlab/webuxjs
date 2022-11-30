@@ -32,11 +32,14 @@
     "babel-jest": "^26.6.3",
     "eslint": "^7.32.0",
     "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-jest": "^23.20.0",
+    "eslint-plugin-prettier": "^4.2.1",
     "express": "^4.18.2",
     "jest": "^26.6.3",
     "jsdoc": "^3.6.11",
+    "prettier": "^2.8.0",
     "supertest": "^4.0.2"
   },
   "bugs": {
@@ -50,5 +53,5 @@
     "API",
     "Backend"
   ],
-  "gitHead": "a48e6b26c9b617b408dc39d87410fb2484ac86b1"
+  "gitHead": "6ed71fe6949984e26b9cdf8e5d2863c36b2fd4da"
 }
