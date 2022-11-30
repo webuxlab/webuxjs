@@ -1,6 +1,6 @@
 {
   "name": "@studiowebux/security",
-  "version": "4.21.0",
+  "version": "4.21.1",
   "description": "This module is a wrapper for all the security stuff around the framework",
   "main": "src/index.js",
   "author": "Studio Webux S.E.N.C",
@@ -22,13 +22,13 @@
   },
   "license": "SEE LICENSE IN license.txt",
   "dependencies": {
-    "joi": "^17.7.0",
     "body-parser": "^1.20.1",
     "compression": "^1.7.4",
     "cookie-parser": "^1.4.4",
     "cors": "^2.8.5",
     "express-rate-limit": "^5.2.6",
     "helmet": "^3.23.3",
+    "joi": "^17.7.0",
     "mongo-qp": "^1.3.8",
     "wordfilter": "^0.2.6"
   },
