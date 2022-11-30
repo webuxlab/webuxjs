@@ -18,3 +18,13 @@
 ## Getting Started
 
 See the generator.
+
+```bash
+npm i -g husky lerna
+```
+
+## Releases
+
+```bash
+npx lerna publish
+```
