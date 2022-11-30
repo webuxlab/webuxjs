@@ -49,5 +49,5 @@
     "socket.io": "^4.5.4",
     "supertest": "^6.3.1"
   },
-  "gitHead": "932a395f2919991b45fab28e383114f99e6b9236"
+  "gitHead": "2d697d674658209b1033a7c30c2daa953c311f69"
 }
