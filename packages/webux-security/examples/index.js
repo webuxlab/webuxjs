@@ -1,6 +1,6 @@
 /* eslint-disable import/no-extraneous-dependencies */
 const express = require('express');
-const Joi = require('@hapi/joi');
+const Joi = require('joi');
 const WebuxSecurity = require('../src/index');
 
 const app = express();

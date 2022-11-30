@@ -4,7 +4,7 @@ This module offers these features:
 
 1. Query parser (req.query), `initially made to work with Mongoose`
 2. Express Rate Limiter
-3. @hapi/joi validators
+3. joi validators
 4. body parser
 5. cookie parser
 6. cors
@@ -91,19 +91,19 @@ The `log` parameter allows to use a custom logger, by default it uses the consol
 
 #### validators
 
-This property has all `@hapi/joi` based validators attached.  
+This property has all `joi` based validators attached.  
 To access a validator, `Security.validators.Body(...)`
 
 ##### How to use a validator (Schema Definition)
 
-For more information, please read the official `@hapi/joi` [documentation](https://hapi.dev/module/joi/),
+For more information, please read the official `joi` [documentation](https://hapi.dev/module/joi/),
 
 ###### Examples
 
 **Schemas**
 
 ```javascript
-const Joi = require("@hapi/joi");
+const Joi = require("joi");
 
 const Create = Joi.object()
   .keys({
@@ -426,7 +426,7 @@ module.exports = {
 validators.js
 
 ```javascript
-const Joi = require("@hapi/joi");
+const Joi = require("joi");
 
 const Create = Joi.object()
   .keys({
