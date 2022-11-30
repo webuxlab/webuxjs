@@ -9,14 +9,14 @@
     "lint-staged": "^10.5.4"
   },
   "scripts": {
-    "test": "lerna run test",
-    "lint": "lerna run lint",
-    "doc": "lerna run doc",
-    "install-all": "lerna run installdeps",
-    "audit-fix": "lerna run auditfix",
+    "test": "npx lerna run test",
+    "lint": "npx lerna run lint",
+    "doc": "npx lerna run doc",
+    "install-all": "npx lerna run installdeps",
+    "audit-fix": "npx lerna run auditfix",
     "prepare": "husky install",
     "pre-commit": "lint-staged",
-    "pre-push": "lerna run --parallel --since origin/develop test"
+    "pre-push": "npx lerna run --parallel --since origin/develop test"
   },
   "lint-staged": {
     "packages/**/*.js": "eslint"

@@ -60,6 +60,7 @@ const NotFoundHandler = (i18n = null, log = console) => {
 const GlobalHandler = (log = console) => {
   log.debug('Webux-errorhandler - Creating the Global Error Handler');
 
+  // eslint-disable-next-line no-unused-vars
   return (err, req, res, next) => {
     const error = {
       message: err.message || '',
