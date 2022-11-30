@@ -48,5 +48,6 @@
     "prettier": "^2.8.0",
     "socket.io": "^4.5.4",
     "supertest": "^6.3.1"
-  }
+  },
+  "gitHead": "932a395f2919991b45fab28e383114f99e6b9236"
 }
