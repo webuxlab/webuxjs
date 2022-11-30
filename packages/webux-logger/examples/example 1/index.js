@@ -14,7 +14,7 @@ const options = {
     debug: 'log/debug.log',
     silly: 'log/silly.log',
   },
-  blacklist: ['password', 'authorization', 'accessToken', 'refreshToken'],
+  deniedKeys: ['password', 'authorization', 'accessToken', 'refreshToken'],
 };
 
 const Webuxlogger = require('../../src/index');

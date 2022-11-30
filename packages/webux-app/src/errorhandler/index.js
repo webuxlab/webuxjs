@@ -18,6 +18,7 @@ const GetIP = require('../ip/index');
  * @returns {Function} It returns a response to send to the client
  */
 function response(res, code, error = {}) {
+  console.debug(res);
   // If the response is overwritten by the router (webux-route)
   if (res.custom) {
     return res.custom(code, error);
@@ -59,7 +60,7 @@ const NotFoundHandler = (i18n = null, log = console) => {
 const GlobalHandler = (log = console) => {
   log.debug('Webux-errorhandler - Creating the Global Error Handler');
 
-  return (err, req, res) => {
+  return (err, req, res, next) => {
     const error = {
       message: err.message || '',
       devMessage: err.devMessage || '',

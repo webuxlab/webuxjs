@@ -108,7 +108,7 @@ test('Create logger with full options using JSON', () => {
       debug: 'log/debug.log',
       silly: 'log/silly.log',
     },
-    blacklist: ['password', 'authorization', 'accessToken', 'refreshToken'],
+    deniedKeys: ['password', 'authorization', 'accessToken', 'refreshToken'],
   };
   const logger = new WebuxLogger(opts);
 
@@ -161,7 +161,7 @@ test('Create logger with full options using dev', () => {
       debug: 'log/debug.log',
       silly: 'log/silly.log',
     },
-    blacklist: ['password', 'authorization', 'accessToken', 'refreshToken'],
+    deniedKeys: ['password', 'authorization', 'accessToken', 'refreshToken'],
   };
   const logger = new WebuxLogger(opts);
 

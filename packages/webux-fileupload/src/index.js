@@ -52,7 +52,7 @@ class fileupload {
    * @returns {Function} An express route function
    */
   DownloadRoute(downloadFn = null) {
-    return downloadRoute(this.config.destination, this.config.express.key, downloadFn, this.log);
+    return downloadRoute(this.config.tmp, this.config.express.key, downloadFn, this.log);
   }
 
   /**
@@ -61,6 +61,7 @@ class fileupload {
    * @returns {Function} An express route function
    */
   UploadRoute(uploadFn = null) {
+    console.log('UploadRoute');
     return uploadRoute(this.config, uploadFn, this.log);
   }
 

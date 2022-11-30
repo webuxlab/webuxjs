@@ -37,47 +37,47 @@ npm install --save @studiowebux/logger
 | consoleLevel   | (_Winston_) - It sets the log level to print on the console, <br />Possible choices : [**error**, **warn**, **info**, **verbose**, **debug**, **silly**] | If `silly` is chosen, all levels will be printed, but choosing `error` will only print the errors. |
 | logstash       | (_Winston_) - The logstash configuration.                                                                                                                | An ELK instance is required to use this option <br /> Only the UDP configuration is supported.     |
 | filenames      | (_Winston_) - A list of log level to be redirected in file.                                                                                              |                                                                                                    |
-| blacklist      | (_Winston_) - A list of values that will be replaced with '\*\*\*\*\*'                                                                                   | See the examples for more information                                                              |
+| deniedKeys     | (_Winston_) - A list of values that will be replaced with '\*\*\*\*\*'                                                                                   | See the examples for more information                                                              |
 
 Available options:
 
 ```javascript
 const options = {
-  type: "json", // combined, tiny, dev, common, short, json
+  type: 'json', // combined, tiny, dev, common, short, json
   tokens: null,
   format: {
-    method: ":method",
-    url: ":url",
-    status: ":status",
-    body: ":body",
-    params: ":params",
-    query: ":query",
-    headers: ":headers",
-    "http-version": ":http-version",
-    "remote-ip": ":remote-addr",
-    "remote-user": ":remote-user",
-    length: ":res[content-length]",
-    referrer: ":referrer",
-    "user-agent": ":user-agent",
-    "accept-language": ":language",
-    "response-time": ":response-time ms",
+    method: ':method',
+    url: ':url',
+    status: ':status',
+    body: ':body',
+    params: ':params',
+    query: ':query',
+    headers: ':headers',
+    'http-version': ':http-version',
+    'remote-ip': ':remote-addr',
+    'remote-user': ':remote-user',
+    length: ':res[content-length]',
+    referrer: ':referrer',
+    'user-agent': ':user-agent',
+    'accept-language': ':language',
+    'response-time': ':response-time ms',
   },
-  application_id: "Test01",
+  application_id: 'Test01',
   forceConsole: false,
-  consoleLevel: "silly", // error, warn, info, verbose, debug, silly
+  consoleLevel: 'silly', // error, warn, info, verbose, debug, silly
   logstash: {
-    host: "127.0.0.1",
-    port: "5000", // udp only !
+    host: '127.0.0.1',
+    port: '5000', // udp only !
   },
   filenames: {
-    error: "log/error.log",
-    warn: "log/warn.log",
-    info: "log/info.log",
-    verbose: "log/verbose.log",
-    debug: "log/debug.log",
-    silly: "log/silly.log",
+    error: 'log/error.log',
+    warn: 'log/warn.log',
+    info: 'log/info.log',
+    verbose: 'log/verbose.log',
+    debug: 'log/debug.log',
+    silly: 'log/silly.log',
   },
-  blacklist: ["password", "authorization", "accessToken", "refreshToken"],
+  deniedKeys: ['password', 'authorization', 'accessToken', 'refreshToken'],
 };
 ```
 
@@ -86,32 +86,32 @@ const options = {
 ```javascript
 module.exports = [
   {
-    name: "body",
+    name: 'body',
     needStringify: true,
   },
   {
-    name: "params",
+    name: 'params',
     needStringify: true,
   },
   {
-    name: "query",
+    name: 'query',
     needStringify: true,
   },
   {
-    name: "headers",
+    name: 'headers',
     needStringify: true,
   },
   {
-    name: "type",
+    name: 'type',
     needStringify: false,
-    value: "content-type",
-    parent: "headers",
+    value: 'content-type',
+    parent: 'headers',
   },
   {
-    name: "language",
+    name: 'language',
     needStringify: false,
-    value: "accept-language",
-    parent: "headers",
+    value: 'accept-language',
+    parent: 'headers',
   },
 ];
 ```
@@ -123,7 +123,7 @@ module.exports = [
 Initializes the configuration and the default logger.
 
 ```javascript
-const WebuxLogger = require("@studiowebux/logger");
+const WebuxLogger = require('@studiowebux/logger');
 
 const webuxLogger = new WebuxLogger(opts, console);
 ```
@@ -142,19 +142,19 @@ To use the custom logger function:
 > Both methods are equivalent
 
 ```javascript
-log.info("...");
-log.error("...");
-log.warn("...");
-log.verbose("...");
-log.debug("...");
-log.silly("...");
+log.info('...');
+log.error('...');
+log.warn('...');
+log.verbose('...');
+log.debug('...');
+log.silly('...');
 
-webuxLogger.log.info("...");
-webuxLogger.log.error("...");
-webuxLogger.log.warn("...");
-webuxLogger.log.verbose("...");
-webuxLogger.log.debug("...");
-webuxLogger.log.silly("...");
+webuxLogger.log.info('...');
+webuxLogger.log.error('...');
+webuxLogger.log.warn('...');
+webuxLogger.log.verbose('...');
+webuxLogger.log.debug('...');
+webuxLogger.log.silly('...');
 ```
 
 ### OnRequest(): Function
@@ -164,7 +164,7 @@ It configures the request interceptor.
 > this is required to have an Express instance to use the `app.use` function.
 
 ```javascript
-const express = require("express");
+const express = require('express');
 const app = express();
 
 const webuxLogger = new WebuxLogger(options, console);
@@ -181,29 +181,29 @@ app.use(webuxLogger.OnRequest());
 index.js
 
 ```javascript
-const WebuxLogger = require("@studiowebux/logger");
-const express = require("express");
-const bodyParser = require("body-parser");
+const WebuxLogger = require('@studiowebux/logger');
+const express = require('express');
+const bodyParser = require('body-parser');
 const app = express();
 
 const options = {
-  type: "json",
+  type: 'json',
   format: {
-    method: ":method",
-    url: ":url",
-    status: ":status",
-    body: ":body",
-    params: ":params",
-    query: ":query",
-    headers: ":headers",
-    "http-version": ":http-version",
-    "remote-ip": ":remote-addr",
-    "remote-user": ":remote-user",
-    length: ":res[content-length]",
-    referrer: ":referrer",
-    "user-agent": ":user-agent",
-    "accept-language": ":language",
-    "response-time": ":response-time ms",
+    method: ':method',
+    url: ':url',
+    status: ':status',
+    body: ':body',
+    params: ':params',
+    query: ':query',
+    headers: ':headers',
+    'http-version': ':http-version',
+    'remote-ip': ':remote-addr',
+    'remote-user': ':remote-user',
+    length: ':res[content-length]',
+    referrer: ':referrer',
+    'user-agent': ':user-agent',
+    'accept-language': ':language',
+    'response-time': ':response-time ms',
   },
 };
 
@@ -213,22 +213,22 @@ app.use(webuxLogger.OnRequest());
 
 app.use(
   bodyParser.json({
-    limit: "10MB",
-  })
+    limit: '10MB',
+  }),
 );
 
-app.get("/wait", (req, res) => {
+app.get('/wait', (req, res) => {
   setTimeout(() => {
-    res.status(200).json({ message: "it took 1.5 seconds ..." });
+    res.status(200).json({ message: 'it took 1.5 seconds ...' });
   }, 1500);
 });
 
-app.use("*", (req, res) => {
-  res.send("BONJOUR !");
+app.use('*', (req, res) => {
+  res.send('BONJOUR !');
 });
 
 app.listen(1337, () => {
-  webuxLogger.log.info("Server is listening on port 1337");
+  webuxLogger.log.info('Server is listening on port 1337');
 });
 ```
 

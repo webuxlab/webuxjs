@@ -34,11 +34,13 @@ const UpdatePort = (port) => {
  * @param {Object} server The server instance
  * @param {Object} log The custom logger, by default, this is set to console
  */
-const onListening = (server, log = console) => () => {
-  const addr = server.address();
-  const bind = typeof addr === 'string' ? `pipe ${addr}` : `port ${addr.port}`;
-  log.info(`webux-server - Listening on ${bind}`);
-};
+const onListening =
+  (server, log = console) =>
+  () => {
+    const addr = server.address();
+    const bind = typeof addr === 'string' ? `pipe ${addr}` : `port ${addr.port}`;
+    log.info(`webux-server - Listening on ${bind}`);
+  };
 
 /**
  * Event listener for HTTP server "error" event.
@@ -69,9 +71,11 @@ const onError = (error) => {
  * @param {Object} log The custom logger, by default, this is set to console
  * @returns {VoidFunction}
  */
-const onClose = (log = console) => () => {
-  log.info(`PID : ${process.pid} -> Server Closed`);
-};
+const onClose =
+  (log = console) =>
+  () => {
+    log.info(`PID : ${process.pid} -> Server Closed`);
+  };
 
 /**
  * It returns the number of cores to use, if undefined, it will use all available cores

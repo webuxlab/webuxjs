@@ -1,6 +1,6 @@
 {
   "name": "@studiowebux/telemetry",
-  "version": "4.20.4",
+  "version": "4.21.0",
   "description": "Custom telemetry module",
   "main": "src/index.js",
   "author": "Studio Webux S.E.N.C",
@@ -22,21 +22,21 @@
     "auditfix": "npm audit fix"
   },
   "dependencies": {
-    "axios": "^0.21.1",
-    "express": "^4.17.1"
+    "axios": "^0.21.4"
   },
   "devDependencies": {
-    "@babel/core": "^7.14.6",
-    "@babel/preset-env": "^7.14.7",
+    "express": "^4.18.2",
+    "@babel/core": "^7.20.5",
+    "@babel/preset-env": "^7.20.2",
     "babel-jest": "^26.6.3",
-    "eslint": "^7.29.0",
+    "eslint": "^7.32.0",
     "eslint-config-airbnb-base": "^14.2.1",
-    "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-import": "^2.23.4",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-jest": "^23.20.0",
-    "eslint-plugin-prettier": "^3.4.0",
+    "eslint-plugin-prettier": "^3.4.1",
     "jest": "^26.6.3",
-    "jsdoc": "^3.6.7",
-    "prettier": "^2.3.2"
+    "jsdoc": "^3.6.11",
+    "prettier": "^2.8.0"
   }
 }
