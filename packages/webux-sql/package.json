@@ -1,6 +1,6 @@
 {
   "name": "@studiowebux/sql",
-  "version": "4.20.4",
+  "version": "4.21.0",
   "description": "A simple wrapper around knexJS",
   "main": "src/index.js",
   "directories": {
@@ -21,21 +21,21 @@
   "author": "Studio Webux S.E.N.C",
   "license": "SEE LICENSE IN license.txt",
   "dependencies": {
-    "knex": "^0.95.4"
+    "knex": "^2.3.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.13.14",
-    "@babel/preset-env": "^7.13.12",
+    "@babel/core": "^7.20.5",
+    "@babel/preset-env": "^7.20.2",
     "babel-jest": "^26.6.3",
-    "eslint": "^7.23.0",
+    "eslint": "^7.32.0",
     "eslint-config-airbnb-base": "^14.2.1",
-    "eslint-config-prettier": "^8.1.0",
-    "eslint-plugin-import": "^2.22.1",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-jest": "^23.20.0",
-    "eslint-plugin-prettier": "^3.3.1",
+    "eslint-plugin-prettier": "^3.4.1",
     "jest": "^26.6.3",
-    "jsdoc": "^3.6.6",
-    "pg": "^8.5.1",
-    "prettier": "^2.2.1"
+    "jsdoc": "^3.6.11",
+    "pg": "^8.8.0",
+    "prettier": "^2.8.0"
   }
 }

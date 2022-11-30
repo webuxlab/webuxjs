@@ -1,6 +1,6 @@
 {
   "name": "@studiowebux/mailer",
-  "version": "4.20.4",
+  "version": "4.21.0",
   "description": "Module for mailing",
   "main": "src/index.js",
   "directories": {
@@ -22,20 +22,20 @@
   "author": "Studio Webux S.E.N.C",
   "license": "SEE LICENSE IN license.txt",
   "dependencies": {
-    "nodemailer": "^6.5.0"
+    "nodemailer": "^6.8.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.13.14",
-    "@babel/preset-env": "^7.13.12",
+    "@babel/core": "^7.20.5",
+    "@babel/preset-env": "^7.20.2",
     "babel-jest": "^26.6.3",
-    "eslint": "^7.23.0",
+    "eslint": "^7.32.0",
     "eslint-config-airbnb-base": "^14.2.1",
-    "eslint-config-prettier": "^8.1.0",
-    "eslint-plugin-import": "^2.22.1",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-jest": "^23.20.0",
-    "eslint-plugin-prettier": "^3.3.1",
+    "eslint-plugin-prettier": "^3.4.1",
     "jest": "^26.6.3",
-    "jsdoc": "^3.6.6",
-    "prettier": "^2.2.1"
+    "jsdoc": "^3.6.11",
+    "prettier": "^2.8.0"
   }
 }

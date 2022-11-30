@@ -45,7 +45,7 @@ const Logging = (type = 'common', format = null, tokens = null, log = console) =
 
   // To log in JSON format or in some other format,
   // It uses the stream function and filter the request
-  // It sanitize the content to remove blacklisted
+  // It sanitize the content to remove denied keys
   // information from the log
   let instance = null;
 

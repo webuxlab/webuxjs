@@ -41,7 +41,7 @@ const options = {
     debug: 'log/debug.log',
     silly: 'log/silly.log',
   },
-  blacklist: ['password', 'authorization', 'accessToken', 'refreshToken'],
+  deniedKeys: ['password', 'authorization', 'accessToken', 'refreshToken'],
 };
 
 // common type is default

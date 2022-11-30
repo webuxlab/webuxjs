@@ -31,7 +31,7 @@ module.exports = (options = {}) => {
       label({
         label: options.application_id || 'No label defined.',
       }),
-      filterSecret(options.blacklist)(),
+      filterSecret(options.deniedKeys)(),
       timestamp(),
       json(),
       colorize(),

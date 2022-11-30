@@ -45,36 +45,27 @@ async function loadApp() {
   });
 
   // http://localhost:1337/account?limit=5&sort=-username&skip=100
-  app.get(
-    '/account',
-    WebuxSecurity.QueryParser(['password'], 'username premium'),
-    (req, res) => {
-      console.log(req.query);
-      res.status(200).json({ query: req.query });
-    },
-  );
+  app.get('/account', WebuxSecurity.QueryParser(['password'], 'username premium'), (req, res) => {
+    console.log(req.query);
+    res.status(200).json({ query: req.query });
+  });
 
   app.post('/something', (req, res) => {
     Security.validators
       .Custom(Something, req.body)
-      .then((value) => { res.status(200).json({ msg: 'Bonjour !', value }); })
+      .then((value) => {
+        res.status(200).json({ msg: 'Bonjour !', value });
+      })
       .catch((err) => {
         console.error(err);
-        return res
-          .status(400)
-          .json({ msg: 'BAD_REQUEST', reason: err.message });
+        return res.status(400).json({ msg: 'BAD_REQUEST', reason: err.message });
       });
   });
 
-  app.post(
-    '/account/:id',
-    Security.validators.Id(ID),
-    Security.validators.Body(Update),
-    (req, res) => {
-      console.info('Hello World !');
-      return res.status(200).json({ msg: 'Bonjour !' });
-    },
-  );
+  app.post('/account/:id', Security.validators.Id(ID), Security.validators.Body(Update), (req, res) => {
+    console.info('Hello World !');
+    return res.status(200).json({ msg: 'Bonjour !' });
+  });
 
   app.post('/account', Security.validators.Body(Create), (req, res) => {
     console.info('Hello World !');

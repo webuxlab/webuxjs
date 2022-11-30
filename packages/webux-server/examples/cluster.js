@@ -58,12 +58,14 @@ app.get('/stop', (req, res) => {
   });
 });
 
-app.get('/', (req, res) => res.send({
-  msg: 'Bonjour !',
-  env: app.get('node_env'),
-  port: app.get('port'),
-  pid: process.pid,
-}));
+app.get('/', (req, res) =>
+  res.send({
+    msg: 'Bonjour !',
+    env: app.get('node_env'),
+    port: app.get('port'),
+    pid: process.pid,
+  }),
+);
 
 webuxServer.StartCluster().then((instance) => {
   if (instance && !instance.isMaster) {

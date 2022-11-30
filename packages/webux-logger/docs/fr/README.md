@@ -35,7 +35,7 @@ npm install --save @studiowebux/logger
 | consoleLevel   | (_Winston_) - Pour déterminer quel niveau de log à afficher sur la console, <br />Choix possibles : [**error**, **warn**, **info**, **verbose**, **debug**, **silly**] | Choisir `silly` affiche tous les niveaux alors que choisir `error` affiche que les ceux-ci.                  |
 | logstash       | (_Winston_) - la configuration de logstash                                                                                                                             | Une instance ELK est requise pour utiliser cette option <br /> Seulement la configuration UDP est supportée. |
 | filenames      | (_Winston_) - une liste pour rediriger les logs par niveau dans un fichier                                                                                             |                                                                                                              |
-| blacklist      | (_Winston_) - Une liste de termes qui seront remplacés par '\*\*\*\*\*'                                                                                                | Voir les exemples pour plus d'information                                                                    |
+| deniedKeys      | (_Winston_) - Une liste de termes qui seront remplacés par '\*\*\*\*\*'                                                                                                | Voir les exemples pour plus d'information                                                                    |
 
 Options disponibles:
 
@@ -75,7 +75,7 @@ const options = {
     debug: "log/debug.log",
     silly: "log/silly.log",
   },
-  blacklist: ["password", "authorization", "accessToken", "refreshToken"],
+  deniedKeys: ["password", "authorization", "accessToken", "refreshToken"],
 };
 ```
 

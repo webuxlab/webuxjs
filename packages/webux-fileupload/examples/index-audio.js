@@ -6,6 +6,8 @@ const path = require('path');
 const cors = require('cors');
 const mime = require('mime');
 
+const { copyFileSync } = require('fs');
+
 const WebuxFileupload = require('../src/index');
 
 const opts = {
@@ -51,22 +53,29 @@ const webuxFileupload = new WebuxFileupload(opts);
 app.post('/defaultupload', webuxFileupload.OnRequest(), webuxFileupload.UploadRoute());
 
 const uploadFn = (filename) => (req) =>
-  new Promise((resolve, reject) => {
-    console.log('> Using custom upload function');
-    console.log(`> POST ${filename}`);
+  new Promise(async (resolve, reject) => {
+    try {
+      console.log('> Using custom upload function');
+      console.log(`> POST ${filename}`);
 
-    // This function can be use to get data from the database
-    // or other actions
+      // This function can be use to get data from the database
+      // or other actions
 
-    // Returns true if the file can be uploaded
-    return resolve(true);
+      copyFileSync(filename, `${opts.destination}/${filename.split('/').reverse()[0]}`);
+      await webuxFileupload.DeleteFile(filename);
+
+      // Returns true if the file can be uploaded
+      return resolve(true);
+    } catch (e) {
+      return reject(e);
+    }
   });
 
 app.post('/upload', webuxFileupload.OnRequest(), webuxFileupload.UploadRoute(uploadFn));
 
 const blockUpload = (filename) => (req) =>
   new Promise(async (resolve, reject) => {
-    console.log('> Using custom upload function and block the transaction');
+    console.log('> Using custom upload function and block the transaction');
     console.log(`> POST ${filename}`);
 
     // This function can be use to get data from the database
@@ -79,16 +88,16 @@ const blockUpload = (filename) => (req) =>
 
 app.post('/blockupload', webuxFileupload.OnRequest(), webuxFileupload.UploadRoute(blockUpload));
 
-const downloadFn = (destination) => (req) =>
+const downloadFn = () => (req) =>
   new Promise((resolve, reject) => {
-    console.log('> Using custom download function');
-    console.log(`> GET ${destination}/${req.params[opts.express.key]}`);
+    console.log('> Using custom download function');
+    console.log(`> GET ${webuxFileupload.config.destination}/${req.params[opts.express.key]}`);
 
     // This function can be use to get data from the database
     // or other actions
 
     // Returns the path to the file
-    return resolve(path.join(destination, req.params[opts.express.key]));
+    return resolve(path.join(webuxFileupload.config.destination, req.params[opts.express.key]));
   });
 
 app.get('/download/:file', webuxFileupload.DownloadRoute(downloadFn));

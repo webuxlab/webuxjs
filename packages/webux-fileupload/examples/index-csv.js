@@ -55,7 +55,7 @@ app.post('/defaultupload', webuxFileupload.OnRequest(), webuxFileupload.UploadRo
 
 const uploadFn = (filename) => (req) =>
   new Promise((resolve, reject) => {
-    console.log('> Using custom upload function');
+    console.log('> Using custom upload function');
     console.log(`> POST ${filename}`);
 
     // This function can be use to get data from the database
@@ -70,7 +70,7 @@ app.post('/upload', webuxFileupload.OnRequest(), webuxFileupload.UploadRoute(upl
 
 const blockUpload = (filename) => (req) =>
   new Promise(async (resolve, reject) => {
-    console.log('> Using custom upload function and block the transaction');
+    console.log('> Using custom upload function and block the transaction');
     console.log(`> POST ${filename}`);
 
     // This function can be use to get data from the database
@@ -85,7 +85,7 @@ app.post('/blockupload', webuxFileupload.OnRequest(), webuxFileupload.UploadRout
 
 const downloadFn = (destination) => (req) =>
   new Promise((resolve, reject) => {
-    console.log('> Using custom download function');
+    console.log('> Using custom download function');
     console.log(`> GET ${destination}/${req.params[opts.express.key]}`);
 
     // This function can be use to get data from the database

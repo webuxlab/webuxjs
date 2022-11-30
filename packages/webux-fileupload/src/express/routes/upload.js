@@ -7,7 +7,7 @@
 
 const { UploadFile } = require('../../validators/index');
 
-const logDebug = (message) => (process.env.debug ? console.debug(message) : null);
+const logDebug = (message) => (process.env.DEBUG ? console.debug(message) : null);
 
 /**
  * Default upload action
@@ -33,43 +33,46 @@ const upload = async (filename) =>
  * @param {Function} uploadFn Custom upload action : uploadFn(filename)(req)=>{return Promise<Any>}
  * @param {Object} log Custom logger, by default : console
  */
-const uploadRoute = (opts, uploadFn = null, log = console) => async (req, res) => {
-  try {
-    const success = [];
-    let errors = [];
-    const { fileProcessed, fileErrored } = await UploadFile(opts, req.files, req.files[opts.express.key].name, opts.label);
+const uploadRoute =
+  (opts, uploadFn = null, log = console) =>
+  async (req, res) => {
+    try {
+      console.log('UploadRoute...');
+      const success = [];
+      let errors = [];
+      const { fileProcessed, fileErrored } = await UploadFile(opts, req.files, req.files[opts.express.key].name, opts.label);
 
-    logDebug(`${fileProcessed.length} file(s) to process`);
-    logDebug(`${fileErrored.length} file(s) are invalid`);
-    errors = [...fileErrored];
-    for await (const filename of fileProcessed) {
-      logDebug(`Processing ${filename}`);
-      if (!filename) {
-        log.error('File not uploaded !');
-        return res.status(422).json({ message: 'File not uploaded !' });
+      logDebug(`${fileProcessed.length} file(s) to process`);
+      logDebug(`${fileErrored.length} file(s) are invalid`);
+      errors = [...fileErrored];
+      for await (const filename of fileProcessed) {
+        logDebug(`Processing ${filename}`);
+        if (!filename) {
+          log.error('File not uploaded !');
+          return res.status(422).json({ message: 'File not uploaded !' });
+        }
+
+        const data = await (uploadFn ? uploadFn(filename)(req) : upload(filename)).catch((e) => {
+          log.error(e.message);
+          errors.push({ message: 'File unprocessable !', error: e.message });
+        });
+
+        if (data) {
+          success.push({ message: 'file uploaded !', name: filename, data });
+        } else {
+          errors.push({ message: 'File unprocessable !', error: `${filename} not uploaded` });
+        }
       }
 
-      const data = await (uploadFn ? uploadFn(filename)(req) : upload(filename)).catch((e) => {
-        log.error(e.message);
-        errors.push({ message: 'File unprocessable !', error: e.message });
-      });
-
-      if (data) {
-        success.push({ message: 'file uploaded !', name: filename, data });
-      } else {
-        errors.push({ message: 'File unprocessable !', error: `${filename} not uploaded` });
+      if (errors.length > 0) {
+        return res.status(422).json({ errors, success });
       }
-    }
 
-    if (errors.length > 0) {
-      return res.status(422).json({ errors, success });
+      return res.status(200).json({ errors, success });
+    } catch (e) {
+      log.error(e);
+      return res.status(422).json({ message: 'File unprocessable !', error: e });
     }
-
-    return res.status(200).json({ errors, success });
-  } catch (e) {
-    log.error(e);
-    return res.status(422).json({ message: 'File unprocessable !', error: e });
-  }
-};
+  };
 
 module.exports = { upload, uploadRoute };

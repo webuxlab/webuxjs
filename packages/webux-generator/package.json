@@ -1,6 +1,6 @@
 {
   "name": "@studiowebux/generator",
-  "version": "4.20.4",
+  "version": "4.21.0",
   "description": "webux lab template generator",
   "main": "index.js",
   "bin": {
@@ -27,7 +27,6 @@
   "author": "Studio Webux S.E.N.C",
   "license": "SEE LICENSE IN license.txt",
   "dependencies": {
-    "fs": "0.0.1-security",
     "fs-copy-file": "^2.1.2",
     "fs-extra": "^8.1.0",
     "inquirer": "^6.5.0",
@@ -36,8 +35,8 @@
     "shelljs": "^0.8.4"
   },
   "devDependencies": {
-    "@babel/core": "^7.11.4",
-    "@babel/preset-env": "^7.11.0",
+    "@babel/core": "^7.20.5",
+    "@babel/preset-env": "^7.20.2",
     "babel-jest": "^26.3.0",
     "eslint": "^7.23.0",
     "eslint-config-airbnb-base": "^14.2.0",

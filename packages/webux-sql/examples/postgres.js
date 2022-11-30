@@ -36,7 +36,8 @@ const opts = {
   development: {
     client: 'postgresql',
     connection: {
-      host: '127.0.0.1',
+      host: '192.168.2.19',
+      port: '5433',
       user: 'webux',
       password: 'webux_password',
       database: 'webux_sql',
@@ -61,7 +62,8 @@ const webuxSQL = new WebuxSQL(opts);
 async function database() {
   try {
     // Try to run the migration if there is any
-    await webuxSQL.Migration().catch(() => {
+    await webuxSQL.Migration().catch((e) => {
+      console.error(e);
       console.log('We can safely ignore this error for this test');
     });
 
