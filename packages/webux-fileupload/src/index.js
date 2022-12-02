@@ -73,7 +73,7 @@ class fileupload {
    * @returns {Promise<String>}  The filename
    */
   UploadFile(files, filename, label) {
-    return UploadFile(this.config, files, filename, label);
+    return UploadFile(this.config, files, filename, label, this.log);
   }
 
   /**
