@@ -16,7 +16,8 @@
     "audit-fix": "npx lerna run auditfix",
     "prepare": "husky install",
     "pre-commit": "lint-staged",
-    "pre-push": "npx lerna run --parallel --since origin/develop test"
+    "pre-push": "npx lerna run --parallel --since origin/develop test",
+    "publish": "npx lerna publish"
   },
   "lint-staged": {
     "packages/**/*.js": "eslint"
