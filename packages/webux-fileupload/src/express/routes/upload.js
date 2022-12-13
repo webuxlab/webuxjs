@@ -7,8 +7,6 @@
 
 const { UploadFile } = require('../../validators/index');
 
-const logDebug = (message) => (process.env.DEBUG ? console.debug(message) : null);
-
 /**
  * Default upload action
  * It allows to use this module quickly
@@ -37,25 +35,28 @@ const uploadRoute =
   (opts, uploadFn = null, log = console) =>
   async (req, res) => {
     try {
-      console.log('UploadRoute...');
       const success = [];
       let errors = [];
-      const { fileProcessed, fileErrored } = await UploadFile(opts, req.files, req.files[opts.express.key].name, opts.label);
+      const { fileProcessed, fileErrored } = await UploadFile(opts, req.files, req.files[opts.express.key].name, opts.label, log);
 
-      logDebug(`${fileProcessed.length} file(s) to process`);
-      logDebug(`${fileErrored.length} file(s) are invalid`);
+      log.debug(`${fileProcessed.length} file(s) to process`);
+      log.debug(`${fileErrored.length} file(s) are invalid`);
       errors = [...fileErrored];
       for await (const filename of fileProcessed) {
-        logDebug(`Processing ${filename}`);
+        log.debug(`Processing ${filename}`);
         if (!filename) {
           log.error('File not uploaded !');
           return res.status(422).json({ message: 'File not uploaded !' });
         }
 
-        const data = await (uploadFn ? uploadFn(filename)(req) : upload(filename)).catch((e) => {
-          log.error(e.message);
-          errors.push({ message: 'File unprocessable !', error: e.message });
-        });
+        let data = null;
+
+        if (uploadFn && typeof uploadFn === 'function') {
+          data = await uploadFn(filename)(req);
+        } else {
+          if (uploadFn) log.warn(`Using Default Upload Function, ${typeof uploadFn} is not a function`);
+          data = upload(filename);
+        }
 
         if (data) {
           success.push({ message: 'file uploaded !', name: filename, data });
@@ -70,8 +71,8 @@ const uploadRoute =
 
       return res.status(200).json({ errors, success });
     } catch (e) {
-      log.error(e);
-      return res.status(422).json({ message: 'File unprocessable !', error: e });
+      log.error(e.message);
+      return res.status(422).json({ message: 'File unprocessable !', error: e.message });
     }
   };
 
