@@ -1,6 +1,6 @@
 {
   "name": "@studiowebux/fileupload",
-  "version": "4.21.2",
+  "version": "4.22.0",
   "description": "A wrapper to upload files with express and / or socket.IO",
   "main": "src/index.js",
   "directories": {
