@@ -13,9 +13,6 @@ const imageType = require('image-type');
 const fileType = require('file-type');
 const ErrorHandler = require('../defaults/errorHandler');
 
-const logDebug = (message) => (process.env.DEBUG ? console.debug(message) : null);
-const logVerbose = (message) => (process.env.VERBOSE ? console.debug(message) : null);
-
 /**
  * It deletes the file pass in parameter.
  * @param {String} filepath The full path to the file
@@ -45,16 +42,15 @@ const DeleteFile = (filepath) =>
  * @param {String} destination The destination to move the file
  * @returns {Promise}
  */
-function moveFile(file, destination) {
+function moveFile(file, destination, log = console) {
   return new Promise((resolve) => {
-    logDebug(`Moving ${file.name} to ${destination}`);
+    log.debug(`Moving ${file.name} to ${destination}`);
     file.mv(destination, (err) => {
       if (err) {
-        logDebug(err);
         throw err;
       }
 
-      logDebug(`File ${file.name} moved to ${destination}`);
+      log.debug(`File ${file.name} moved to ${destination}`);
       return resolve();
     });
   });
@@ -68,21 +64,21 @@ function moveFile(file, destination) {
  * @param {String} realFilename Final filename
  * @returns {Promise<String>} Returns the final filename
  */
-async function PostProcessing(width, filename, realFilename) {
+async function PostProcessing(width, filename, realFilename, log = console) {
   return new Promise((resolve) => {
-    logVerbose('Post Processing image with sharp');
+    log.silly('Post Processing image with sharp');
     sharp(filename)
       .resize(width)
       .toFile(realFilename, async (err) => {
         if (err) {
-          logDebug(err);
+          log.error(err);
           throw err;
         }
 
         // Delete the temporary file
         await DeleteFile(filename);
 
-        logVerbose('Image post processed');
+        log.silly('Image post processed');
         return resolve(realFilename);
       });
   });
@@ -98,29 +94,29 @@ async function PostProcessing(width, filename, realFilename) {
  * @param {String} realFilename The final file name (where the file will be stored after processing)
  * @returns {Promise<String>} the final filename
  */
-async function ProcessImage(tmpDirectory, filename, extension, file, width, realFilename) {
-  logVerbose('Process Image');
+async function ProcessImage(tmpDirectory, filename, extension, file, width, realFilename, log = console) {
+  log.silly('Process Image');
   // If the image is not a GIF.
   // We can't resize a gif.
   if (extension !== 'gif') {
-    logVerbose('Image not a GIF');
+    log.silly('Image not a GIF');
     const TMPfilename = path.join(tmpDirectory, filename);
 
     if (typeof file === 'object') {
-      await moveFile(file, TMPfilename);
+      await moveFile(file, TMPfilename, log);
     } else {
       // Move the file using the filepath
       fs.renameSync(file, TMPfilename);
     }
 
-    await PostProcessing(width, TMPfilename, realFilename);
+    await PostProcessing(width, TMPfilename, realFilename, log);
     return Promise.resolve(realFilename);
   }
 
   // This image is a gif, move it directly, no resize will be applied
   if (typeof file === 'object') {
-    logVerbose('Image is a GIF');
-    await moveFile(file, realFilename);
+    log.silly('Image is a GIF');
+    await moveFile(file, realFilename, log);
   } else {
     // Using the socket.IO implementation
     // nothing is required. the file is already in the destination directory
@@ -139,7 +135,7 @@ async function ProcessImage(tmpDirectory, filename, extension, file, width, real
  * @param {string} label The identifier to be added at the end of the file
  * @returns {Promise<String>} The filename
  */
-const UploadFile = (options, files, filename, label = '') =>
+const UploadFile = (options, files, filename, label = '', log = console) =>
   new Promise(async (resolve, reject) => {
     try {
       // req.files.KEY
@@ -158,11 +154,13 @@ const UploadFile = (options, files, filename, label = '') =>
         fileToProcess.push(localFiles);
       }
 
-      logDebug(`Will process ${fileToProcess.length} file(s)`);
+      log.debug(`Will process ${fileToProcess.length} file(s)`);
       // Process all uploaded files
       for await (const file of fileToProcess) {
-        logDebug(`Processing '${file.name}' using this filename ${file.name || filename}`);
-        logVerbose(file);
+        log.debug(`Processing '${file.name}' using this filename ${file.name || filename}`);
+        log.silly('File Data', file);
+        log.debug('Image Data', imageType(file.data));
+
         // Check if the current mimetype is in the options
         if (options.mimeTypes.includes(file.mimetype)) {
           const extension = mime.getExtension(file.mimetype);
@@ -176,15 +174,17 @@ const UploadFile = (options, files, filename, label = '') =>
 
           // If the uploaded file is an image
           // We can use sharp to resize it.
-          if (options.filetype === 'image' && imageType(file.data) && options.mimeTypes.includes(imageType(file.data).mime)) {
-            logDebug(`The file is an 'image' file`);
-            await ProcessImage(options.tmp, updatedFilename, extension, file, options.width, uploadDestination);
-          }
-
-          if (options.filetype === 'text' || options.filetype === 'csv') {
-            logDebug(`The file is a 'text' or a 'csv' file`);
+          if (
+            (options.filetype === 'multi' || options.filetype === 'image') &&
+            imageType(file.data) !== null &&
+            options.mimeTypes.includes(imageType(file.data).mime)
+          ) {
+            log.debug(`The file is an 'image' file`);
+            await ProcessImage(options.tmp, updatedFilename, extension, file, options.width, uploadDestination, log);
+          } else if (options.filetype === 'multi' || options.filetype === 'text' || options.filetype === 'csv') {
+            log.debug(`The file is a 'text' or a 'csv' file`);
             if (!options.mimeTypes.includes(file.mimetype)) {
-              logDebug(`Invalid mimetype for ${file.name}`);
+              log.debug(`Invalid mimetype for ${file.name}`);
 
               fileErrored.push(
                 ErrorHandler(422, 'Invalid Mime Type', {
@@ -193,11 +193,11 @@ const UploadFile = (options, files, filename, label = '') =>
               );
             }
           } else {
-            logDebug(`The file is a 'binary' file`);
+            log.debug(`The file is a 'binary' file`);
             const info = await fileType.fromBuffer(file.data);
             if (!info || !options.mimeTypes.includes(info.mime)) {
               // await DeleteFile(file.name);
-              logDebug(`Invalid mimetype for ${file.name}`);
+              log.debug(`Invalid mimetype for ${file.name}`);
               fileErrored.push(
                 ErrorHandler(422, 'Invalid Mime Type', {
                   reason: `Received '${file.mimetype}', not in [${options.mimeTypes}] for '${file.name}'`,
@@ -210,7 +210,7 @@ const UploadFile = (options, files, filename, label = '') =>
           // Move the file directly to the temporary file to let the user
           // move it in the wanted directory
           // That way it is possible to apply some post processing on the file
-          await moveFile(file, uploadTempDestination).catch((err) => reject(err));
+          await moveFile(file, uploadTempDestination, log).catch((err) => reject(err));
           fileProcessed.push(uploadTempDestination);
         } else {
           fileErrored.push(
@@ -226,8 +226,8 @@ const UploadFile = (options, files, filename, label = '') =>
 
       return resolve({ fileProcessed, fileErrored });
     } catch (e) {
-      console.error(e.message);
-      return reject(
+      log.error(e.message);
+      throw new Error(
         ErrorHandler(400, 'An error has occured', {
           reason: e.message,
         }),
