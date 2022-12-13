@@ -1,6 +1,6 @@
 {
   "name": "@studiowebux/app",
-  "version": "4.22.0",
+  "version": "4.22.1",
   "description": "This module can be use as the core of the application, it offers directly some tools.",
   "main": "src/index.js",
   "directories": {

@@ -1,6 +1,6 @@
 {
   "name": "@studiowebux/socket",
-  "version": "4.22.0",
+  "version": "4.22.1",
   "description": "A wrapper around socket.io",
   "main": "src/index.js",
   "directories": {

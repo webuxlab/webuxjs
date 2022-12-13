@@ -1,6 +1,6 @@
 {
   "name": "@studiowebux/route",
-  "version": "4.22.0",
+  "version": "4.22.1",
   "description": "Route generator, static resources and custom responses",
   "main": "src/index.js",
   "directories": {
