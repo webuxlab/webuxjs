@@ -1,6 +1,6 @@
 {
   "name": "@studiowebux/mailer",
-  "version": "4.22.1",
+  "version": "4.22.2",
   "description": "Module for mailing",
   "main": "src/index.js",
   "directories": {
