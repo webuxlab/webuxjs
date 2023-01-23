@@ -91,11 +91,8 @@ async function createFile(dest) {
 // For each required files, check if it already exist
 // Or copy it and replace the variable with the good values.
 async function processFiles(files) {
-  for (const dest of files) {
-    await createFile(dest).catch((e) => {
-      throw e;
-    });
-  }
+  await Promise.all(files.map((dest) => createFile(dest)));
+
   console.log('done');
 }
 module.exports = {
