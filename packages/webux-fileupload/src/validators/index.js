@@ -66,6 +66,7 @@ function moveFile(file, destination, log = console) {
  */
 async function PostProcessing(width, filename, realFilename, log = console) {
   return new Promise((resolve) => {
+
     log.silly('Post Processing image with sharp');
     sharp(filename)
       .resize(width)
@@ -158,7 +159,7 @@ const UploadFile = (options, files, filename, label = '', log = console) =>
       // Process all uploaded files
       for await (const file of fileToProcess) {
         log.debug(`Processing '${file.name}' using this filename ${file.name || filename}`);
-        log.silly('File Data', file);
+        log.silly('File Data', file.name, file.mimetype, file.md5);
         log.debug('Image Data', imageType(file.data));
 
         // Check if the current mimetype is in the options
@@ -180,7 +181,8 @@ const UploadFile = (options, files, filename, label = '', log = console) =>
             options.mimeTypes.includes(imageType(file.data).mime)
           ) {
             log.debug(`The file is an 'image' file`);
-            await ProcessImage(options.tmp, updatedFilename, extension, file, options.width, uploadDestination, log);
+            if(options.processImage === true)
+              await ProcessImage(options.tmp, updatedFilename, extension, file, options.width, uploadDestination, log);
           } else if (options.filetype === 'multi' || options.filetype === 'text' || options.filetype === 'csv') {
             log.debug(`The file is a 'text' or a 'csv' file`);
             if (!options.mimeTypes.includes(file.mimetype)) {
@@ -226,7 +228,7 @@ const UploadFile = (options, files, filename, label = '', log = console) =>
 
       return resolve({ fileProcessed, fileErrored });
     } catch (e) {
-      log.error(e.message);
+      log.error(e);
       throw new Error(
         ErrorHandler(400, 'An error has occured', {
           reason: e.message,

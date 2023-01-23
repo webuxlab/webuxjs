@@ -81,6 +81,14 @@ const options = {
 };
 ```
 
+### Environment Variables
+
+| Name                  | Values                                   |
+| --------------------- | ---------------------------------------- |
+| LOGGER_CONSOLE_LEVEL  | error, warn, info, verbose, debug, silly |
+| LOGGER_FORCE_CONSOLE  | true or false                            |
+| LOGGER_APPLICATION_ID |                                          |
+
 ### Default tokens:
 
 ```javascript
