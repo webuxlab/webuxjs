@@ -29,7 +29,7 @@ module.exports = (options = {}) => {
     defaultMeta: options.meta,
     format: combine(
       label({
-        label: options.application_id || 'No label defined.',
+        label: process.env.LOGGER_APPLICATION_ID || options.application_id || 'No label defined.',
       }),
       filterSecret(options.deniedKeys)(),
       timestamp(),
@@ -68,10 +68,11 @@ module.exports = (options = {}) => {
 
   // Adds console redirection,
   // If not in 'production' or 'forced' to print.
-  if (options.forceConsole === true || process.env.NODE_ENV !== 'production') {
+  // eslint-disable-next-line eqeqeq
+  if (process.env.LOGGER_FORCE_CONSOLE == true || options.forceConsole === true || process.env.NODE_ENV !== 'production') {
     logger.add(
       new transports.Console({
-        level: options.consoleLevel || 'silly',
+        level: process.env.LOGGER_CONSOLE_LEVEL || options.consoleLevel || 'silly',
         format: format.simple(),
       }),
     );

@@ -1,6 +1,14 @@
+[2023-01-22]
+
+- Added new environment variable:
+  - `LOGGER_CONSOLE_LEVEL`
+  - `LOGGER_FORCE_CONSOLE`
+  - `LOGGER_APPLICATION_ID`
+
 [2020-07-20]
+
 - Added CHANGELOG
 - Added jest + tests
 - Added eslint
-- Added jsdoc 
+- Added jsdoc
 - npm update
