@@ -18,7 +18,6 @@ const GetIP = require('../ip/index');
  * @returns {Function} It returns a response to send to the client
  */
 function response(res, code, error = {}) {
-  console.debug(res);
   // If the response is overwritten by the router (webux-route)
   if (res.custom) {
     return res.custom(code, error);

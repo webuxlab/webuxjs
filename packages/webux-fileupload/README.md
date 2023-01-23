@@ -44,6 +44,7 @@ let opts = {
     "image/bmp",
     "image/webp",
   ],
+  processImage: true,
   width: 200,
   filetype: "image",
   label: "-demo",
@@ -83,6 +84,8 @@ opts.uploadValidator = function (event, callback) {
 | mimeTypes   | The allowed mime types                                                               |
 | filetype    | Currently only 'image' and 'document' are handled                                    |
 | label       | a custom label to append to the file name                                            |
+| processImage | Boolean to use sharp processing |
+
 
 ### Express options
 

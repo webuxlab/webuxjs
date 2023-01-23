@@ -60,12 +60,12 @@ try {
         path.join(backendDir, 'api', apiVersion, 'actions', moduleName, 'remove.js'),
         path.join(backendDir, 'api', apiVersion, 'actions', moduleName, 'find.js'),
         path.join(backendDir, 'api', apiVersion, 'actions', moduleName, 'findOne.js'),
-        path.join(backendDir, 'models', moduleFilename),
-        path.join(backendDir, 'tests', 'cases', testFilename),
+        // path.join(backendDir, 'models', moduleFilename), Temporaly removed
+        path.join(backendDir, '__tests__', testFilename),
         path.join(backendDir, 'api', apiVersion, 'validations', moduleFilename),
         path.join(backendDir, 'api', apiVersion, 'helpers', moduleFilename),
         path.join(backendDir, 'api', apiVersion, 'constants', moduleFilename),
-        path.join(backendDir, 'defaults', moduleFilename),
+        // path.join(backendDir, 'defaults', moduleFilename),
       ];
       const options = {
         files,
