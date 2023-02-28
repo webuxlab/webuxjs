@@ -7,3 +7,4 @@ jest.config.js
 Jenkinsfile
 log/
 babel.config.js
+sonar-project.properties
