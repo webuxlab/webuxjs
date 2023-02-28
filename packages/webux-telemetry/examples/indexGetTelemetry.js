@@ -1,13 +1,14 @@
+// eslint-disable-next-line import/no-extraneous-dependencies
 const express = require('express');
 
 const app = express();
-const port = 3000;
+const port = 3002;
 
 app.use(express.json()); // for parsing application/json
 app.use(express.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 
-app.post('/telemetry', (req, res) => {
-  console.log(req.body);
+app.all('/telemetry', async (req, res) => {
+  console.debug(JSON.stringify(req.body, null, 2));
   res.json({
     statusCode: 200,
     body: JSON.stringify({ message: 'Data successfully saved !', data: req.body }),

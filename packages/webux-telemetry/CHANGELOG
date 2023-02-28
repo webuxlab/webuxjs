@@ -1,3 +1,8 @@
+[2023-02-27]
+- Added tracing with jaeger
+- Added better example to use the package
+- README is still not done
+
 [2020-07-20]
 - Added CHANGELOG
 - Added jest + tests
