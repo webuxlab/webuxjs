@@ -22,7 +22,16 @@
     "auditfix": "npm audit fix"
   },
   "dependencies": {
-    "axios": "^0.21.4"
+    "@opentelemetry/api": "^1.4.0",
+    "@opentelemetry/exporter-jaeger": "^1.9.1",
+    "@opentelemetry/instrumentation": "^0.35.1",
+    "@opentelemetry/instrumentation-http": "^0.35.1",
+    "@opentelemetry/resources": "^1.9.1",
+    "@opentelemetry/sdk-trace-base": "^1.9.1",
+    "@opentelemetry/sdk-trace-node": "^1.9.1",
+    "@opentelemetry/semantic-conventions": "^1.9.1",
+    "axios": "^0.21.4",
+    "opentelemetry-instrumentation-express": "^0.34.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.5",
@@ -39,5 +48,5 @@
     "jsdoc": "^3.6.11",
     "prettier": "^2.8.0"
   },
-  "gitHead": "082d290da931b68e91c8478de69c5dfee3a76ab7"
+  "gitHead": "6ab7c964a923fb766d7db8150b8cf0f50390ef6b"
 }
