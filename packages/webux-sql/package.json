@@ -1,6 +1,6 @@
 {
   "name": "@studiowebux/sql",
-  "version": "4.22.2",
+  "version": "4.22.3",
   "description": "A simple wrapper around knexJS",
   "main": "src/index.js",
   "directories": {
