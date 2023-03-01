@@ -10,6 +10,7 @@ const SocketIOFileUpload = require('./socketIO/index');
 const { UploadFile, DeleteFile, ProcessImage } = require('./validators/index');
 const { downloadRoute } = require('./express/routes/download');
 const { uploadRoute } = require('./express/routes/upload');
+const { securePath } = require('./utils/secure');
 
 /**
  * @class fileupload
@@ -96,6 +97,10 @@ class fileupload {
    */
   ProcessImage(filename, extension, file, realFilename) {
     return ProcessImage(this.config.tmp, filename, extension, file, this.config.width, realFilename);
+  }
+
+  SecurePath(startsWith, pathToVerify) {
+    return securePath(startsWith, pathToVerify, this.log);
   }
 }
 
