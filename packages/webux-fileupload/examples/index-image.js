@@ -6,6 +6,9 @@ const path = require('path');
 const cors = require('cors');
 const mime = require('mime');
 
+console.silly = (msg) => console.debug(msg);
+console.verbose = (msg) => console.debug(msg);
+
 const { copyFileSync } = require('fs');
 
 const WebuxFileupload = require('../src/index');
@@ -61,9 +64,11 @@ const uploadFn = (filename) => (req) =>
       console.log('> Using custom upload function');
       console.log(`> POST ${filename}`);
 
+      webuxFileupload.SecurePath(opts.destination, path.resolve(path.join(opts.destination, `${filename.split('/').reverse()[0]}`)));
+
       // This function can be use to get data from the database
       // or other actions
-      copyFileSync(filename, `${opts.destination}/${filename.split('/').reverse()[0]}`);
+      copyFileSync(filename, path.join(opts.destination, `${filename.split('/').reverse()[0]}`));
       await webuxFileupload.DeleteFile(filename);
 
       // Returns true if the file can be uploaded
