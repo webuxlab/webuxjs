@@ -14,6 +14,7 @@
 | webux-server     | Stable |
 | webux-socket     | Stable |
 | webux-sql        | Stable |
+| webux-telemetry  | WIP    |
 
 ## Getting Started
 

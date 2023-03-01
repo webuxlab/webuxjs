@@ -12,6 +12,7 @@ const mime = require('mime');
 const imageType = require('image-type');
 const fileType = require('file-type');
 const ErrorHandler = require('../defaults/errorHandler');
+const { securePath } = require('../utils/secure');
 
 /**
  * It deletes the file pass in parameter.
@@ -45,6 +46,7 @@ const DeleteFile = (filepath) =>
 function moveFile(file, destination, log = console) {
   return new Promise((resolve) => {
     log.debug(`Moving ${file.name} to ${destination}`);
+
     file.mv(destination, (err) => {
       if (err) {
         throw err;
@@ -66,7 +68,6 @@ function moveFile(file, destination, log = console) {
  */
 async function PostProcessing(width, filename, realFilename, log = console) {
   return new Promise((resolve) => {
-
     log.silly('Post Processing image with sharp');
     sharp(filename)
       .resize(width)
@@ -102,6 +103,7 @@ async function ProcessImage(tmpDirectory, filename, extension, file, width, real
   if (extension !== 'gif') {
     log.silly('Image not a GIF');
     const TMPfilename = path.join(tmpDirectory, filename);
+    if (!securePath(path.resolve(tmpDirectory), path.resolve(TMPfilename))) throw new Error('Invalid file path.');
 
     if (typeof file === 'object') {
       await moveFile(file, TMPfilename, log);
@@ -173,6 +175,10 @@ const UploadFile = (options, files, filename, label = '', log = console) =>
           const uploadDestination = path.join(options.destination, updatedFilename);
           const uploadTempDestination = path.join(options.tmp, updatedFilename);
 
+          // Check if there is an attempt to path traversal
+          if (!securePath(path.resolve(options.destination), path.resolve(uploadDestination))) throw new Error('Invalid file path.');
+          if (!securePath(path.resolve(options.tmp), path.resolve(uploadTempDestination))) throw new Error('Invalid file path.');
+
           // If the uploaded file is an image
           // We can use sharp to resize it.
           if (
@@ -181,7 +187,7 @@ const UploadFile = (options, files, filename, label = '', log = console) =>
             options.mimeTypes.includes(imageType(file.data).mime)
           ) {
             log.debug(`The file is an 'image' file`);
-            if(options.processImage === true)
+            if (options.processImage === true)
               await ProcessImage(options.tmp, updatedFilename, extension, file, options.width, uploadDestination, log);
           } else if (options.filetype === 'multi' || options.filetype === 'text' || options.filetype === 'csv') {
             log.debug(`The file is a 'text' or a 'csv' file`);
