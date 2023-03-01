@@ -24,11 +24,26 @@ app.all('/telemetry', middlewareTracing, async (req, res) => {
   const hi = await axios.get(`http://localhost:3001/hi`);
   telemetry.LogAction('hi fetched');
 
+  telemetry.LogAction('fetch unstable', true);
+  const unstable = await axios.get(`http://localhost:3001/unstable`).catch((e) => console.error(e.message));
+  telemetry.LogAction('unstable fetched');
+
+  telemetry.LogAction('fetch waitforit', true);
+  const waitforit = await axios.get(`http://localhost:3001/waitforit`).catch((e) => console.error(e.message));
+  telemetry.LogAction('waitforit fetched');
+
   telemetry.StopTimer();
   await telemetry.SendTelemetry();
   res.json({
     statusCode: 200,
-    body: JSON.stringify({ message: 'Data successfully saved !', data: req.body, response: response.data, hi: hi.data }),
+    body: JSON.stringify({
+      message: 'Data successfully saved !',
+      data: req.body,
+      response: response.data,
+      hi: hi.data,
+      waitforit: waitforit?.data || {},
+      unstable: unstable?.data || {},
+    }),
   });
 });
 

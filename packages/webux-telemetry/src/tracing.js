@@ -31,6 +31,7 @@ module.exports = {
     provider.addSpanProcessor(new SimpleSpanProcessor(exporter));
     provider.register();
     registerInstrumentations({
+      // TODO: Find a way to add more instrumentations the correct way.
       instrumentations: [new HttpInstrumentation(), new ExpressInstrumentation()],
       tracerProvider: provider,
     });
