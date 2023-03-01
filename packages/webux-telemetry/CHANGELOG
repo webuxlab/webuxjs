@@ -1,3 +1,8 @@
+[2023-03-01]
+- Added prometheus metrics
+- Implemented the flow with existing example
+- Documentation is still required...
+
 [2023-02-27]
 - Added tracing with jaeger
 - Added better example to use the package
