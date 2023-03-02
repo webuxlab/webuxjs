@@ -7,12 +7,31 @@ const app = express();
 
 // Only to configure winston
 const options = {
-  type: 'short', // combined, tiny, dev, common, short, json
+  type: 'json', // combined, tiny, dev, common, short, json
   tokens: null,
-  format: null,
+  format: {
+    'remote-address': ':remote-addr',
+    time: ':date',
+    method: ':method',
+    url: ':url',
+    'http-version': ':http-version',
+    'status-code': ':status',
+    'content-length': ':res[content-length]',
+    referrer: ':referrer',
+    'user-agent': ':user-agent',
+    params: ':params',
+    body: ':body',
+    headers: ':headers',
+    query: ':query',
+  },
   application_id: 'Test01',
   forceConsole: false,
   consoleLevel: 'silly',
+  meta: {
+    traceId: () => Math.round(Math.random() * 10000),
+    spanId: () => Math.round(Math.random() * 10000),
+    traceFlags: () => Math.round(Math.random() * 10000),
+  },
   logstash: {
     host: '127.0.0.1',
     port: '5000', // udp only !
@@ -36,6 +55,13 @@ webuxLogger.CreateLogger();
 app.use(webuxLogger.OnRequest());
 
 webuxLogger.log.info('webux-logging loaded !');
+
+app.use((req, res, next) => {
+  res.set('traceId', '__traceId__');
+  res.set('spanId', '__spanId__');
+  res.set('traceFlags', '__traceFlags__');
+  return next();
+});
 
 app.use(
   bodyParser.json({
