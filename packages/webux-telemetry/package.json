@@ -1,6 +1,6 @@
 {
   "name": "@studiowebux/telemetry",
-  "version": "4.22.3",
+  "version": "4.23.0",
   "description": "Custom telemetry module",
   "main": "src/index.js",
   "author": "Studio Webux S.E.N.C",
@@ -31,8 +31,8 @@
     "@opentelemetry/sdk-trace-node": "^1.9.1",
     "@opentelemetry/semantic-conventions": "^1.9.1",
     "axios": "^0.21.4",
-    "opentelemetry-instrumentation-express": "^0.34.0",
     "express-prom-bundle": "^6.6.0",
+    "opentelemetry-instrumentation-express": "^0.34.0",
     "prom-client": "^14.1.1"
   },
   "devDependencies": {
