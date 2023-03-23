@@ -1,0 +1,115 @@
+# Source: https://github.com/seaweedfs/seaweedfs/blob/master/docker/seaweedfs-compose.yml
+
+version: "3.9"
+
+services:
+  master0:
+    image: chrislusf/seaweedfs
+    ports:
+      - 9333:9333
+      - 19333:19333
+      - 9324:9324
+    command: "-v=1 master -volumeSizeLimitMB=1024 -resumeState=false -ip=master0 -port=9333 -peers=master0:9333,master1:9334,master2:9335 -mdir=/data -metricsPort=9324"
+    environment:
+      WEED_MASTER_VOLUME_GROWTH_COPY_1: 1
+      WEED_MASTER_VOLUME_GROWTH_COPY_2: 2
+      WEED_MASTER_VOLUME_GROWTH_COPY_OTHER: 1
+  master1:
+    image: chrislusf/seaweedfs
+    ports:
+      - 9334:9334
+      - 19334:19334
+      - 9326:9324
+    command: "-v=1 master -volumeSizeLimitMB=1024 -resumeState=false -ip=master1 -port=9334 -peers=master0:9333,master1:9334,master2:9335 -mdir=/data -metricsPort=9324"
+    environment:
+      WEED_MASTER_VOLUME_GROWTH_COPY_1: 1
+      WEED_MASTER_VOLUME_GROWTH_COPY_2: 2
+      WEED_MASTER_VOLUME_GROWTH_COPY_OTHER: 1
+  master2:
+    image: chrislusf/seaweedfs
+    ports:
+      - 9335:9335
+      - 19335:19335
+      - 9328:9324
+    command: "-v=1 master -volumeSizeLimitMB=1024 -resumeState=false -ip=master2 -port=9335 -peers=master0:9333,master1:9334,master2:9335 -mdir=/data -metricsPort=9324"
+    environment:
+      WEED_MASTER_VOLUME_GROWTH_COPY_1: 1
+      WEED_MASTER_VOLUME_GROWTH_COPY_2: 2
+      WEED_MASTER_VOLUME_GROWTH_COPY_OTHER: 1
+  
+  volume1:
+    image: chrislusf/seaweedfs
+    ports:
+      - 8080:8080
+      - 18080:18080
+      - 9325:9325
+    command: 'volume -dataCenter=dc1 -max=0 -rack=v1 -mserver="master0:9333,master1:9334,master2:9335" -port=8080 -ip=volume1 -publicUrl=localhost:8080 -preStopSeconds=1 -metricsPort=9325'
+    depends_on:
+      - master0
+      - master1
+      - master2
+    volumes:
+      - objstorage1:/data
+  volume2:
+    image: chrislusf/seaweedfs
+    ports:
+      - 8082:8082
+      - 18082:18082
+      - 9327:9325
+    command: 'volume -dataCenter=dc2 -max=0 -rack=v2 -mserver="master0:9333,master1:9334,master2:9335" -port=8082 -ip=volume2 -publicUrl=localhost:8082 -preStopSeconds=1 -metricsPort=9325'
+    depends_on:
+      - master0
+      - master1
+      - master2
+    volumes:
+      - objstorage2:/data
+  volume3:
+    image: chrislusf/seaweedfs
+    ports:
+      - 8083:8083
+      - 18083:18083
+      - 9329:9325
+    command: 'volume -dataCenter=dc3 -max=0 -rack=v3 -mserver="master0:9333,master1:9334,master2:9335" -port=8083 -ip=volume3 -publicUrl=localhost:8083 -preStopSeconds=1 -metricsPort=9325'
+    depends_on:
+      - master0
+      - master1
+      - master2
+    volumes:
+      - objstorage3:/data
+
+  filer:
+    image: chrislusf/seaweedfs
+    ports:
+      - 8888:8888
+      - 18888:18888
+      - 8111:8111
+      - 9330:9326
+    command: 'filer -defaultReplicaPlacement=100 -iam -master="master0:9333,master1:9334,master2:9335" -metricsPort=9326'
+    depends_on:
+      - master0
+      - master1
+      - master2
+      - volume1
+      - volume2
+
+  s3:
+    image: chrislusf/seaweedfs
+    ports:
+      - 8333:8333
+      - 9331:9327
+    command: 's3 -config=/etc/seaweedfs/s3.json -filer="filer:8888" -ip.bind=0.0.0.0 -metricsPort=9327 -allowEmptyFolder=true -allowDeleteBucketNotEmpty=false'
+    volumes:
+      - ./s3.json:/etc/seaweedfs/s3.json
+    depends_on:
+      - master0
+      - master1
+      - master2
+      - volume1
+      - volume2
+      - filer
+
+  
+volumes:
+  objstorage1:
+  objstorage2:
+  objstorage3:
