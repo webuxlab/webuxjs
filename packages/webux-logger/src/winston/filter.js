@@ -48,6 +48,11 @@ const hasDenylist = (processed, parent, child, find) => {
  */
 const filterSecret = (deniedKeys) =>
   format((info) => {
+    // To attach observaiblity information
+    info.traceId = typeof info.traceId === 'function' ? info.traceId()?.toString() : null;
+    info.spanId = typeof info.spanId === 'function' ? info.spanId()?.toString() : null;
+    info.traceFlags = typeof info.traceFlags === 'function' ? info.traceFlags()?.toString() : null;
+
     // to track on which CPU the task is ran
     info.instance = (cluster.worker ? cluster.worker.id : 1).toString();
     // to track on which PID the task is ran

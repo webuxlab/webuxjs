@@ -14,8 +14,36 @@ module.exports = {
     const { traceId, spanId, traceFlags } = currentSpan.spanContext();
     res.set('traceId', traceId);
     res.set('spanId', spanId);
-    res.set('trace_flags', traceFlags);
+    res.set('traceFlags', traceFlags);
     return next();
+  },
+
+  getSpan() {
+    const currentSpan = trace.getSpan(context.active());
+    if (!currentSpan) return null;
+    const { traceId, spanId, traceFlags } = currentSpan.spanContext();
+    return { traceId, spanId, traceFlags };
+  },
+
+  getTraceId() {
+    const currentSpan = trace.getSpan(context.active());
+    if (!currentSpan) return null;
+    const { traceId } = currentSpan.spanContext();
+    return traceId;
+  },
+
+  getSpanId() {
+    const currentSpan = trace.getSpan(context.active());
+    if (!currentSpan) return null;
+    const { spanId } = currentSpan.spanContext();
+    return spanId;
+  },
+
+  getTraceFlags() {
+    const currentSpan = trace.getSpan(context.active());
+    if (!currentSpan) return null;
+    const { traceFlags } = currentSpan.spanContext();
+    return traceFlags;
   },
 
   tracing: (serviceName, version, endpoint = 'http://localhost:14268/api/traces') => {
