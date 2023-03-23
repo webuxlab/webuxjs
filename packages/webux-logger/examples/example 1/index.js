@@ -4,7 +4,8 @@ const options = {
   consoleLevel: 'silly',
   logstash: {
     host: '127.0.0.1',
-    port: '5000', // udp only !
+    port: '50000',
+    mode: 'tcp',
   },
   filenames: {
     error: 'log/error.log',
@@ -64,8 +65,7 @@ logger.info({
   headers: {
     authorization: 'bearert 1234456...',
     host: 'www.example.com',
-    'user-agent':
-      'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)',
+    'user-agent': 'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)',
     accept: '*/*',
     'accept-encoding': 'gzip,deflate',
     from: 'googlebot(at)googlebot.com',
