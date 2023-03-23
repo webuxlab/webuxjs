@@ -8,6 +8,9 @@ This module uses these NPM modules:
 - sharp
 - socketio-file-upload
 - socketio-stream
+- @aws-sdk/client-s3
+- read-chunk
+- file-type
 
 It allows to upload files using the express **Routes** and/or the **Socket.IO** implementation.  
 When images are uploaded, there is some _validations and post processing_ available using the _sharp_ library.
@@ -35,30 +38,33 @@ let opts = {
   sanitizeFilename: (filename) => {
     return Promise.resolve(filename);
   },
-  destination: path.join(__dirname, "..", "public"),
-  tmp: path.join(__dirname, "..", ".tmp"),
-  mimeTypes: [
-    "image/gif",
-    "image/png",
-    "image/jpeg",
-    "image/bmp",
-    "image/webp",
-  ],
+  destination: path.join(__dirname, '..', 'public'),
+  tmp: path.join(__dirname, '..', '.tmp'),
+  mimeTypes: ['image/gif', 'image/png', 'image/jpeg', 'image/bmp', 'image/webp'],
   processImage: true,
   width: 200,
-  filetype: "image",
-  label: "-demo",
+  filetype: 'image',
+  label: '-demo',
   express: {
     limits: {
-      fileSize: "1024*1024*10",
+      fileSize: '1024*1024*10',
     },
     abortOnLimit: true,
     safeFileNames: true,
-    key: "file",
+    key: 'file',
   },
   socketIO: {
-    mode: "0666",
+    mode: '0666',
     maxFileSize: null,
+  },
+  s3: {
+    credentials: {
+      accessKeyId: 'some_access_key1',
+      secretAccessKey: 'some_secret_key1',
+    },
+    endpoint: 'http://localhost:8333',
+    forcePathStyle: true,
+    region: 'us-east-1',
   },
 };
 
@@ -76,16 +82,16 @@ opts.uploadValidator = function (event, callback) {
 
 ### Global options
 
-| Option      | Description                                                                          |
-| ----------- | ------------------------------------------------------------------------------------ |
-| destination | The directory to store the uploaded files                                            |
-| tmp         | The directory to store temporarily the files, this is used for post processing steps |
-| width       | the width of images, if specified, the uploaded image will be resize automatically   |
-| mimeTypes   | The allowed mime types                                                               |
-| filetype    | Currently only 'image' and 'document' are handled                                    |
-| label       | a custom label to append to the file name                                            |
-| processImage | Boolean to use sharp processing |
-
+| Option       | Description                                                                          |
+| ------------ | ------------------------------------------------------------------------------------ |
+| destination  | The directory to store the uploaded files                                            |
+| tmp          | The directory to store temporarily the files, this is used for post processing steps |
+| width        | the width of images, if specified, the uploaded image will be resize automatically   |
+| mimeTypes    | The allowed mime types                                                               |
+| filetype     | Currently only 'image' and 'document' are handled                                    |
+| label        | a custom label to append to the file name                                            |
+| processImage | Boolean to use sharp processing                                                      |
+| s3           | See AWS SDK V3 documentation                                                         |
 
 ### Express options
 
@@ -115,7 +121,7 @@ opts.uploadValidator = function (event, callback) {
 It initializes the configuration.
 
 ```javascript
-const WebuxFileupload = require("@studiowebux/fileupload");
+const WebuxFileupload = require('@studiowebux/fileupload');
 
 const webuxFileupload = new WebuxFileupload(opts, console);
 ```
@@ -220,9 +226,7 @@ This function must contains
 ```javascript
 function downloadFn(destination) {
   return (req) => {
-    return Promise.resolve(
-      path.join(destination, req.params[opts.express.key])
-    );
+    return Promise.resolve(path.join(destination, req.params[opts.express.key]));
   };
 }
 ```
@@ -234,34 +238,25 @@ The function will be use by `DownloadRoute` that way : `webuxFileupload.Download
 The default one is structured like this:
 
 ```javascript
-const downloadRoute = (
-  destination,
-  key = "id",
-  downloadFn = null,
-  log = console
-) => {
+const downloadRoute = (destination, key = 'id', downloadFn = null, log = console) => {
   return async (req, res, next) => {
     try {
-      const pictureURL = await (downloadFn
-        ? downloadFn(destination)(req)
-        : download(req.params[key], destination));
+      const pictureURL = await (downloadFn ? downloadFn(destination)(req) : download(req.params[key], destination));
 
       if (!pictureURL) {
         log.error(`Image not Found - ${pictureURL}`);
-        return res.status(404).json({ message: "Image not found !" });
+        return res.status(404).json({ message: 'Image not found !' });
       }
 
       return res.sendFile(path.resolve(pictureURL), (err) => {
         if (err) {
           log.error(err);
-          res
-            .status(422)
-            .json({ message: "Image unprocessable !", error: err });
+          res.status(422).json({ message: 'Image unprocessable !', error: err });
         }
       });
     } catch (e) {
       log.error(e);
-      res.status(422).json({ message: "Image unprocessable !", error: e });
+      res.status(422).json({ message: 'Image unprocessable !', error: e });
     }
   };
 };
@@ -337,9 +332,7 @@ const uploadFn = (filename) => {
     return new Promise(async (resolve, reject) => {
       // This function can be use to get data from the database
       // or other actions
-      console.log(
-        "> Using custom upload function and block the transaction is something wrong"
-      );
+      console.log('> Using custom upload function and block the transaction is something wrong');
       console.log(`> POST ${filename}`);
 
       let somethingWrong = false;
@@ -348,9 +341,9 @@ const uploadFn = (filename) => {
         console.log(filename);
         await webuxFileupload.DeleteFile(filename);
 
-        return reject(new Error("You are not authorized to upload files"));
+        return reject(new Error('You are not authorized to upload files'));
       }
-      return resolve("File uploaded with success !");
+      return resolve('File uploaded with success !');
     });
   };
 };
@@ -366,35 +359,25 @@ The default one is structured like this:
 const uploadRoute = (opts, uploadFn = null, log = console) => {
   return async (req, res, next) => {
     try {
-      const filename = await UploadFile(
-        opts,
-        req.files,
-        req.files[opts.key].name
-      );
+      const filename = await UploadFile(opts, req.files, req.files[opts.key].name);
 
       if (!filename) {
-        log.error("Image not uploaded !");
-        return res.status(422).json({ message: "Image not uploaded !" });
+        log.error('Image not uploaded !');
+        return res.status(422).json({ message: 'Image not uploaded !' });
       }
 
       // It should have some interaction or something like that done
       (uploadFn ? uploadFn(filename)(req) : upload(filename))
         .then((uploaded) => {
-          return res
-            .status(200)
-            .json({ message: "file uploaded !", name: filename, uploaded });
+          return res.status(200).json({ message: 'file uploaded !', name: filename, uploaded });
         })
         .catch((e) => {
           log.error(e.message);
-          return res
-            .status(422)
-            .json({ message: "Image unprocessable !", error: e.message });
+          return res.status(422).json({ message: 'Image unprocessable !', error: e.message });
         });
     } catch (e) {
       log.error(e);
-      return res
-        .status(422)
-        .json({ message: "Image unprocessable !", error: e });
+      return res.status(422).json({ message: 'Image unprocessable !', error: e });
     }
   };
 };
@@ -423,6 +406,20 @@ It deletes the file passed in parameter.
 
 > The `filepath` must be an absolute path.
 
+#### InitObjectStorageClient(): S3Client
+
+> Requires `config.s3`, follow the official AWS Documentation, or look in the [example directory](./examples/objectStorage)
+
+Initialize an S3 Client
+
+#### SaveToObjectStorage(input): Promise<Void>
+
+Upload a file to an S3 compatible object storage
+
+To know what the `input` requires, please see the official AWS S3 documentation, or look in the [example directory](./examples/objectStorage) for a brief example.
+
+---
+
 ## Quick Start
 
 The complete example is available in `examples/example.js`.
@@ -433,40 +430,34 @@ The uploaded files will be stored in `uploads`
 The complete example:
 
 ```javascript
-const express = require("express");
-const socketIO = require("socket.io");
-const path = require("path");
-const cors = require("cors");
+const express = require('express');
+const socketIO = require('socket.io');
+const path = require('path');
+const cors = require('cors');
 
 const app = express();
-const WebuxFileupload = require("@studiowebux/fileupload");
+const WebuxFileupload = require('@studiowebux/fileupload');
 
 let opts = {
   sanitizeFilename: (filename) => {
     return Promise.resolve(filename);
   },
-  destination: path.join(__dirname, "..", "public"),
-  tmp: path.join(__dirname, "..", ".tmp"),
-  mimeTypes: [
-    "image/gif",
-    "image/png",
-    "image/jpeg",
-    "image/bmp",
-    "image/webp",
-  ],
+  destination: path.join(__dirname, '..', 'public'),
+  tmp: path.join(__dirname, '..', '.tmp'),
+  mimeTypes: ['image/gif', 'image/png', 'image/jpeg', 'image/bmp', 'image/webp'],
   width: 200,
-  filetype: "image",
-  label: "-demo",
+  filetype: 'image',
+  label: '-demo',
   express: {
     limits: {
-      fileSize: "1024*1024*10",
+      fileSize: '1024*1024*10',
     },
     abortOnLimit: true,
     safeFileNames: true,
-    key: "file",
+    key: 'file',
   },
   socketIO: {
-    mode: "0666",
+    mode: '0666',
     maxFileSize: null,
   },
 };
@@ -485,24 +476,20 @@ opts.uploadValidator = function (event, callback) {
 // To expose the resources directly
 // in case that you want to manage the access to the uploaded files,
 // this is possible to use the `/download` route and add middlewares to secure the route
-app.use("/public", express.static(opts.express.destination));
+app.use('/public', express.static(opts.express.destination));
 
 app.use(cors());
 
 const webuxFileupload = new WebuxFileupload(opts);
 
 // Default upload route
-app.post(
-  "/defaultupload",
-  webuxFileupload.OnRequest(),
-  webuxFileupload.UploadRoute()
-);
+app.post('/defaultupload', webuxFileupload.OnRequest(), webuxFileupload.UploadRoute());
 
 // Custom uploadFn action
 const uploadFn = (filename) => {
   return (req) => {
     return new Promise((resolve, reject) => {
-      console.log("> Using custom upload function");
+      console.log('> Using custom upload function');
       console.log(`> POST ${filename}`);
 
       // This function can be use to get data from the database
@@ -515,17 +502,13 @@ const uploadFn = (filename) => {
 };
 
 // Custom upload route
-app.post(
-  "/upload",
-  webuxFileupload.OnRequest(),
-  webuxFileupload.UploadRoute(uploadFn)
-);
+app.post('/upload', webuxFileupload.OnRequest(), webuxFileupload.UploadRoute(uploadFn));
 
 // Block upload action
 const blockUpload = (filename) => {
   return (req) => {
     return new Promise(async (resolve, reject) => {
-      console.log("> Using custom upload function and block the transaction");
+      console.log('> Using custom upload function and block the transaction');
       console.log(`> POST ${filename}`);
 
       // This function can be use to get data from the database
@@ -533,23 +516,19 @@ const blockUpload = (filename) => {
       console.log(filename);
       await webuxFileupload.DeleteFile(filename);
 
-      return reject(new Error("You are not authorized to upload files"));
+      return reject(new Error('You are not authorized to upload files'));
     });
   };
 };
 
 // To test when the upload is rejected
-app.post(
-  "/blockupload",
-  webuxFileupload.OnRequest(),
-  webuxFileupload.UploadRoute(blockUpload)
-);
+app.post('/blockupload', webuxFileupload.OnRequest(), webuxFileupload.UploadRoute(blockUpload));
 
 // custom downloadFn action
 const downloadFn = (destination) => {
   return (req) => {
     return new Promise((resolve, reject) => {
-      console.log("> Using custom download function");
+      console.log('> Using custom download function');
       console.log(`> GET ${destination}/${req.params[opts.express.key]}`);
 
       // This function can be use to get data from the database
@@ -562,31 +541,31 @@ const downloadFn = (destination) => {
 };
 
 // Custom download route
-app.get("/download/:file", webuxFileupload.DownloadRoute(downloadFn));
+app.get('/download/:file', webuxFileupload.DownloadRoute(downloadFn));
 
 // Default download route
-app.get("/defaultdownload/:file", webuxFileupload.DownloadRoute());
+app.get('/defaultdownload/:file', webuxFileupload.DownloadRoute());
 
 // Start the express server
 let server = app.listen(1340, () => {
-  console.log("Server listening on port 1340");
+  console.log('Server listening on port 1340');
 });
 
 // Attaches the socketIO to the express server
 let io = socketIO.listen(server);
 
 // default namespace
-io.on("connection", function (socket) {
+io.on('connection', function (socket) {
   console.log("'Default' > Hello - " + socket.id);
 
-  socket.on("disconnect", (e) => {
+  socket.on('disconnect', (e) => {
     console.log("'Default' > Bye Bye " + socket.id);
     console.log(e);
   });
 });
 
 // upload namespace
-io.of("upload").on("connection", webuxFileupload.SocketIO());
+io.of('upload').on('connection', webuxFileupload.SocketIO());
 ```
 
 ## Videos and other resources

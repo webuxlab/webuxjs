@@ -11,11 +11,12 @@ const { UploadFile, DeleteFile, ProcessImage } = require('./validators/index');
 const { downloadRoute } = require('./express/routes/download');
 const { uploadRoute } = require('./express/routes/upload');
 const { securePath } = require('./utils/secure');
+const { saveToObjectStorage, initObjectStorageClient } = require('./objectStorage');
 
 /**
  * @class fileupload
  */
-class fileupload {
+class FileUpload {
   /**
    * Initializes the fileupload module
    * @param {Object} opts The configuration
@@ -28,6 +29,9 @@ class fileupload {
     }
 
     this.log = log;
+
+    // Object Storage
+    this.client = null;
   }
 
   /**
@@ -102,6 +106,14 @@ class fileupload {
   SecurePath(startsWith, pathToVerify) {
     return securePath(startsWith, pathToVerify, this.log);
   }
+
+  InitObjectStorageClient() {
+    this.client = initObjectStorageClient(this.config, this.log);
+  }
+
+  SaveToObjectStorage(input) {
+    return saveToObjectStorage(this.client, input, this.log);
+  }
 }
 
-module.exports = fileupload;
+module.exports = FileUpload;
