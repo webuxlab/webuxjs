@@ -1,9 +1,23 @@
+/* eslint-disable import/newline-after-import */
+require('../../../webux-telemetry/src/tracing').tracing(require('./package.json').name, require('./package.json').version);
+
 /* eslint-disable import/no-extraneous-dependencies */
 const express = require('express');
 const bodyParser = require('body-parser');
-const WebuxLog = require('../src/index');
+const WebuxLog = require('../../src/index');
+const { metrics, tracing } = require('../../../webux-telemetry/src/index');
+
+function waitForIt() {
+  return new Promise((resolve) => setTimeout(async () => resolve(), Math.random() * 10000));
+}
 
 const app = express();
+
+app.use(
+  metrics.requestCounterMiddleware(require('./package.json').name, require('./package.json').name, require('./package.json').version),
+);
+app.use(metrics.metricsMiddleware(require('./package.json').name, require('./package.json').name, require('./package.json').version));
+app.use(tracing.middlewareTracing);
 
 // Only to configure winston
 const options = {
@@ -28,9 +42,9 @@ const options = {
   forceConsole: false,
   consoleLevel: 'silly',
   meta: {
-    traceId: () => Math.round(Math.random() * 10000),
-    spanId: () => Math.round(Math.random() * 10000),
-    traceFlags: () => Math.round(Math.random() * 10000),
+    traceId: tracing.getTraceId,
+    spanId: tracing.getSpanId,
+    traceFlags: tracing.getTraceFlags,
   },
   logstash: {
     host: '127.0.0.1',
@@ -57,27 +71,36 @@ app.use(webuxLogger.OnRequest());
 
 webuxLogger.log.info('webux-logging loaded !');
 
-app.use((req, res, next) => {
-  res.set('traceId', '__traceId__');
-  res.set('spanId', '__spanId__');
-  res.set('traceFlags', '__traceFlags__');
-  return next();
-});
-
 app.use(
   bodyParser.json({
     limit: '10MB',
   }),
 );
 
-app.get('/wait', (req, res) => {
-  setTimeout(() => {
-    res.send('it took 1.5 seconds ...');
-  }, 1500);
+app.all('/hi', async (req, res) =>
+  res.json({
+    statusCode: 200,
+    body: JSON.stringify({ message: 'Bonjour !' }),
+  }),
+);
+
+app.all('/unstable', async (req, res) => {
+  const code = Math.round(Math.random()) ? 200 : 500;
+  res.statusCode = code;
+  res.json({
+    statusCode: code,
+    body: JSON.stringify({ message: 'Sometimes I fail...' }),
+  });
 });
 
-app.use('*', (req, res) => {
-  res.send('BONJOUR !');
+app.all('/waitforit', async (req, res) => {
+  await waitForIt();
+  const code = Math.round(Math.random()) ? 200 : 500;
+  res.statusCode = code;
+  res.json({
+    statusCode: code,
+    body: JSON.stringify({ message: 'Sometimes I fail...' }),
+  });
 });
 
 app.listen(1337, () => {
