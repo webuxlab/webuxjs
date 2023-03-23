@@ -22,32 +22,34 @@
   "author": "Studio Webux S.E.N.C",
   "license": "SEE LICENSE IN license.txt",
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.297.0",
     "express-fileupload": "^1.4.0",
     "file-type": "^16.5.4",
     "image-type": "^4.1.0",
     "mime": "^2.6.0",
     "read-chunk": "^3.2.0",
-    "sharp": "^0.31.2",
+    "sharp": "^0.31.3",
     "socket.io-stream": "^0.9.1",
     "socketio-file-upload": "^0.7.3"
   },
   "devDependencies": {
-    "@babel/core": "^7.11.4",
+    "@babel/core": "^7.21.3",
     "@babel/preset-env": "^7.11.0",
     "babel-jest": "^26.3.0",
     "cors": "^2.8.5",
     "eslint": "^7.32.0",
     "eslint-config-airbnb-base": "^14.2.0",
-    "eslint-config-prettier": "^8.5.0",
-    "eslint-plugin-import": "^2.26.0",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-plugin-import": "^2.27.5",
     "eslint-plugin-jest": "^24.7.0",
     "eslint-plugin-prettier": "^3.4.1",
     "express": "^4.18.2",
     "jest": "^26.4.2",
     "jsdoc": "^3.6.11",
-    "prettier": "^2.8.0",
-    "socket.io": "^4.5.4",
-    "supertest": "^6.3.1"
+    "mime-types": "^2.1.35",
+    "prettier": "^2.8.6",
+    "socket.io": "^4.6.1",
+    "supertest": "^6.3.3"
   },
   "gitHead": "85389dcc0c7ae089eeb2ba12205fa3bcd58a88c3"
 }
