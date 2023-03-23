@@ -1,3 +1,8 @@
+[2023-03-22]
+
+- Integrating ELK using the new ways
+- Tested the new implementation added a working example with jaeger and ELK
+
 [2023-01-22]
 
 - Added new environment variable:

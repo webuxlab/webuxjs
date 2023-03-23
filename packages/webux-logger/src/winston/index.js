@@ -1,10 +1,3 @@
-// ███╗   ███╗██╗██████╗ ██████╗ ██╗     ███████╗██╗    ██╗ █████╗ ██████╗ ███████╗
-// ████╗ ████║██║██╔══██╗██╔══██╗██║     ██╔════╝██║    ██║██╔══██╗██╔══██╗██╔════╝
-// ██╔████╔██║██║██║  ██║██║  ██║██║     █████╗  ██║ █╗ ██║███████║██████╔╝█████╗
-// ██║╚██╔╝██║██║██║  ██║██║  ██║██║     ██╔══╝  ██║███╗██║██╔══██║██╔══██╗██╔══╝
-// ██║ ╚═╝ ██║██║██████╔╝██████╔╝███████╗███████╗╚███╔███╔╝██║  ██║██║  ██║███████╗
-// ╚═╝     ╚═╝╚═╝╚═════╝ ╚═════╝ ╚══════╝╚══════╝ ╚══╝╚══╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝
-
 /**
  * File: index.js
  * Author: Tommy Gingras
@@ -15,7 +8,7 @@
 const { createLogger, format, transports } = require('winston');
 
 const { combine, timestamp, label, json, colorize } = format;
-const { LogstashTransport } = require('winston-logstash-transport');
+const WinstonLogStash = require('winston3-logstash-transport');
 const { filterSecret } = require('./filter');
 
 /**
@@ -46,7 +39,7 @@ module.exports = (options = {}) => {
       if (!options.filenames[level]) {
         throw new Error('Invalid file provided');
       }
-
+      logger.info(`Adding Local File '${level}' to transport`);
       logger.add(
         new transports.File({
           level,
@@ -58,18 +51,26 @@ module.exports = (options = {}) => {
 
   // If Logstash configuration is defined
   if (options.logstash && options.logstash.host && options.logstash.port) {
-    logger.add(
-      new LogstashTransport({
-        host: options.logstash.host,
-        port: options.logstash.port,
-      }),
-    );
+    logger.info('Adding Logstash to transport');
+    const winstonLogstash = new WinstonLogStash({
+      mode: options.logstash.mode || 'tcp',
+      host: options.logstash.host,
+      port: options.logstash.port,
+      applicationName: process.env.LOGGER_APPLICATION_ID || options.application_id,
+      trailingLineFeed: true,
+      formatted: false,
+    });
+    logger.add(winstonLogstash);
+
+    winstonLogstash.on('error', (err) => logger.error(err.message));
+    winstonLogstash.on('close', () => logger.error('Logstash transport closed'));
   }
 
   // Adds console redirection,
   // If not in 'production' or 'forced' to print.
   // eslint-disable-next-line eqeqeq
   if (process.env.LOGGER_FORCE_CONSOLE == true || options.forceConsole === true || process.env.NODE_ENV !== 'production') {
+    logger.info('Adding Console to transport');
     logger.add(
       new transports.Console({
         level: process.env.LOGGER_CONSOLE_LEVEL || options.consoleLevel || 'silly',

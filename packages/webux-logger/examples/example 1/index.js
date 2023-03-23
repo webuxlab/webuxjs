@@ -4,7 +4,8 @@ const options = {
   consoleLevel: 'silly',
   logstash: {
     host: '127.0.0.1',
-    port: '5000', // udp only !
+    port: '50000',
+    mode: 'tcp',
   },
   filenames: {
     error: 'log/error.log',
