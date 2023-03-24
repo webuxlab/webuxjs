@@ -1,6 +1,11 @@
+[2023-03-24]
+
+- Added support through middleware of timeout to avoid long running or hanged processes.
+
 [2020-07-19]
+
 - Added CHANGELOG
 - Added jest + tests
 - Added eslint
-- Added jsdoc 
+- Added jsdoc
 - npm update

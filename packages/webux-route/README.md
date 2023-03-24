@@ -32,64 +32,59 @@ Example:
 ```javascript
 const opts = {
   routes: {
-    "/": {
+    '/': {
       resources: {
-        "/": [
+        '/': [
           {
-            method: "get",
+            method: 'get',
             middlewares: [], // By default, this route is publicly available, you should create a middleware to protect this resource.
             action: (req, res, next) => {
               return res.success({
-                msg: "Welcome ! The Documentation is available here : /api/",
+                msg: 'Welcome ! The Documentation is available here : /api/',
               });
             },
           },
         ],
-        "/healthcheck": [
+        '/healthcheck': [
           {
-            method: "get",
+            method: 'get',
             middlewares: [], // By default, this route is publicly available, you should create a middleware to protect this resource.
             action: (req, res, next) => {
-              return res.success({ msg: "Pong !" });
+              return res.success({ msg: 'Pong !' });
             },
           },
         ],
       },
     },
-    "/user": {
+    '/user': {
       resources: {
-        "/": [
+        '/': [
           {
-            method: "get",
+            method: 'get',
             middlewares: [isAuthenticated()],
-            action: require(path.join(__dirname, "actions", "user", "find"))
-              .route,
+            action: require(path.join(__dirname, 'actions', 'user', 'find')).route,
           },
           {
-            method: "post",
+            method: 'post',
             middlewares: [],
-            action: require(path.join(__dirname, "actions", "user", "create"))
-              .route,
+            action: require(path.join(__dirname, 'actions', 'user', 'create')).route,
           },
         ],
-        "/:id": [
+        '/:id': [
           {
-            method: "get",
+            method: 'get',
             middlewares: [isAuthenticated()],
-            action: require(path.join(__dirname, "actions", "user", "findOne"))
-              .route,
+            action: require(path.join(__dirname, 'actions', 'user', 'findOne')).route,
           },
           {
-            method: "put",
+            method: 'put',
             middlewares: [isAuthenticated()],
-            action: require(path.join(__dirname, "actions", "user", "update"))
-              .route,
+            action: require(path.join(__dirname, 'actions', 'user', 'update')).route,
           },
           {
-            method: "delete",
+            method: 'delete',
             middlewares: [isAuthenticated()],
-            action: require(path.join(__dirname, "actions", "user", "remove"))
-              .route,
+            action: require(path.join(__dirname, 'actions', 'user', 'remove')).route,
           },
         ],
       },
@@ -97,12 +92,12 @@ const opts = {
   },
   resources: [
     {
-      path: "/public",
-      resource: path.join(__dirname, "public"),
+      path: '/public',
+      resource: path.join(__dirname, 'public'),
     },
     {
-      path: "/img",
-      resource: path.join(__dirname, "images"),
+      path: '/img',
+      resource: path.join(__dirname, 'images'),
     },
   ],
 };
@@ -115,7 +110,7 @@ const opts = {
 Initialize the configurations globally.
 
 ```javascript
-const WebuxRoute = require("@studiowebux/route");
+const WebuxRoute = require('@studiowebux/route');
 const webuxRoute = new WebuxRoute(opts, console);
 ```
 
@@ -143,51 +138,50 @@ It loads the RestAPI routes automatically using a JSON configuration.
 Using the configuration provided by the module,
 
 ```javascript
-const express = require("express");
+const express = require('express');
 const app = express();
 const router = express.Router();
 
 webuxRoute.LoadRoute(router);
 
-app.use("/", router);
+app.use('/', router);
 ```
 
 With the configuration in parameter,
 
 ```javascript
 const routes = {
-  "/": {
+  '/': {
     resources: {
-      "/": [
+      '/': [
         {
-          method: "get",
+          method: 'get',
           middlewares: [], // By default, this route is publicly available, you should create a middleware to protect this resource.
           action: (req, res, next) => {
             return res.success({
-              msg: "Welcome ! The Documentation is available here : /api/",
+              msg: 'Welcome ! The Documentation is available here : /api/',
             });
           },
         },
       ],
-      "/healthcheck": [
+      '/healthcheck': [
         {
-          method: "get",
+          method: 'get',
           middlewares: [], // By default, this route is publicly available, you should create a middleware to protect this resource.
           action: (req, res, next) => {
-            return res.success({ msg: "Pong !" });
+            return res.success({ msg: 'Pong !' });
           },
         },
       ],
     },
   },
-  "/user": {
+  '/user': {
     resources: {
-      "/:id": [
+      '/:id': [
         {
-          method: "put",
+          method: 'put',
           middlewares: [isAuthenticated()],
-          action: require(path.join(__dirname, "actions", "user", "update"))
-            .route,
+          action: require(path.join(__dirname, 'actions', 'user', 'update')).route,
         },
       ],
     },
@@ -195,7 +189,7 @@ const routes = {
 };
 
 webuxRoute.LoadRoute(router, routes);
-app.use("/", router);
+app.use('/', router);
 ```
 
 The `routes` parameter is only used when you want to load a different configuration than the one present in the module configuration.In other words, it allows to use multiple configuration besides the global one.
@@ -217,7 +211,7 @@ It loads Static resources routes automatically using a JSON configuration,
 Using the configuration provided by the module,
 
 ```javascript
-const express = require("express");
+const express = require('express');
 const app = express();
 const webuxRoute = new WebuxRoute(opts, console);
 
@@ -227,18 +221,18 @@ webuxRoute.LoadStatic(app, express);
 With the configuration in parameter,
 
 ```javascript
-const express = require("express");
+const express = require('express');
 const app = express();
 const webuxRoute = new WebuxRoute();
 
 const resources = [
   {
-    path: "/public",
-    resource: path.join(__dirname, "public"),
+    path: '/public',
+    resource: path.join(__dirname, 'public'),
   },
   {
-    path: "/img",
-    resource: path.join(__dirname, "images"),
+    path: '/img',
+    resource: path.join(__dirname, 'images'),
   },
 ];
 
@@ -253,7 +247,7 @@ The `app` & `express` parameters are provided by express.
 It loads the custom responses and attaches them to the `res` object from Express.
 
 ```javascript
-const express = require("express");
+const express = require('express');
 const app = express();
 
 webuxRoute.LoadResponse(app);
@@ -262,49 +256,49 @@ webuxRoute.LoadResponse(app);
 ##### Custom responses Usage with _res_
 
 ```javascript
-app.get("/success", (req, res) => {
-  res.success({ message: "success" }, "success", "success");
+app.get('/success', (req, res) => {
+  res.success({ message: 'success' }, 'success', 'success');
 });
 
-app.get("/created", (req, res) => {
-  res.created({ message: "created" }, "created", "created");
+app.get('/created', (req, res) => {
+  res.created({ message: 'created' }, 'created', 'created');
 });
 
-app.get("/updated", (req, res) => {
-  res.updated({ message: "updated" }, "updated", "updated");
+app.get('/updated', (req, res) => {
+  res.updated({ message: 'updated' }, 'updated', 'updated');
 });
 
-app.get("/deleted", (req, res) => {
-  res.deleted({ message: "deleted" }, "deleted", "deleted");
+app.get('/deleted', (req, res) => {
+  res.deleted({ message: 'deleted' }, 'deleted', 'deleted');
 });
 
-app.get("/forbidden", (req, res) => {
+app.get('/forbidden', (req, res) => {
   // msg, devMsg
   res.forbidden();
 });
 
-app.get("/badrequest", (req, res) => {
+app.get('/badrequest', (req, res) => {
   // msg, devMsg
   res.badRequest();
 });
 
-app.get("/servererror", (req, res) => {
+app.get('/servererror', (req, res) => {
   // msg, devMsg
   res.serverError();
 });
 
-app.get("/notFound", (req, res) => {
+app.get('/notFound', (req, res) => {
   // msg, devMsg
   res.notFound();
 });
 
-app.get("/unprocessable", (req, res) => {
+app.get('/unprocessable', (req, res) => {
   // msg, devMsg
   res.unprocessable();
 });
 
-app.get("/custom", (req, res) => {
-  res.custom(200, { message: "Custom  response", user: "User Name" });
+app.get('/custom', (req, res) => {
+  res.custom(200, { message: 'Custom  response', user: 'User Name' });
 });
 ```
 
@@ -314,13 +308,13 @@ app.get("/custom", (req, res) => {
 
 #### Step 1. Directories creation
 
-| Répertoire | Description                                                                          |
-| ---------- | ------------------------------------------------------------------------------------ |
-| actions/\* | The application logic (See the `example/actions` directory to see all possibilities) |
-| images     | It stores the images                                                                 |
-| public     | It stores the public resources, like _html_ files and others                         |
-| config.js  | The routes and resources JSON configuration                                          |
-| index.js   | The server using ExpressJS                                                           |
+| Directories | Description                                                                          |
+| ----------- | ------------------------------------------------------------------------------------ |
+| actions/\*  | The application logic (See the `example/actions` directory to see all possibilities) |
+| images      | It stores the images                                                                 |
+| public      | It stores the public resources, like _html_ files and others                         |
+| config.js   | The routes and resources JSON configuration                                          |
+| index.js    | The server using ExpressJS                                                           |
 
 #### Step 2. Action example
 
@@ -328,7 +322,7 @@ actions/user/find.js
 
 ```javascript
 const route = async (req, res, next) => {
-  return res.success({ msg: "Find User", user: { fullname: "John Doe" } });
+  return res.success({ msg: 'Find User', user: { fullname: 'John Doe' } });
 };
 
 module.exports = { route };
@@ -339,50 +333,49 @@ module.exports = { route };
 config.js
 
 ```javascript
-const path = require("path");
+const path = require('path');
 
 // Include the middlewares somehow...
 const isAuthenticated = () => {
   return (req, res, next) => {
-    console.log("The user must be authenticated to execute the action...");
+    console.log('The user must be authenticated to execute the action...');
     return next();
   };
 };
 
 module.exports = {
   routes: {
-    "/": {
+    '/': {
       resources: {
-        "/": [
+        '/': [
           {
-            method: "get",
+            method: 'get',
             middlewares: [], // By default, this route is publicly available, you should create a middleware to protect this resource.
             action: (req, res, next) => {
               return res.success({
-                msg: "Welcome ! The Documentation is available here : /api/",
+                msg: 'Welcome ! The Documentation is available here : /api/',
               });
             },
           },
         ],
-        "/healthcheck": [
+        '/healthcheck': [
           {
-            method: "get",
+            method: 'get',
             middlewares: [], // By default, this route is publicly available, you should create a middleware to protect this resource.
             action: (req, res, next) => {
-              return res.success({ msg: "Pong !" });
+              return res.success({ msg: 'Pong !' });
             },
           },
         ],
       },
     },
-    "/user": {
+    '/user': {
       resources: {
-        "/": [
+        '/': [
           {
-            method: "get",
+            method: 'get',
             middlewares: [isAuthenticated()],
-            action: require(path.join(__dirname, "actions", "user", "find"))
-              .route,
+            action: require(path.join(__dirname, 'actions', 'user', 'find')).route,
           },
         ],
       },
@@ -390,12 +383,12 @@ module.exports = {
   },
   resources: [
     {
-      path: "/public",
-      resource: path.join(__dirname, "public"),
+      path: '/public',
+      resource: path.join(__dirname, 'public'),
     },
     {
-      path: "/img",
-      resource: path.join(__dirname, "images"),
+      path: '/img',
+      resource: path.join(__dirname, 'images'),
     },
   ],
 };
@@ -406,11 +399,11 @@ module.exports = {
 index.js
 
 ```javascript
-const WebuxRoute = require("../src/index");
-const express = require("express");
+const WebuxRoute = require('../src/index');
+const express = require('express');
 const app = express();
 const router = express.Router();
-const options = require("./config");
+const options = require('./config');
 
 const webuxRoute = new WebuxRoute(options, console);
 
@@ -418,16 +411,20 @@ const webuxRoute = new WebuxRoute(options, console);
   await webuxRoute.LoadResponse(app);
   await webuxRoute.LoadRoute(router);
 
-  app.use("/", router);
+  app.use('/', router);
 
   // must be added after load the REST API routes.
   await webuxRoute.LoadStatic(app, express);
 
   app.listen(1337, () => {
-    console.log("Server is listening on port 1337");
+    console.log('Server is listening on port 1337');
   });
 })();
 ```
+
+### Request Timeout Support
+
+See the example in [timeout.js](./examples/timeout.js)
 
 ## Videos and other resources
 
