@@ -5,9 +5,12 @@
  * License: All rights reserved Studio Webux S.E.N.C 2015-Present
  */
 
+const { AbortController } = require('abort-controller');
+
 const response = require('./response/index');
 const serveStatic = require('./static/index');
 const createRoute = require('./route/index');
+const { timeout } = require('./timeout');
 
 /**
  * @class Route
@@ -22,6 +25,9 @@ class Route {
   constructor(opts, log = console) {
     this.config = opts || {};
     this.log = log;
+
+    this.controller = null;
+    this.signal = null;
   }
 
   /**
@@ -55,6 +61,37 @@ class Route {
   // eslint-disable-next-line class-methods-use-this
   LoadResponse(app) {
     response(app);
+  }
+
+  /**
+   * Middleware to initialize the abord controller for this request only
+   * @returns {AbortController} available in res.locals.controller
+   */
+  ResetAbortController() {
+    return (req, res, next) => {
+      res.locals.controller = new AbortController();
+      next();
+    };
+  }
+
+  /**
+   * Configure timeout for requests
+   * @param {number} delay
+   * @param {function} handler
+   * @returns
+   */
+  RequestTimeout(delay = 30000, handler = (req, res, next) => next()) {
+    return timeout(delay, handler);
+  }
+
+  /**
+   * Middleware to handle request timeout
+   * @param {*} req
+   * @param {*} res
+   * @param {*} next
+   */
+  HaltOnTimedout(req, res, next) {
+    if (!req.timedout) next();
   }
 }
 

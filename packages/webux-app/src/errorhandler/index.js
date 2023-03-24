@@ -20,9 +20,9 @@ const GetIP = require('../ip/index');
 function response(res, code, error = {}) {
   // If the response is overwritten by the router (webux-route)
   if (res.custom) {
-    return res.custom(code, error);
+    return res.custom(parseInt(code, 10), error);
   }
-  return res.status(code).json(error);
+  return res.status(parseInt(code, 10)).json(error);
 }
 
 /**
@@ -61,6 +61,9 @@ const GlobalHandler = (log = console) => {
 
   // eslint-disable-next-line no-unused-vars
   return (err, req, res, next) => {
+    if (res.headersSent) {
+      return next(err);
+    }
     const error = {
       message: err.message || '',
       devMessage: err.devMessage || '',

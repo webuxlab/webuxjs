@@ -16,6 +16,7 @@ const defMsg = require('./constants');
  * @returns {Object} The response object
  */
 function success(body, msg, devMsg) {
+  if (this.timedout) return;
   this.status(200);
   this.json({
     message: msg || '',
@@ -34,6 +35,7 @@ function success(body, msg, devMsg) {
  * @returns {Object} The response object
  */
 function created(body, msg, devMsg) {
+  if (this.timedout) return;
   this.status(201);
   this.json({
     message: msg || '',
@@ -52,6 +54,7 @@ function created(body, msg, devMsg) {
  * @returns {Object} The response object
  */
 function updated(body, msg, devMsg) {
+  if (this.timedout) return;
   this.status(200);
   this.json({
     message: msg || '',
@@ -70,6 +73,7 @@ function updated(body, msg, devMsg) {
  * @returns {Object} The response object
  */
 function deleted(id, msg, devMsg) {
+  if (this.timedout) return;
   this.status(204);
   this.json({
     message: msg || '',
@@ -87,6 +91,7 @@ function deleted(id, msg, devMsg) {
  * @returns {Object} The response object
  */
 function forbidden(msg, devMsg) {
+  if (this.timedout) return;
   this.status(403);
   this.json({
     message: msg || defMsg.MSG_FORBIDDEN,
@@ -103,6 +108,7 @@ function forbidden(msg, devMsg) {
  * @returns {Object} The response object
  */
 function badRequest(msg, devMsg) {
+  if (this.timedout) return;
   this.status(400);
   this.json({
     message: msg || defMsg.MSG_BADREQUEST,
@@ -119,6 +125,7 @@ function badRequest(msg, devMsg) {
  * @returns {Object} The response object
  */
 function serverError(msg, devMsg) {
+  if (this.timedout) return;
   this.status(500);
   this.json({
     message: msg || defMsg.MSG_SERVERERROR,
@@ -135,6 +142,7 @@ function serverError(msg, devMsg) {
  * @returns {Object} The response object
  */
 function notFound(msg, devMsg) {
+  if (this.timedout) return;
   this.status(404);
   this.json({
     message: msg || defMsg.MSG_NOTFOUND,
@@ -148,9 +156,11 @@ function notFound(msg, devMsg) {
  * return custom (xxx)
  * @param {Number} code The code of the HTTP status, Mandatory
  * @param {Object} object it contains the response, Mandatory
+ * @param {Boolean} withTimeout Implement timeout behaviour, false by default.
  * @returns {Object} The response object
  */
-function custom(code, object) {
+function custom(code, object, withTimeout = false) {
+  if (withTimeout && this.timedout) return;
   this.status(code);
   this.json(object);
 }
@@ -162,6 +172,7 @@ function custom(code, object) {
  * @returns {Object} The response object
  */
 function unprocessable(msg, devMsg) {
+  if (this.timedout) return;
   this.status(422);
   this.json({
     message: msg || defMsg.MSG_UNPROCESSABLE,
@@ -178,6 +189,7 @@ function unprocessable(msg, devMsg) {
  * @returns {Object} The response object
  */
 function unauthorized(msg, devMsg) {
+  if (this.timedout) return;
   this.status(401);
   this.json({
     message: msg || defMsg.MSG_UNAUTHORIZED,
