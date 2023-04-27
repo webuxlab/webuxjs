@@ -2,7 +2,7 @@
  * File: header.js
  * Author: Tommy Gingras
  * Date: 2018-07-05
- * License: All rights reserved Studio Webux S.E.N.C 2015-Present
+ * License: All rights reserved Studio Webux 2015-Present
  */
 
 /**

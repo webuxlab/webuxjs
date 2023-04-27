@@ -8,7 +8,7 @@ const options = {
     cert: process.env.CERT,
     key: process.env.KEY,
   },
-  enterprise: 'Studio Webux S.E.N.C',
+  enterprise: 'Studio Webux',
   author: 'Tommy Gingras',
   project: '@studiowebux/bin',
   version: require('../package.json').version,
