@@ -1,6 +1,6 @@
 /**
  * File: index.js
- * Author: Studio Webux S.E.N.C
+ * Author: Studio Webux
  * Date: 2021-02-17
  * License: MIT
  */

@@ -44,7 +44,7 @@ const options = {
     key: "base64",
     cert: "base64",
   },
-  enterprise: "Studio Webux S.E.N.C",
+  enterprise: "Studio Webux",
   author: "Tommy Gingras",
   project: "@studiowebux/bin",
   version: require("./package.json")["version"],
