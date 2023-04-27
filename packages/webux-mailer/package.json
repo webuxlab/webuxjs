@@ -19,7 +19,7 @@
     "installdeps": "npm install",
     "auditfix": "npm audit fix"
   },
-  "author": "Studio Webux S.E.N.C",
+  "author": "Studio Webux",
   "license": "SEE LICENSE IN license.txt",
   "dependencies": {
     "nodemailer": "^6.8.0"
