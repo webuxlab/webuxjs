@@ -9,7 +9,7 @@
  * File: questions.js
  * Author: Tommy Gingras
  * Date: 2020-01-21
- * License: All rights reserved Studio Webux S.E.N.C 2015-Present
+ * License: All rights reserved Studio Webux 2015-Present
  */
 
 const path = require('path');

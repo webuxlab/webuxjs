@@ -1,7 +1,7 @@
 /* eslint-disable global-require */
 /* eslint-disable import/no-extraneous-dependencies */
 const options = {
-  enterprise: 'Studio Webux S.E.N.C',
+  enterprise: 'Studio Webux',
   author: 'Tommy Gingras',
   project: '@studiowebux/bin',
   version: require('../package.json').version,
