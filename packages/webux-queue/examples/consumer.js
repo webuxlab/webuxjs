@@ -25,7 +25,6 @@ const config = {
 };
 
 async function consumeMessage(q) {
-  await q.createChannel('EXAMPLE');
   const message = await q.consumeMessage();
 
   console.log('Got Something !');
@@ -41,8 +40,6 @@ async function consumeMessage(q) {
     await q.nack(message);
   }
 
-  await q.disconnectChannel();
-
   // Grab next message
   await consumeMessage(q);
 }
@@ -51,8 +48,10 @@ async function consumeMessage(q) {
   const q = new Queue(config);
 
   await q.connect();
+  await q.createChannel('EXAMPLE');
 
   await consumeMessage(q);
 
+  await q.disconnectChannel();
   await q.disconnect();
 })();
