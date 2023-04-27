@@ -19,7 +19,7 @@ test('Creates a server instance with options but no app', () => {
       key: '',
       cert: '',
     },
-    enterprise: 'Studio Webux S.E.N.C',
+    enterprise: 'Studio Webux',
     author: 'Tommy Gingras',
     project: '@studiowebux/bin',
     version: require('../package.json').version,
@@ -46,7 +46,7 @@ test('Creates a server instance with options and an app', () => {
       key: '',
       cert: '',
     },
-    enterprise: 'Studio Webux S.E.N.C',
+    enterprise: 'Studio Webux',
     author: 'Tommy Gingras',
     project: '@studiowebux/bin',
     version: require('../package.json').version,
@@ -69,7 +69,7 @@ test('Creates a server instance with options and an app', () => {
 
 test('Using a random port', () => {
   const options = {
-    enterprise: 'Studio Webux S.E.N.C',
+    enterprise: 'Studio Webux',
     author: 'Tommy Gingras',
     project: '@studiowebux/bin',
     version: require('../package.json').version,
@@ -95,7 +95,7 @@ test('Using a custom handler', () => {
     res.end();
   };
   const options = {
-    enterprise: 'Studio Webux S.E.N.C',
+    enterprise: 'Studio Webux',
     author: 'Tommy Gingras',
     project: '@studiowebux/bin',
     version: require('../package.json').version,
@@ -127,7 +127,7 @@ test('Using SSL', () => {
       cert: CERT,
       key: KEY,
     },
-    enterprise: 'Studio Webux S.E.N.C',
+    enterprise: 'Studio Webux',
     author: 'Tommy Gingras',
     project: '@studiowebux/bin',
     version: require('../package.json').version,
@@ -157,7 +157,7 @@ test('Start the server', async () => {
       key: '',
       cert: '',
     },
-    enterprise: 'Studio Webux S.E.N.C',
+    enterprise: 'Studio Webux',
     author: 'Tommy Gingras',
     project: '@studiowebux/bin',
     version: require('../package.json').version,
