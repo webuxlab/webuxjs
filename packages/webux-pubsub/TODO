@@ -1,0 +1,6 @@
+- [] https://kafka.js.org/docs/transactions
+- [] https://kafka.js.org/docs/consuming#a-name-each-batch-a-eachbatch
+- [] Handling auto commit and manual commit for consumers
+- [] https://kafka.js.org/docs/admin Admin Wrapper
+- [] Integrate instrumentation with current tools : https://kafka.js.org/docs/instrumentation-events
+- [] Review logger implementation https://kafka.js.org/docs/custom-logger
