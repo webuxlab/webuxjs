@@ -1,9 +1,5 @@
 const Queue = require('../src/index');
 
-function waitForIt() {
-  return new Promise((resolve) => setTimeout(async () => resolve(), Math.random() * 30000));
-}
-
 const config = {
   connection: {
     protocol: 'amqp',
