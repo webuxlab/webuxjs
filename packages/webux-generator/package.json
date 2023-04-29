@@ -1,6 +1,6 @@
 {
   "name": "@studiowebux/generator",
-  "version": "4.24.2",
+  "version": "4.24.3",
   "description": "webux lab template generator",
   "main": "index.js",
   "bin": {
@@ -49,5 +49,5 @@
     "prettier": "^2.8.0",
     "supertest": "^4.0.2"
   },
-  "gitHead": "3fc9117727909d7bd3361b5fa70d5a0994b31f13"
+  "gitHead": "f4b2cdd279b3cf0b6bd6d65229a1cd210f0d2682"
 }
