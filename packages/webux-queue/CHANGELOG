@@ -1,0 +1,6 @@
+# 2023-04-26
+
+- Adding Rabbit MQ
+- Adding default methods to use the queue
+- Missing README.md and getting started
+- Performed few tests
