@@ -1,6 +1,6 @@
 {
   "name": "@studiowebux/queue",
-  "version": "4.24.1",
+  "version": "4.24.2",
   "description": "Rabbit MQ wrapper",
   "main": "src/index.js",
   "author": "Studio Webux",
