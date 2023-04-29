@@ -14,17 +14,39 @@ npm install --save @studiowebux/queue
 
 ### Configuration
 
-TBD
+> **TL;DR;** Same as `amqplib`
+
+```js
+const config = {
+  connection: {
+    protocol: 'amqp',
+    hostname: 'localhost',
+    port: 5672,
+    username: 'user',
+    password: 'password',
+    locale: 'en_US',
+    frameMax: 0,
+    heartbeat: 0,
+    vhost: 'my_vhost',
+  },
+  queue: {
+    expiration: (60 * 1000 * 60).toString(),
+    persistent: true,
+  },
+};
+```
 
 ## Functions
 
 TBD
 
+```bash
+npm run doc
+```
 
 ## Quick start
 
 > The `/examples` directory has one example, use the `start.sh` script
-
 
 ## Videos and other resources
 
