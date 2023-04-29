@@ -1,6 +1,6 @@
 {
   "name": "@studiowebux/telemetry",
-  "version": "4.24.1",
+  "version": "4.24.2",
   "description": "Custom telemetry module",
   "main": "src/index.js",
   "author": "Studio Webux",
