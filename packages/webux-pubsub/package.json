@@ -1,6 +1,6 @@
 {
   "name": "@studiowebux/pubsub",
-  "version": "4.23.0",
+  "version": "4.24.0",
   "description": "Kafka wrapper",
   "main": "src/index.js",
   "author": "Studio Webux",
