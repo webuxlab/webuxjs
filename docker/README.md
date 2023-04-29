@@ -20,3 +20,6 @@ See the generator [here](../packages/webux-generator/generator/app-v2/templates/
 
 See the generator [here](../packages/webux-generator/generator/app-v2/templates/frontend/Dockerfile)
 
+## RabbitMQ
+
+See the example to start the Server [here](../packages/webux-queue/examples/start.sh)
