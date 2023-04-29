@@ -1,6 +1,6 @@
 {
   "name": "@studiowebux/app",
-  "version": "4.24.2",
+  "version": "4.24.3",
   "description": "This module can be use as the core of the application, it offers directly some tools.",
   "main": "src/index.js",
   "directories": {
@@ -53,5 +53,5 @@
     "API",
     "Backend"
   ],
-  "gitHead": "3fc9117727909d7bd3361b5fa70d5a0994b31f13"
+  "gitHead": "f4b2cdd279b3cf0b6bd6d65229a1cd210f0d2682"
 }
