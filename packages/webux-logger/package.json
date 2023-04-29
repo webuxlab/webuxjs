@@ -1,6 +1,6 @@
 {
   "name": "@studiowebux/logger",
-  "version": "4.24.0",
+  "version": "4.24.1",
   "description": "A wrapper to log everything with winston and morgan.",
   "main": "src/index.js",
   "author": "Studio Webux",
