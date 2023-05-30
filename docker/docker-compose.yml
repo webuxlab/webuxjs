@@ -1,0 +1,647 @@
+version: "3.9"
+
+services:
+  #
+  # Metrics
+  #
+  prometheus-server:
+    image: prom/prometheus:v2.44.0
+    container_name: prometheus
+    restart: always
+    ports:
+      - 9090:9090
+    volumes:
+      - ./prometheus-server/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - ./prometheus-server/alert.rules:/etc/prometheus/alert.rules:ro
+      - ./prometheus-server/targets.json:/etc/prometheus/targets.json:ro
+
+  #
+  # Alerts
+  #
+  prometheus-alertmanager:
+    image: prom/alertmanager:v0.25.0
+    container_name: alertmanager
+    depends_on:
+      - prometheus-server
+    restart: always
+    ports:
+      - 9093:9093
+    volumes:
+      - ./prometheus-alertmanager/:/etc/alertmanager/
+      - alertmanager_data:/alertmanager
+
+  #
+  # Dashboard
+  #
+  grafana:
+    image: grafana/grafana:9.5.2
+    container_name: grafana
+    depends_on:
+      - prometheus-server
+    restart: always
+    ports:
+      - 3000:3000
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./grafana/dashboards:/var/lib/grafana/dashboards
+      - ./grafana/provisioning:/etc/grafana/provisioning
+
+  #
+  # Metrics
+  #
+  node-exporter:
+    image: prom/node-exporter:v1.6.0
+    container_name: node-exporter
+    restart: always
+    ports:
+      - 9100:9100
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+
+  #
+  # Metrics
+  #
+  cadvisor:
+    image: gcr.io/cadvisor/cadvisor:v0.47.0
+    container_name: cadvisor
+    restart: always
+    ports:
+      - 8080:8080
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:ro
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+      - /dev/disk/:/dev/disk:ro
+    privileged: true
+    devices:
+      - /dev/kmsg
+
+  #
+  # Message Broker
+  #
+  rabbit-mq:
+    image: rabbitmq:3.10.23-management-alpine
+    container_name: rabbit-server
+    restart: always
+    ports:
+      - 15672:15672
+      - 5672:5672
+      - 15692:15692 # Metrics endpoint /metrics - Documentation: https://www.rabbitmq.com/monitoring.html
+    volumes:
+      - rabbitmq-data:/var/lib/rabbitmq
+    environment:
+      - RABBITMQ_DEFAULT_USER=user
+      - RABBITMQ_DEFAULT_PASS=password
+      - RABBITMQ_DEFAULT_VHOST=webux_queue
+
+  #
+  # Pub / Sub using Kafka
+  # Source: https://github.com/confluentinc/cp-all-in-one/blob/7.3.0-post/cp-all-in-one-community/docker-compose.yml
+  #
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.3.0
+    hostname: zookeeper
+    container_name: zookeeper
+    ports:
+      - "2181:2181"
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+
+  broker:
+    image: confluentinc/cp-kafka:7.3.0
+    hostname: broker
+    container_name: broker
+    depends_on:
+      - zookeeper
+    ports:
+      - "29092:29092"
+      - "9092:9092"
+      - "9101:9101"
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: "zookeeper:2181"
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://broker:29092,PLAINTEXT_HOST://localhost:9092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
+      KAFKA_JMX_PORT: 9101
+      KAFKA_JMX_HOSTNAME: localhost
+
+  schema-registry:
+    image: confluentinc/cp-schema-registry:7.3.0
+    hostname: schema-registry
+    container_name: schema-registry
+    depends_on:
+      - broker
+    ports:
+      - "18081:18081"
+    environment:
+      SCHEMA_REGISTRY_HOST_NAME: schema-registry
+      SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS: "broker:29092"
+      SCHEMA_REGISTRY_LISTENERS: http://0.0.0.0:18081
+
+  ksqldb-server:
+    image: confluentinc/cp-ksqldb-server:7.3.0
+    hostname: ksqldb-server
+    container_name: ksqldb-server
+    depends_on:
+      - broker
+    ports:
+      - "8088:8088"
+    environment:
+      KSQL_CONFIG_DIR: "/etc/ksql"
+      KSQL_BOOTSTRAP_SERVERS: "broker:29092"
+      KSQL_HOST_NAME: ksqldb-server
+      KSQL_LISTENERS: "http://0.0.0.0:8088"
+      KSQL_CACHE_MAX_BYTES_BUFFERING: 0
+      KSQL_KSQL_SCHEMA_REGISTRY_URL: "http://schema-registry:18081"
+      KSQL_KSQL_CONNECT_URL: "http://connect:8083"
+      KSQL_KSQL_LOGGING_PROCESSING_TOPIC_REPLICATION_FACTOR: 1
+      KSQL_KSQL_LOGGING_PROCESSING_TOPIC_AUTO_CREATE: "true"
+      KSQL_KSQL_LOGGING_PROCESSING_STREAM_AUTO_CREATE: "true"
+
+  ksqldb-cli:
+    image: confluentinc/cp-ksqldb-cli:7.3.0
+    container_name: ksqldb-cli
+    depends_on:
+      - broker
+      - ksqldb-server
+    entrypoint: /bin/sh
+    tty: true
+
+  rest-proxy:
+    image: confluentinc/cp-kafka-rest:7.3.0
+    depends_on:
+      - broker
+      - schema-registry
+    ports:
+      - 28082:28082
+    hostname: rest-proxy
+    container_name: rest-proxy
+    environment:
+      KAFKA_REST_HOST_NAME: rest-proxy
+      KAFKA_REST_BOOTSTRAP_SERVERS: "broker:29092"
+      KAFKA_REST_LISTENERS: "http://0.0.0.0:28082"
+      KAFKA_REST_SCHEMA_REGISTRY_URL: "http://schema-registry:18081"
+
+  #
+  # Storage
+  #
+  master0:
+    image: chrislusf/seaweedfs
+    ports:
+      - 9333:9333
+      - 9324:9324
+    command: "-v=1 master -volumeSizeLimitMB=1024 -resumeState=false -ip=master0 -port=9333 -peers=master0:9333,master1:9334,master2:9335 -mdir=/data -metricsPort=9324"
+    environment:
+      WEED_MASTER_VOLUME_GROWTH_COPY_1: 1
+      WEED_MASTER_VOLUME_GROWTH_COPY_2: 2
+      WEED_MASTER_VOLUME_GROWTH_COPY_OTHER: 1
+  master1:
+    image: chrislusf/seaweedfs
+    ports:
+      - 9334:9334
+      - 9326:9324
+    command: "-v=1 master -volumeSizeLimitMB=1024 -resumeState=false -ip=master1 -port=9334 -peers=master0:9333,master1:9334,master2:9335 -mdir=/data -metricsPort=9324"
+    environment:
+      WEED_MASTER_VOLUME_GROWTH_COPY_1: 1
+      WEED_MASTER_VOLUME_GROWTH_COPY_2: 2
+      WEED_MASTER_VOLUME_GROWTH_COPY_OTHER: 1
+  master2:
+    image: chrislusf/seaweedfs
+    ports:
+      - 9335:9335
+      - 9328:9324
+    command: "-v=1 master -volumeSizeLimitMB=1024 -resumeState=false -ip=master2 -port=9335 -peers=master0:9333,master1:9334,master2:9335 -mdir=/data -metricsPort=9324"
+    environment:
+      WEED_MASTER_VOLUME_GROWTH_COPY_1: 1
+      WEED_MASTER_VOLUME_GROWTH_COPY_2: 2
+      WEED_MASTER_VOLUME_GROWTH_COPY_OTHER: 1
+
+  volume1:
+    image: chrislusf/seaweedfs
+    ports:
+      - 8081:8081
+      - 9325:9325 # Metrics /metrics
+    command: 'volume -dataCenter=dc1 -max=1000 -rack=v1 -mserver="master0:9333,master1:9334,master2:9335" -port=8081 -ip=volume1 -publicUrl=localhost:8081 -preStopSeconds=1 -metricsPort=9325'
+    depends_on:
+      - master0
+      - master1
+      - master2
+    volumes:
+      - objstorage1:/data
+  volume2:
+    image: chrislusf/seaweedfs
+    ports:
+      - 8082:8082
+      - 9327:9325 # Metrics /metrics
+    command: 'volume -dataCenter=dc2 -max=1000 -rack=v2 -mserver="master0:9333,master1:9334,master2:9335" -port=8082 -ip=volume2 -publicUrl=localhost:8082 -preStopSeconds=1 -metricsPort=9325'
+    depends_on:
+      - master0
+      - master1
+      - master2
+    volumes:
+      - objstorage2:/data
+  volume3:
+    image: chrislusf/seaweedfs
+    ports:
+      - 8083:8083
+      - 9329:9325 # Metrics /metrics
+    command: 'volume -dataCenter=dc3 -max=1000 -rack=v3 -mserver="master0:9333,master1:9334,master2:9335" -port=8083 -ip=volume3 -publicUrl=localhost:8083 -preStopSeconds=1 -metricsPort=9325'
+    depends_on:
+      - master0
+      - master1
+      - master2
+    volumes:
+      - objstorage3:/data
+
+  filer:
+    image: chrislusf/seaweedfs
+    ports:
+      - 8888:8888 # UI
+      - 9330:9326 # Metrics /metrics
+    command: 'filer -defaultReplicaPlacement=100 -iam -master="master0:9333,master1:9334,master2:9335" -metricsPort=9326'
+    depends_on:
+      - master0
+      - master1
+      - master2
+      - volume1
+      - volume2
+
+  s3:
+    image: chrislusf/seaweedfs
+    ports:
+      - 8333:8333 # S3 endpoint
+      - 9331:9327 # Metrics /metrics
+    command: 's3 -config=/etc/seaweedfs/s3.json -filer="filer:8888" -ip.bind=0.0.0.0 -metricsPort=9327 -allowEmptyFolder=true -allowDeleteBucketNotEmpty=false'
+    volumes:
+      - ./seaweed/s3.json:/etc/seaweedfs/s3.json:ro
+    depends_on:
+      - master0
+      - master1
+      - master2
+      - volume1
+      - volume2
+      - filer
+
+  #
+  # Tracing
+  # Documentation: https://www.jaegertracing.io/docs/1.6/getting-started/
+  #
+  jaeger:
+    image: jaegertracing/all-in-one:1.6
+    container_name: jaeger
+    ports:
+      - 5775:5775/udp # accept zipkin.thrift
+      - 6831:6831/udp # accept jaeger.thrift
+      - 6832:6832/udp # accept jaeger.thrift
+      - 5778:5778 # serve configs
+      - 16686:16686 # UI /search
+      - 14268:14268 # accept jaeger.thrift
+      - 9411:9411 # Zipkin compatible endpoint
+    environment:
+      COLLECTOR_ZIPKIN_HTTP_PORT: "9411"
+
+  #
+  # Database SQL
+  #
+  postgres:
+    image: postgres:15.3
+    container_name: postgres
+    restart: always
+    ports:
+      - 5432:5432
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    environment:
+      PGDATA: /var/lib/postgresql/data/pgdata
+      POSTGRES_PASSWORD_FILE: /run/secrets/postgres_passwd
+      POSTGRES_USER_FILE: /run/secrets/postgres_user
+      POSTGRES_DB_FILE: /run/secrets/postgres_db
+    secrets:
+      - postgres_passwd
+      - postgres_user
+      - postgres_db
+
+  postgres-node-exporter:
+    image: quay.io/prometheuscommunity/postgres-exporter
+    container_name: postgres-node-exporter
+    depends_on:
+      - postgres
+    ports:
+      - 9187:9187
+    environment:
+      DATA_SOURCE_PASS_FILE: /run/secrets/postgres_passwd
+      DATA_SOURCE_USER_FILE: /run/secrets/postgres_user
+      DATA_SOURCE_URI: "postgres?sslmode=disable"
+      PG_EXPORTER_AUTO_DISCOVER_DATABASES: "true"
+    secrets:
+      - postgres_passwd
+      - postgres_user
+      - postgres_db
+
+  adminer:
+    image: adminer
+    restart: always
+    depends_on:
+      - postgres
+    ports:
+      - 8880:8080
+
+  #
+  # ELK
+  # Source: Many thanks to https://github.com/deviantony/docker-elk
+  #
+  setup:
+    build:
+      context: ./docker-elk/setup/
+      args:
+        ELASTIC_VERSION: ${ELASTIC_VERSION}
+    init: true
+    volumes:
+      - ./docker-elk/setup/entrypoint.sh:/entrypoint.sh:ro,Z
+      - ./docker-elk/setup/lib.sh:/lib.sh:ro,Z
+      - ./docker-elk/setup/roles:/roles:ro,Z
+      - setup:/state:Z
+    environment:
+      ELASTIC_PASSWORD: ${ELASTIC_PASSWORD:-}
+      LOGSTASH_INTERNAL_PASSWORD: ${LOGSTASH_INTERNAL_PASSWORD:-}
+      KIBANA_SYSTEM_PASSWORD: ${KIBANA_SYSTEM_PASSWORD:-}
+      METRICBEAT_INTERNAL_PASSWORD: ${METRICBEAT_INTERNAL_PASSWORD:-}
+      FILEBEAT_INTERNAL_PASSWORD: ${FILEBEAT_INTERNAL_PASSWORD:-}
+      HEARTBEAT_INTERNAL_PASSWORD: ${HEARTBEAT_INTERNAL_PASSWORD:-}
+      MONITORING_INTERNAL_PASSWORD: ${MONITORING_INTERNAL_PASSWORD:-}
+      BEATS_SYSTEM_PASSWORD: ${BEATS_SYSTEM_PASSWORD:-}
+    depends_on:
+      - elasticsearch
+
+  elasticsearch:
+    build:
+      context: ./docker-elk/elasticsearch/
+      args:
+        ELASTIC_VERSION: ${ELASTIC_VERSION}
+    volumes:
+      - ./docker-elk/elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro,Z
+      - elasticsearch:/usr/share/elasticsearch/data:Z
+    ports:
+      - 9200:9200
+      - 9300:9300
+    environment:
+      node.name: elasticsearch
+      ES_JAVA_OPTS: -Xms512m -Xmx512m
+      # Bootstrap password.
+      # Used to initialize the keystore during the initial startup of
+      # Elasticsearch. Ignored on subsequent runs.
+      ELASTIC_PASSWORD: ${ELASTIC_PASSWORD:-}
+      # Use single node discovery in order to disable production mode and avoid bootstrap checks.
+      # see: https://www.elastic.co/guide/en/elasticsearch/reference/current/bootstrap-checks.html
+      discovery.type: single-node
+    restart: unless-stopped
+
+  logstash:
+    build:
+      context: ./docker-elk/logstash/
+      args:
+        ELASTIC_VERSION: ${ELASTIC_VERSION}
+    volumes:
+      - ./docker-elk/logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml:ro,Z
+      - ./docker-elk/logstash/pipeline:/usr/share/logstash/pipeline:ro,Z
+    ports:
+      - 5044:5044
+      - 50000:50000/tcp
+      - 50000:50000/udp
+      - 9600:9600
+    environment:
+      LS_JAVA_OPTS: -Xms256m -Xmx256m
+      LOGSTASH_INTERNAL_PASSWORD: ${LOGSTASH_INTERNAL_PASSWORD:-}
+    depends_on:
+      - elasticsearch
+    restart: unless-stopped
+
+  kibana:
+    build:
+      context: ./docker-elk/kibana/
+      args:
+        ELASTIC_VERSION: ${ELASTIC_VERSION}
+    volumes:
+      - ./docker-elk/kibana/config/kibana.yml:/usr/share/kibana/config/kibana.yml:ro,Z
+    ports:
+      - 5601:5601
+    environment:
+      KIBANA_SYSTEM_PASSWORD: ${KIBANA_SYSTEM_PASSWORD:-}
+    depends_on:
+      - elasticsearch
+    restart: unless-stopped
+
+  elasticsearch-exporter:
+    image: quay.io/prometheuscommunity/elasticsearch-exporter:latest
+    container_name: elasticsearch-exporter
+    command:
+      - "--es.uri=http://elastic:changeme@elasticsearch:9200"
+    restart: always
+    ports:
+      - "9114:9114"
+
+  #
+  # NoSQL
+  #
+  # TODO: MongoDB or Cassandra
+
+  #
+  # Authentication
+  # Source: https://github.com/keycloak/keycloak-containers/blob/main/docker-compose-examples/keycloak-postgres.yml
+  # Documentation: https://www.keycloak.org/getting-started/getting-started-docker
+  #
+  postgres-keycloak:
+    image: postgres:15.3
+    volumes:
+      - keycloak_postgres_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: keycloak
+      POSTGRES_USER: keycloak
+      POSTGRES_PASSWORD: password
+  postgres-keycloak-node-exporter:
+    image: quay.io/prometheuscommunity/postgres-exporter
+    container_name: postgres-keycloak-node-exporter
+    depends_on:
+      - postgres-keycloak
+    ports:
+      - 9188:9187
+    environment:
+      DATA_SOURCE_PASS: password
+      DATA_SOURCE_USER: keycloak
+      DATA_SOURCE_URI: "postgres?sslmode=disable"
+      PG_EXPORTER_AUTO_DISCOVER_DATABASES: "true"
+  keycloak:
+    image: quay.io/keycloak/keycloak:21.1
+    environment:
+      DB_VENDOR: POSTGRES
+      DB_ADDR: postgres
+      DB_DATABASE: keycloak
+      DB_USER: keycloak
+      DB_SCHEMA: public
+      DB_PASSWORD: password
+      KEYCLOAK_USER: admin
+      KEYCLOAK_PASSWORD: Pa55w0rd
+      KEYCLOAK_ADMIN: administrator
+      KEYCLOAK_ADMIN_PASSWORD: Pa55w0rd
+      # Uncomment the line below if you want to specify JDBC parameters. The parameter below is just an example, and it shouldn't be used in production without knowledge. It is highly recommended that you read the PostgreSQL JDBC driver documentation in order to use it.
+      #JDBC_PARAMS: "ssl=true"
+    command: start-dev
+    ports:
+      - 8181:8080
+    depends_on:
+      - postgres-keycloak
+
+  #
+  # GraphDB
+  #
+  neo4j:
+    image: neo4j:5.8.0-community
+    restart: unless-stopped
+    ports:
+      - 7474:7474
+      - 7687:7687
+    volumes:
+      - neo4j-conf:/conf
+      - neo4j-data:/data
+      - neo4j-import:/import
+      - neo4j-logs:/logs
+      - neo4j-plugins:/plugins
+    environment:
+      # Raise memory limits
+      - NEO4J_dbms_memory_pagecache_size=1G
+      - NEO4J_dbms.memory.heap.initial_size=1G
+      - NEO4J_dbms_memory_heap_max__size=1G
+
+  #
+  # Caching
+  #
+  cache:
+    image: redis:7.2-rc2
+    restart: always
+    ports:
+      - "6379:6379"
+    command: redis-server --save 20 1 --loglevel warning --requirepass changeme
+    volumes:
+      - cache:/data
+
+  #
+  # Logs
+  # Source: https://github.com/Graylog2/docker-compose/tree/main/open-core
+  # This one for replication: https://github.com/Graylog2/docker-compose/blob/main/cluster/docker-compose.yml
+  #
+  mongodb:
+    container_name: mongo
+    image: "mongo:5.0"
+    volumes:
+      - "mongodb_data:/data/db"
+    restart: "on-failure"
+
+  opensearch:
+    container_name: opensearch
+    image: "opensearchproject/opensearch:2.4.0"
+    environment:
+      - "OPENSEARCH_JAVA_OPTS=-Xms1g -Xmx1g"
+      - "bootstrap.memory_lock=true"
+      - "discovery.type=single-node"
+      - "action.auto_create_index=false"
+      - "plugins.security.ssl.http.enabled=false"
+      - "plugins.security.disabled=true"
+    ulimits:
+      memlock:
+        hard: -1
+        soft: -1
+      nofile:
+        soft: 65536
+        hard: 65536
+    volumes:
+      - "os_data:/usr/share/opensearch/data"
+    restart: "on-failure"
+
+  graylog:
+    container_name: "graylog"
+    hostname: "server"
+    image: "${GRAYLOG_IMAGE:-graylog/graylog:5.0}"
+    depends_on:
+      opensearch:
+        condition: "service_started"
+      mongodb:
+        condition: "service_started"
+    entrypoint: "/usr/bin/tini -- wait-for-it opensearch:9200 --  /docker-entrypoint.sh"
+    environment:
+      GRAYLOG_NODE_ID_FILE: "/usr/share/graylog/data/config/node-id"
+      GRAYLOG_PASSWORD_SECRET: "${GRAYLOG_PASSWORD_SECRET:?Please configure GRAYLOG_PASSWORD_SECRET in the .env file}"
+      GRAYLOG_ROOT_PASSWORD_SHA2: "${GRAYLOG_ROOT_PASSWORD_SHA2:?Please configure GRAYLOG_ROOT_PASSWORD_SHA2 in the .env file}"
+      GRAYLOG_HTTP_BIND_ADDRESS: "0.0.0.0:9000"
+      GRAYLOG_HTTP_EXTERNAL_URI: "http://localhost:9000/"
+      GRAYLOG_ELASTICSEARCH_HOSTS: "http://opensearch:9200"
+      GRAYLOG_MONGODB_URI: "mongodb://mongodb:27017/graylog"
+    ports:
+      - "15044:5044/tcp" # Beats
+      - "5140:5140/udp" # Syslog
+      - "5140:5140/tcp" # Syslog
+      - "5555:5555/tcp" # RAW TCP
+      - "5555:5555/udp" # RAW TCP
+      - "9000:9000/tcp" # Server API
+      - "12201:12201/tcp" # GELF TCP
+      - "12201:12201/udp" # GELF UDP
+      #- "10000:10000/tcp" # Custom TCP port
+      #- "10000:10000/udp" # Custom UDP port
+      - "13301:13301/tcp" # Forwarder data
+      - "13302:13302/tcp" # Forwarder config
+    volumes:
+      - "graylog_data:/usr/share/graylog/data/data"
+      - "graylog_journal:/usr/share/graylog/data/journal"
+    restart: "on-failure"
+
+#
+# Docker Secrets
+#
+secrets:
+  postgres_passwd:
+    file: ./postgres/db_password.txt
+  postgres_user:
+    file: ./postgres/db_user.txt
+  postgres_db:
+    file: ./postgres/db_name.txt
+
+#
+# Docker Volumes
+#
+volumes:
+  # Monitoring
+  alertmanager_data:
+  grafana_data:
+  # Queue
+  rabbitmq-data:
+  # Storage
+  objstorage1:
+  objstorage2:
+  objstorage3:
+  # Database SQL
+  postgres-data:
+  # ELK
+  setup:
+  elasticsearch:
+  # Graylog
+  mongodb_data:
+  os_data:
+  graylog_data:
+  graylog_journal:
+  # Redis
+  cache:
+  # neo4j
+  neo4j-conf:
+  neo4j-data:
+  neo4j-import:
+  neo4j-logs:
+  neo4j-plugins:
+  # Keycloak
+  keycloak_postgres_data:
