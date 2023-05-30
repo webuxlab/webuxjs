@@ -19,3 +19,12 @@ services:
   #   image: openzipkin/zipkin
   #   ports:
   #     - 9411:9411
+
+  grafana:
+    image: grafana/grafana-oss
+    container_name: grafana
+    restart: on-failure
+    volumes:
+      - grafana-storage:/var/lib/grafana
+    ports:
+      - 3000:3000

@@ -1,0 +1,14 @@
+# Documentation: https://prometheus.io/docs/alerting/latest/configuration/
+global:
+
+route:
+  repeat_interval: 1h
+  receiver: ops-team
+
+receivers:
+  - name: "ops-team"
+    slack_configs:
+      # Documentation: https://api.slack.com/messaging/webhooks
+      - api_url: YOUR-URL
+        channel: "#prometheus-alerts"
+        send_resolved: true
