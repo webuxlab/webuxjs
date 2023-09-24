@@ -34,7 +34,7 @@ Example:
 
 ```javascript
 const opts = {
-  configuration: path.join(__dirname, "..", "config"),
+  configuration: path.join(__dirname, '..', 'config'),
 };
 ```
 
@@ -45,11 +45,11 @@ const opts = {
 Initialize the `config` variable,
 
 ```javascript
-const WebuxApp = require("@studiowebux/app");
+const WebuxApp = require('@studiowebux/app');
 
 let webuxApp = new WebuxApp(
   {
-    configuration: path.join(__dirname, "..", "config"),
+    configuration: path.join(__dirname, '..', 'config'),
   },
   console
 );
@@ -62,10 +62,10 @@ The `opts` parameter is optional.
 To load the configurations using the path specified during the initialization,
 
 ```javascript
-const WebuxApp = require("../src/index");
-const path = require("path");
+const WebuxApp = require('../src/index');
+const path = require('path');
 const options = {
-  configuration: path.join(__dirname, "config"),
+  configuration: path.join(__dirname, 'config'),
 };
 
 const webuxApp = new WebuxApp(options);
@@ -77,7 +77,7 @@ It is also possible to add configurations manually,
 
 ```javascript
 webuxApp.config._manual = {
-  testing: "test1",
+  testing: 'test1',
 };
 ```
 
@@ -92,21 +92,13 @@ For example, to load all **helpers** functions in this variable `helpers.*`
 Proceed as follow,
 
 ```javascript
-const constants = webuxApp.LoadModule(
-  path.join(__dirname, "api", "v1", "constants")
-);
+const constants = webuxApp.LoadModule(path.join(__dirname, 'api', 'v1', 'constants'));
 
-const validations = webuxApp.LoadModule(
-  path.join(__dirname, "api", "v1", "validations")
-);
+const validations = webuxApp.LoadModule(path.join(__dirname, 'api', 'v1', 'validations'));
 
-const helpers = webuxApp.LoadModule(
-  path.join(__dirname, "api", "v1", "helpers")
-);
+const helpers = webuxApp.LoadModule(path.join(__dirname, 'api', 'v1', 'helpers'));
 
-const middlewares = webuxApp.LoadModule(
-  path.join(__dirname, "api", "v1", "middlewares")
-);
+const middlewares = webuxApp.LoadModule(path.join(__dirname, 'api', 'v1', 'middlewares'));
 
 console.log(constants);
 console.log(helpers);
@@ -120,10 +112,10 @@ helpers/user.js
 
 ```javascript
 function GetUsers() {
-  return ["user1", "user2", "user3"];
+  return ['user1', 'user2', 'user3'];
 }
 
-let users = ["Default User 1", "Default User 2"];
+let users = ['Default User 1', 'Default User 2'];
 
 module.exports = {
   GetUsers,
@@ -146,10 +138,10 @@ For example,
 A user with this id: **346**
 
 ```javascript
-const WebuxApp = require("@studiowebux/app");
+const WebuxApp = require('@studiowebux/app');
 const webuxApp = new WebuxApp();
 
-const URL = webuxApp.IdToURL(346, "user", "https://webuxlab.com/api/v1");
+const URL = webuxApp.IdToURL(346, 'user', 'https://webuxlab.com/api/v1');
 ```
 
 The result : `https://webuxlab.com/api/v1/user/346`
@@ -166,9 +158,9 @@ This function converts a list to an object
 
 ```javascript
 let users = [
-  { _id: "12345abc22...", name: "test" },
-  { _id: "12345abc23...", name: "test2" },
-  { _id: "12345abc24...", name: "test3" },
+  { _id: '12345abc22...', name: 'test' },
+  { _id: '12345abc23...', name: 'test2' },
+  { _id: '12345abc24...', name: 'test3' },
 ];
 console.log(webuxApp.ToObject(users));
 ```
@@ -196,11 +188,11 @@ This function requires a configuration,
 > For all available options, read the official documentation.
 
 ```javascript
-const path = require("path");
+const path = require('path');
 const language = {
-  availables: ["fr", "en"],
-  directory: path.join(__dirname, "..", "locales"),
-  default: "en",
+  availables: ['fr', 'en'],
+  directory: path.join(__dirname, '..', 'locales'),
+  default: 'en',
   autoReload: true,
   syncFiles: true,
 };
@@ -213,7 +205,7 @@ Without loading the configurations automatically,
 index.js
 
 ```javascript
-const WebuxApp = require("@studiowebux/app");
+const WebuxApp = require('@studiowebux/app');
 const webuxApp = new WebuxApp();
 
 // To configure the i18n
@@ -226,11 +218,11 @@ With the configurations loaded automatically,
 config/language.js
 
 ```javascript
-const path = require("path");
+const path = require('path');
 module.exports = {
-  availables: ["fr", "en"],
-  directory: path.join(__dirname, "..", "locales"),
-  default: "en",
+  availables: ['fr', 'en'],
+  directory: path.join(__dirname, '..', 'locales'),
+  default: 'en',
   autoReload: true,
   syncFiles: true,
 };
@@ -239,10 +231,10 @@ module.exports = {
 index.js
 
 ```javascript
-const path = require("path");
-const WebuxApp = require("@studiowebux/app");
+const path = require('path');
+const WebuxApp = require('@studiowebux/app');
 const webuxApp = new WebuxApp({
-  configuration: path.join(__dirname, "config"),
+  configuration: path.join(__dirname, 'config'),
 });
 
 const i18n = webuxApp.ConfigureLanguage();
@@ -295,7 +287,7 @@ This function guesses the client IP address
 It reads these variables:
 
 ```javascript
-req.headers["x-forwarded-for"] ||
+req.headers['x-forwarded-for'] ||
   req.connection.remoteAddress ||
   req.socket.remoteAddress ||
   (req.connection.socket ? req.connection.socket.remoteAddress : null);
@@ -326,16 +318,11 @@ It standardizes the error messages and formats them to facilitate the flow.
 Example,
 
 ```javascript
-const WebuxApp = require("@studiowebux/app");
+const WebuxApp = require('@studiowebux/app');
 const webuxApp = new WebuxApp();
 
-app.get("/error", (req, res) => {
-  throw webuxApp.ErrorHandler(
-    400,
-    "Bad Request",
-    { test: "An object to add extra information" },
-    "Message for the dev. team"
-  );
+app.get('/error', (req, res) => {
+  throw webuxApp.ErrorHandler(400, 'Bad Request', { test: 'An object to add extra information' }, 'Message for the dev. team');
 });
 ```
 
@@ -356,33 +343,28 @@ This function is used with `app.use()` from Express.
 Par example,
 
 ```javascript
-const express = require("express");
-const path = require("path");
+const express = require('express');
+const path = require('path');
 const app = express();
-const WebuxApp = require("@studiowebux/app");
+const WebuxApp = require('@studiowebux/app');
 
 const webuxApp = new WebuxApp();
 
-app.get("/hello", (req, res) => {
+app.get('/hello', (req, res) => {
   return res.status(200).send({
-    msg: "Bonjour !",
+    msg: 'Bonjour !',
   });
 });
 
-app.get("/error", (req, res) => {
-  throw webuxApp.ErrorHandler(
-    400,
-    "Bad Request",
-    { test: "An object to add extra information" },
-    "Message for the dev. team"
-  );
+app.get('/error', (req, res) => {
+  throw webuxApp.ErrorHandler(400, 'Bad Request', { test: 'An object to add extra information' }, 'Message for the dev. team');
 });
 
 // Must be after all routes definition, including the static resources
 app.use(webuxApp.GlobalErrorHandler());
 
 app.listen(1337, () => {
-  console.log("Server is listening on port 1337");
+  console.log('Server is listening on port 1337');
 });
 ```
 
@@ -396,26 +378,21 @@ This function is used with `app.use()` from Express.
 Example,
 
 ```javascript
-const express = require("express");
-const path = require("path");
+const express = require('express');
+const path = require('path');
 const app = express();
-const WebuxApp = require("@studiowebux/app");
+const WebuxApp = require('@studiowebux/app');
 
 const webuxApp = new WebuxApp();
 
-app.get("/hello", (req, res) => {
+app.get('/hello', (req, res) => {
   return res.status(200).send({
-    msg: "Bonjour !",
+    msg: 'Bonjour !',
   });
 });
 
-app.get("/error", (req, res) => {
-  throw webuxApp.ErrorHandler(
-    400,
-    "Bad Request",
-    { test: "An object to add extra information" },
-    "Message for the dev. team"
-  );
+app.get('/error', (req, res) => {
+  throw webuxApp.ErrorHandler(400, 'Bad Request', { test: 'An object to add extra information' }, 'Message for the dev. team');
 });
 
 // Must be after all route definitions, including the static resources
@@ -423,11 +400,19 @@ app.use(webuxApp.NotFoundErrorHandler());
 app.use(webuxApp.GlobalErrorHandler());
 
 app.listen(1337, () => {
-  console.log("Server is listening on port 1337");
+  console.log('Server is listening on port 1337');
 });
 ```
 
 To use the translation with this module, you can use this key `ROUTE_NOT_FOUND`
+
+#### Error(message, name, code, extra, devMsg): Function
+
+Example:
+
+```javascript
+throw WebuxApp.Error('My error Message', 'JEST_TEST', 400, { foo: 'bar' }, 'Occured while testing with jest');
+```
 
 ## Quick Start
 
@@ -464,13 +449,13 @@ For more details, see the example here : `examples/utils/api/v1`
 app.js
 
 ```javascript
-const path = require("path");
+const path = require('path');
 
-const WebuxApp = require("../../src/index");
-const app = require("express")();
+const WebuxApp = require('../../src/index');
+const app = require('express')();
 
 let webuxApp = new WebuxApp({
-  configuration: path.join(__dirname, "..", "config"),
+  configuration: path.join(__dirname, '..', 'config'),
 });
 
 /**
@@ -493,33 +478,28 @@ That way the application is exported and can be imported in the project file to 
 index.js
 
 ```javascript
-const webuxApp = require("./app");
+const webuxApp = require('./app');
 const { app, ErrorHandler } = webuxApp;
 
 app.use(webuxApp.I18nOnRequest());
 
-app.get("/hello", (req, res) => {
+app.get('/hello', (req, res) => {
   return res.status(200).send({
-    msg: res.__("MSG_BONJOUR"),
+    msg: res.__('MSG_BONJOUR'),
     lang: webuxApp.i18n.getLocale(),
     from: webuxApp.GetIP(req),
   });
 });
 
-app.get("/error", (req, res) => {
-  throw ErrorHandler(
-    400,
-    res.__("BAD_REQUEST"),
-    { test: "An object to add extra information" },
-    "Message for the dev. team"
-  );
+app.get('/error', (req, res) => {
+  throw ErrorHandler(400, res.__('BAD_REQUEST'), { test: 'An object to add extra information' }, 'Message for the dev. team');
 });
 
 app.use(webuxApp.NotFoundErrorHandler());
 app.use(webuxApp.GlobalErrorHandler());
 
 app.listen(1337, () => {
-  console.log("Server is listening on port 1337");
+  console.log('Server is listening on port 1337');
 });
 ```
 
@@ -540,7 +520,7 @@ Those files have a specific structure:
 
 ```javascript
 // Global webuxApp
-const Webux = require("../../../app");
+const Webux = require('../../../app');
 
 // action
 const finduser = () => {
@@ -553,15 +533,15 @@ const finduser = () => {
           return reject(Webux.errorHandler(422, e));
         });
       if (!users || users.length === 0) {
-        return reject(Webux.ErrorHandler(404, "users not found"));
+        return reject(Webux.ErrorHandler(404, 'users not found'));
       }
 
       users.map((user) => {
-        user._id = Webux.IdToUrl(user._id, "user", "http://localhost");
+        user._id = Webux.IdToUrl(user._id, 'user', 'http://localhost');
       });
 
       return resolve({
-        msg: "Success !",
+        msg: 'Success !',
         users: users,
       });
     } catch (e) {
@@ -575,7 +555,7 @@ const route = async (req, res, next) => {
   try {
     const obj = await finduser();
     if (!obj) {
-      return next(Webux.ErrorHandler(404, "user not found."));
+      return next(Webux.ErrorHandler(404, 'user not found.'));
     }
     return res.status(200).json(obj);
   } catch (e) {
@@ -589,12 +569,12 @@ const socket = (client) => {
     try {
       const obj = await finduser();
       if (!obj) {
-        client.emit("gotError", "user not found");
+        client.emit('gotError', 'user not found');
       }
 
-      client.emit("userFound", obj);
+      client.emit('userFound', obj);
     } catch (e) {
-      client.emit("gotError", e);
+      client.emit('gotError', e);
     }
   };
 };

@@ -7,7 +7,7 @@
 
 const loadConfiguration = require('./configuration');
 const { onRequest, configure } = require('./i18n');
-const { GlobalHandler, NotFoundHandler, Handler } = require('./errorhandler');
+const { GlobalHandler, NotFoundHandler, Handler, ApiError } = require('./errorhandler');
 const getIP = require('./ip');
 const idToURL = require('./idToUrl');
 const toObject = require('./toObject');
@@ -116,6 +116,19 @@ class App {
   // eslint-disable-next-line class-methods-use-this
   ErrorHandler(code, msg, extra, devMsg) {
     return Handler(code, msg, extra, devMsg);
+  }
+
+  /**
+   * Throws custom Error Object
+   * @param {String} message The human readable error message
+   * @param {String} name The human readable error message
+   * @param {Number} code HTTP Code
+   * @param {Object} extra An object to add supplemental information
+   * @param {String} devMsg The error message for the dev. team
+   * @returns {Error} it throws an error with custom parameters
+   */
+  Error(message, name, code, extra, devMsg) {
+    throw new ApiError(message, name, code, extra, devMsg);
   }
 
   /**
