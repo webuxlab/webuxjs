@@ -1,6 +1,6 @@
 {
   "name": "@studiowebux/search",
-  "version": "4.25.0",
+  "version": "4.25.1",
   "description": "Search plugin",
   "main": "src/index.js",
   "scripts": {
@@ -45,5 +45,6 @@
   },
   "dependencies": {
     "axios": "^1.5.0"
-  }
+  },
+  "gitHead": "01e1f846bfde6a9139e85cb14877996f01850615"
 }
