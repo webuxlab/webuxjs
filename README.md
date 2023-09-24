@@ -17,6 +17,9 @@
 | webux-telemetry  | Alpha  |
 | webux-queue      | Alpha  |
 | webux-pubsub     | Alpha  |
+| webux-sitemap    | Beta   |
+| webux-search     | Beta   |
+| webux-crawler    | Alpha  |
 
 ## Getting Started
 
