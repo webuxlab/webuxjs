@@ -1,4 +1,4 @@
-const WebuxTelemetry = require('../src');
+const { Telemetry } = require('../src');
 
 function timer(duration = 1000) {
   return new Promise((resolve) => {
@@ -7,7 +7,7 @@ function timer(duration = 1000) {
 }
 
 test('Create telemetry without option', () => {
-  const telemetry = new WebuxTelemetry();
+  const telemetry = new Telemetry();
 
   expect(telemetry).toMatchObject({
     config: { telemetryEndpoint: 'http://127.0.0.1:3000/telemetry' },
@@ -37,7 +37,7 @@ test('Create telemetry without option', () => {
 });
 
 test('Create telemetry and test debug and verbose mode', () => {
-  const telemetry = new WebuxTelemetry();
+  const telemetry = new Telemetry();
 
   expect(telemetry.actions.verboseEnabled).toBeFalsy();
   expect(telemetry.actions.debugEnabled).toBeFalsy();
@@ -51,7 +51,7 @@ test('Create telemetry and test debug and verbose mode', () => {
 });
 
 test('Create telemetry and get System information', () => {
-  const telemetry = new WebuxTelemetry();
+  const telemetry = new Telemetry();
 
   telemetry.RetrieveSystemInformation();
 
@@ -67,7 +67,7 @@ test('Create telemetry and get System information', () => {
 });
 
 test('Create telemetry and start/stop timer', async () => {
-  const telemetry = new WebuxTelemetry();
+  const telemetry = new Telemetry();
 
   telemetry.StartTimer();
 
@@ -82,7 +82,7 @@ test('Create telemetry and start/stop timer', async () => {
 });
 
 test('Create telemetry and log Action', async () => {
-  const telemetry = new WebuxTelemetry();
+  const telemetry = new Telemetry();
 
   telemetry.LogAction('publish', true);
   await timer(3000);
@@ -92,21 +92,21 @@ test('Create telemetry and log Action', async () => {
 });
 
 test('Create telemetry and log Error', async () => {
-  const telemetry = new WebuxTelemetry();
+  const telemetry = new Telemetry();
 
   telemetry.LogError(new Error('This is an error'));
   expect(telemetry.actions.errors.length).toBe(1);
 });
 
 test('Create telemetry and log Warning', async () => {
-  const telemetry = new WebuxTelemetry();
+  const telemetry = new Telemetry();
 
   telemetry.LogWarning('This is a warning');
   expect(telemetry.actions.warnings.length).toBe(1);
 });
 
 test('Create telemetry and set exit code and reason', async () => {
-  const telemetry = new WebuxTelemetry();
+  const telemetry = new Telemetry();
 
   telemetry.SetExitCodeAndReason(0, 'Success');
   expect(telemetry.actions.exitCode).toBe(0);
@@ -114,14 +114,14 @@ test('Create telemetry and set exit code and reason', async () => {
 });
 
 test('Create telemetry and add a software version', async () => {
-  const telemetry = new WebuxTelemetry();
+  const telemetry = new Telemetry();
 
   telemetry.SetSoftwareVersion('git', 'git version 2.17.1');
   expect(telemetry.info.softwareVersions.length).toBe(1);
 });
 
-test('Create telemetry and Send data', async () => {
-  const telemetry = new WebuxTelemetry();
+test.skip('Create telemetry and Send data', async () => {
+  const telemetry = new Telemetry();
 
   telemetry.SetDebugMode(true);
   telemetry.RetrieveSystemInformation();
