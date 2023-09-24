@@ -1,0 +1,9 @@
+__tests__/
+docs/
+examples/
+.eslintrc.json
+.prettierrc
+jest.config.js
+Jenkinsfile
+log/
+babel.config.js

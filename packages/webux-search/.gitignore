@@ -1,0 +1,4 @@
+.env*
+reports
+node_modules
+coverage
