@@ -1,0 +1,34 @@
+groups:
+  - name: Linux Metrics
+    rules:
+      - alert: CpuUsage
+        expr: (sum by (instance) (irate(node_cpu{job="node_exporter_metrics",mode="idle"}[5m]))) > 80
+        for: 1m
+        labels:
+          severity: warning
+        annotations:
+          summary: "CPU Usage is high at {{ $value }} on {{ $labels.instance }}."
+
+      - alert: InstanceDown
+        expr: up == 0
+        for: 1m
+        labels:
+          severity: "critical"
+        annotations:
+          summary: "{{ $labels.instance }} is down."
+
+      - alert: MemoryUsage
+        expr: node_memory_MemAvailable / node_memory_MemTotal * 100 < 25
+        for: 1m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Memory Usage is high at {{ $value }} on {{ $labels.instance }}."
+
+      - alert: HostOutOfDiskSpace
+        expr: (node_filesystem_avail{mountpoint="/"}  * 100) / node_filesystem_size{mountpoint="/"} < 50
+        for: 1s
+        labels:
+          severity: warning
+        annotations:
+          summary: "{{ $labels.instance }} out of disk space"
