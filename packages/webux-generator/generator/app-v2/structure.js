@@ -12,26 +12,24 @@
  * License: All rights reserved Studio Webux 2015-Present
  */
 
-"use strict";
-
 const backend = {
-  ".tmp": {},
+  '.tmp': {},
   api: {
     v1: {
-      _ReservedEvents: { "connect.js": "" },
+      _ReservedEvents: { 'connect.js': '' },
       actions: {},
       constants: {},
       helpers: {},
       middlewares: {},
       validations: {},
-      plugins: { auth: { "isAuth.js": "" } },
+      plugins: { auth: { 'isAuth.js': '' } },
     },
   },
   app: {
-    "index.js": "",
+    'index.js': '',
   },
   bin: {
-    "index.js": "",
+    'index.js': '',
   },
   db: {
     dev: {
@@ -40,52 +38,51 @@ const backend = {
     },
   },
   config: {
-    "auth.js": "",
-    "db.js": "",
-    "language.js": "",
-    "limiter.js": "",
-    "logger.js": "",
-    "mailer.js": "",
-    "request.js": "",
-    "routes.js": "",
-    "security.js": "",
-    "seed.js": "",
-    "server.js": "",
-    "socket.js": "",
-    "static.js": "",
-    "upload.js": "",
+    'auth.js': '',
+    'db.js': '',
+    'language.js': '',
+    'limiter.js': '',
+    'logger.js': '',
+    'mailer.js': '',
+    'request.js': '',
+    'routes.js': '',
+    'security.js': '',
+    'seed.js': '',
+    'server.js': '',
+    'socket.js': '',
+    'static.js': '',
+    'upload.js': '',
   },
   locales: {
-    "en.json": "",
-    "fr.json": "",
+    'en.json': '',
+    'fr.json': '',
   },
   __tests__: {},
   uploads: {},
   public: {},
-  ".dockerignore": "",
-  ".eslintrc.json": "",
-  ".prettierrc": "",
-  "jest.config.js": "",
-  "babel.config.js": "",
-  "index.js": "",
-  Dockerfile: "",
-  "package.json": "",
-  "license.txt": "",
-  "Gruntfile.js": "",
-  "README.md": "",
+  '.dockerignore': '',
+  '.eslintrc.json': '',
+  '.prettierrc': '',
+  'jest.config.js': '',
+  'babel.config.js': '',
+  Dockerfile: '',
+  'package.json': '',
+  'license.txt': '',
+  'Gruntfile.js': '',
+  'README.md': '',
 };
 
 const frontend = {
   client: {
-    "README.md": "",
+    'README.md': '',
   },
   nginx: {
     certs: {},
-    "nginx.conf": "",
+    'nginx.conf': '',
   },
-  ".dockerignore": "",
-  Dockerfile: "",
-  "README.md": "",
+  '.dockerignore': '',
+  Dockerfile: '',
+  'README.md': '',
 };
 
 module.exports = {

@@ -45,5 +45,6 @@
   },
   "dependencies": {
     "sitemapper": "^3.2.6"
-  }
+  },
+  "gitHead": "01e1f846bfde6a9139e85cb14877996f01850615"
 }
