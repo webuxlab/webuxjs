@@ -34,7 +34,7 @@
     "eslint-plugin-prettier": "^3.4.1",
     "express": "^4.18.2",
     "jest": "^26.6.3",
-    "jsdoc": "^3.6.11",
+    "jsdoc": "^4.0.2",
     "prettier": "^2.8.0"
   },
   "gitHead": "f4b2cdd279b3cf0b6bd6d65229a1cd210f0d2682"
