@@ -1,0 +1,51 @@
+[
+  {
+    "targets": ["rabbit-mq:15692"],
+    "labels": {
+      "service": "rabbit-mq"
+    }
+  },
+  {
+    "targets": ["s3:9327"],
+    "labels": {
+      "service": "seaweedfs",
+      "job": "seaweedfs_s3"
+    }
+  },
+  {
+    "targets": ["filer:9326"],
+    "labels": {
+      "service": "seaweedfs",
+      "job": "seaweedfs_filer"
+    }
+  },
+  {
+    "targets": ["volume1:9325", "volume2:9325", "volume3:9325"],
+    "labels": {
+      "service": "seaweedfs",
+      "job": "seaweedfs_volume"
+    }
+  },
+  {
+    "targets": ["master0:9324", "master1:9324", "master2:9324"],
+    "labels": {
+      "service": "seaweedfs",
+      "job": "seaweedfs_master"
+    }
+  },
+  {
+    "targets": [
+      "postgres-node-exporter:9187",
+      "postgres-keycloak-node-exporter:9187"
+    ],
+    "labels": {
+      "service": "postgres"
+    }
+  },
+  {
+    "targets": ["elasticsearch-exporter:9114"],
+    "labels": {
+      "service": "elasticsearch"
+    }
+  }
+]
