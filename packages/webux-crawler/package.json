@@ -1,0 +1,51 @@
+{
+  "name": "@studiowebux/crawler",
+  "version": "1.0.0",
+  "description": "Crawler for the Engine",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo 'TBD' && exit 0",
+    "lint": "eslint src/**",
+    "doc": "jsdoc src -d jsdoc/",
+    "installdeps": "npm install",
+    "auditfix": "npm audit fix"
+  },
+  "directories": {
+    "example": "examples",
+    "doc": "docs"
+  },
+  "homepage": "https://github.com/webulab/webuxjs/packages/webux-crawler",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/webulab/webuxjs.git"
+  },
+  "keywords": [
+    "crawler",
+    "search engine",
+    "prerender"
+  ],
+  "author": "Studio Webux",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/jest": "^29.5.5",
+    "dotenv": "^16.3.1",
+    "jest": "^29.7.0",
+    "jest-junit": "^16.0.0",
+    "@babel/core": "^7.20.5",
+    "@babel/preset-env": "^7.20.2",
+    "babel-jest": "^26.6.3",
+    "eslint": "^7.32.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-jest": "^23.20.0",
+    "eslint-plugin-prettier": "^3.4.1",
+    "jsdoc": "^4.0.2",
+    "prettier": "^2.8.0"
+  },
+  "dependencies": {
+    "puppeteer": "^21.3.3",
+    "puppeteer-har": "^1.1.2",
+    "uuid": "^9.0.1"
+  }
+}
