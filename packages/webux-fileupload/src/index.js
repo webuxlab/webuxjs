@@ -66,7 +66,6 @@ class FileUpload {
    * @returns {Function} An express route function
    */
   UploadRoute(uploadFn = null) {
-    console.log('UploadRoute');
     return uploadRoute(this.config, uploadFn, this.log);
   }
 
