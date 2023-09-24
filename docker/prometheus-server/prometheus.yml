@@ -1,0 +1,40 @@
+# Documentation: https://prometheus.io/docs/prometheus/latest/configuration/configuration/
+global:
+  scrape_interval: "15s"
+  scrape_timeout: "10s"
+  evaluation_interval: "15s"
+
+rule_files:
+  - "/etc/prometheus/alert.rules"
+
+scrape_configs:
+  - job_name: "prometheus"
+    static_configs:
+      - targets:
+          - "prometheus-server:9090"
+
+  - job_name: "node_exporter"
+    scrape_interval: 5s
+    static_configs:
+      - targets:
+          - "node-exporter:9100"
+
+  - job_name: cadvisor
+    scrape_interval: 5s
+    static_configs:
+      - targets:
+          - cadvisor:8080
+
+  # Documentation: https://prometheus.io/docs/guides/file-sd/
+  #                https://prometheus.io/docs/prometheus/latest/configuration/configuration/#file_sd_config
+  - job_name: dynamic_targets
+    file_sd_configs:
+      - files:
+          - targets.json
+        refresh_interval: 1m
+
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets:
+            - "prometheus-alertmanager:9093"
