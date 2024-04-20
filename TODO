@@ -6,8 +6,11 @@
     - webux-mailer
     - webux-pubsub
     - webux-queue
+    - webux-route
 - Tasks
     - webux-logger
-        - Investigate to introduce pino
+        - Investigate to introduce 'pino' and 'pino-http'
+        - Investigate to introduce 'opentelemetry' transport
+        - Investigate to introduce 'loki' transport
 - completely skipped:
     - the generator...
