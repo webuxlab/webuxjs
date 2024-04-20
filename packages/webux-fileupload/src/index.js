@@ -85,7 +85,7 @@ class FileUpload {
    * @param {String} filepath The file path to be deleted
    * @returns {Promise}
    */
-  static DeleteFile(filepath) {
+  DeleteFile(filepath) {
     return DeleteFile(filepath);
   }
 

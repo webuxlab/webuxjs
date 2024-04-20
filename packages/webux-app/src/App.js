@@ -127,7 +127,7 @@ class App {
    * @param {String} devMsg The error message for the dev. team
    * @returns {Error} it throws an error with custom parameters
    */
-  static Error(message, name, code, extra, devMsg) {
+  Error(message, name, code, extra, devMsg) {
     throw new ApiError(message, name, code, extra, devMsg);
   }
 
