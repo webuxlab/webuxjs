@@ -20,6 +20,7 @@
 | webux-sitemap    | Beta   |
 | webux-search     | Beta   |
 | webux-crawler    | Alpha  |
+| webux-view       | Alpha  |
 
 ## Setup
 
