@@ -5,6 +5,7 @@
     - webux-logger
     - webux-mailer
     - webux-pubsub
+    - webux-queue
 - Tasks
     - webux-logger
         - Investigate to introduce pino
