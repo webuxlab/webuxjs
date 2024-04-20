@@ -18,9 +18,10 @@ module.exports = {
           {
             method: 'get',
             middlewares: [],
-            action: (req, res) => res.success({
-              msg: 'Welcome ! The Documentation is available here : /api/',
-            }),
+            action: (req, res) =>
+              res.success({
+                msg: 'Welcome ! The Documentation is available here : /api/',
+              }),
           },
         ],
         '/healthcheck': [
@@ -40,34 +41,29 @@ module.exports = {
           {
             method: 'get',
             middlewares: [isAuthenticated()],
-            action: require(path.join(__dirname, 'actions', 'user', 'find'))
-              .route,
+            action: require(path.join(__dirname, 'actions', 'user', 'find')).route,
           },
           {
             method: 'post',
             middlewares: [],
-            action: require(path.join(__dirname, 'actions', 'user', 'create'))
-              .route,
+            action: require(path.join(__dirname, 'actions', 'user', 'create')).route,
           },
         ],
         '/:id': [
           {
             method: 'get',
             middlewares: [isAuthenticated()],
-            action: require(path.join(__dirname, 'actions', 'user', 'findOne'))
-              .route,
+            action: require(path.join(__dirname, 'actions', 'user', 'findOne')).route,
           },
           {
             method: 'put',
             middlewares: [isAuthenticated()],
-            action: require(path.join(__dirname, 'actions', 'user', 'update'))
-              .route,
+            action: require(path.join(__dirname, 'actions', 'user', 'update')).route,
           },
           {
             method: 'delete',
             middlewares: [isAuthenticated()],
-            action: require(path.join(__dirname, 'actions', 'user', 'remove'))
-              .route,
+            action: require(path.join(__dirname, 'actions', 'user', 'remove')).route,
           },
         ],
       },

@@ -7,7 +7,7 @@ const app = express();
 
 // common type is default
 // console output is default
-const webuxLogger = new WebuxLog();
+const webuxLogger = new WebuxLog({ type: 'tiny' });
 
 app.use(webuxLogger.OnRequest());
 

@@ -66,9 +66,9 @@ const options = {
   forceConsole: false,
   consoleLevel: 'silly', // error, warn, info, verbose, debug, silly
   logstash: {
-    host: "127.0.0.1",
-    port: "50000",
-    mode: "tcp",
+    host: '127.0.0.1',
+    port: '50000',
+    mode: 'tcp',
   },
   filenames: {
     error: 'log/error.log',
