@@ -20,6 +20,6 @@ module.exports = (options, app, log = console) => {
   app.use(compression());
   app.enable('trust proxy');
   app.set('trust proxy', options.trustProxy || false);
-  app.use(helmet());
+  app.use(helmet(options.helmet || undefined));
   app.disable('x-powered-by');
 };

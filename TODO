@@ -12,5 +12,8 @@
         - Investigate to introduce 'pino' and 'pino-http'
         - Investigate to introduce 'opentelemetry' transport
         - Investigate to introduce 'loki' transport
+    - webux-security
+        - ~~Make 'helmet' configurable~~
+        - 
 - completely skipped:
     - the generator...

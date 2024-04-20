@@ -57,6 +57,7 @@ const opts = {
     allowedHeaders:
       "Origin, X-Requested-with, Accept, Authorization, Content-Type, Accept-Language",
   },
+  helmet: undefined, // See official helmet documentation
   rateLimiters: [
     {
       name: "Authentication",
