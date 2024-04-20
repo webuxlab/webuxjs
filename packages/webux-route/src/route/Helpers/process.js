@@ -27,7 +27,7 @@ function processAction(action, actions, route, router, log) {
     // But not the winston message, it will appear 1-2 seconds later ...
     log.info(`\x1b[33mwebux-route - ${action.method.toLowerCase()} ${URL.toLowerCase()}\x1b[0m`);
 
-    return resolve();
+    resolve(true);
   });
 }
 
@@ -86,7 +86,7 @@ function processRoutes(routes, router, log) {
         await processResources(route, routes, router, log).catch((e) => reject(e));
       }
     }
-    return resolve();
+    resolve(true);
   });
 }
 

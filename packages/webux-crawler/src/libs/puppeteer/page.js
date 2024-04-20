@@ -12,7 +12,12 @@ const PuppeteerHar = require('puppeteer-har');
  */
 async function getPage(url, agent, puppeteer, extensions, headless = false) {
   const errors = [];
-  const resources = { images: [], videos: [], audios: [], fonts: [] };
+  const resources = {
+    images: [],
+    videos: [],
+    audios: [],
+    fonts: [],
+  };
 
   const browser = await puppeteer.launch({ headless });
   const page = await browser.newPage();
@@ -29,22 +34,29 @@ async function getPage(url, agent, puppeteer, extensions, headless = false) {
 
   // Request Interceptor
   page.on('request', (interceptedRequest) => {
-    if (interceptedRequest.isInterceptResolutionHandled()) return;
+    if (interceptedRequest.isInterceptResolutionHandled()) {
+      return;
+    }
 
     // IMAGES
-    if (extensions.image.some((ext) => interceptedRequest.url().toLowerCase().endsWith(ext)))
+    if (extensions.image.some((ext) => interceptedRequest.url().toLowerCase().endsWith(ext))) {
       resources.images.push(interceptedRequest.url());
+    }
 
     // VIDEOS
-    if (extensions.video.some((ext) => interceptedRequest.url().toLowerCase().endsWith(ext)))
+    if (extensions.video.some((ext) => interceptedRequest.url().toLowerCase().endsWith(ext))) {
       resources.videos.push(interceptedRequest.url());
+    }
 
     // AUDIOS
-    if (extensions.audio.some((ext) => interceptedRequest.url().toLowerCase().endsWith(ext)))
+    if (extensions.audio.some((ext) => interceptedRequest.url().toLowerCase().endsWith(ext))) {
       resources.audios.push(interceptedRequest.url());
+    }
 
     // FONTS
-    if (extensions.font.some((ext) => interceptedRequest.url().toLowerCase().endsWith(ext))) resources.fonts.push(interceptedRequest.url());
+    if (extensions.font.some((ext) => interceptedRequest.url().toLowerCase().endsWith(ext))) {
+      resources.fonts.push(interceptedRequest.url());
+    }
 
     // NEXT
     interceptedRequest.continue();
@@ -61,7 +73,13 @@ async function getPage(url, agent, puppeteer, extensions, headless = false) {
   // Cleanup
   await har.stop();
 
-  return { browser, page, har, errors, resources };
+  return {
+    browser,
+    page,
+    har,
+    errors,
+    resources,
+  };
 }
 
 module.exports = {
