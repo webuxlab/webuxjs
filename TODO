@@ -7,6 +7,8 @@
     - webux-pubsub
     - webux-queue
     - webux-route
+    - webux-server
+    - webux-sitemap
 - Tasks
     - webux-logger
         - Investigate to introduce 'pino' and 'pino-http'
