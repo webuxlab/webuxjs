@@ -21,6 +21,15 @@
 | webux-search     | Beta   |
 | webux-crawler    | Alpha  |
 
+## Setup
+
+```bash
+nvm install 20
+nvm use 20
+
+Now using node v20.12.2 (npm v10.5.0)
+```
+
 ## Getting Started
 
 See the generator.

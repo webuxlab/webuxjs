@@ -11,6 +11,7 @@ function waitForIt() {
 const app = express();
 const port = 3001;
 
+// /metrics
 app.use(requestCounterMiddleware('example-hi', 'service-hi', require('../package.json').version));
 app.use(metricsMiddleware('example-hi', 'service-hi', require('../package.json').version));
 

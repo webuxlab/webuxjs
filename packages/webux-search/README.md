@@ -4,6 +4,13 @@
 npm install --save @studiowebux/search
 ```
 
+## Environment variables
+
+```text
+ZINC_ENDPOINT="http://YOUR_IP:4080"
+ZINC_AUTHENTICATION="user:password"
+```
+
 ## Usage
 
 ```javascript

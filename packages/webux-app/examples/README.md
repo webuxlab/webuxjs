@@ -22,9 +22,12 @@ Output:
 
 ---
 
+
 ```bash
 NODE_ENV=production node errorhandler.js
 ```
+
+*The output is less verbose when in production to avoid leaking information.*
 
 ```bash
 curl http://localhost:1337/error
