@@ -7,13 +7,14 @@ const PuppeteerHar = require('puppeteer-har');
  * @param {String} agent User agent to use
  * @param {Object} puppeteer Puppeteer Instance
  * @param {String[]} extensions Extensions to intercept and build a resource array
+ * @param {boolean} headless Default: false
  * @returns { browser, page, har, errors, resources }
  */
-async function getPage(url, agent, puppeteer, extensions) {
+async function getPage(url, agent, puppeteer, extensions, headless = false) {
   const errors = [];
   const resources = { images: [], videos: [], audios: [], fonts: [] };
 
-  const browser = await puppeteer.launch({ headless: 'new' });
+  const browser = await puppeteer.launch({ headless });
   const page = await browser.newPage();
 
   await page.setRequestInterception(true);

@@ -11,10 +11,14 @@ npm install --save @studiowebux/crawler
 - Collect media resources (Audio, Video, Images)
 - Take Screenshot (Fullscreen or not)
 - Extract HTML Elements
-- Extract named Metadat
+- Extract named Metadata
 - Generate identifier (Using page title and url)
 - Extract html (`document.*`) and extract innerHtml (`body.innerHtml`)
 
 ## Usage
 
 See [Example](./tests/index.js)
+
+```bash
+node __tests__/index.js
+```

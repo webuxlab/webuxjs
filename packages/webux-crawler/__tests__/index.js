@@ -12,12 +12,12 @@ const { generateIdentifier } = require('../src/libs/identifier');
 (async () => {
   const userAgent =
     'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.5.1 Safari/605.1.15';
-  const domain = 'https://www.webuxlab.com/fr/';
+  const url = 'https://www.webuxlab.com/en/';
   let page;
   let browser;
 
   try {
-    const instance = await getPage(domain, userAgent, puppeteer, extensions);
+    const instance = await getPage(url, userAgent, puppeteer, extensions, false);
 
     page = instance.page;
     browser = instance.browser;
@@ -34,7 +34,7 @@ const { generateIdentifier } = require('../src/libs/identifier');
 
     const { screenshot, errors } = await takeScreenshot(page, true);
 
-    const identifier = await generateIdentifier(title);
+    const identifier = await generateIdentifier(title, url);
 
     console.debug(
       content,
@@ -50,7 +50,7 @@ const { generateIdentifier } = require('../src/libs/identifier');
       screenshot,
       errors,
 
-      domain,
+      url,
       userAgent,
 
       identifier,
