@@ -1,4 +1,0 @@
-{
-  "extends": ["airbnb-base", "plugin:jest/recommended", "../.eslintrc.json", "prettier"],
-  "plugins": ["jest", "prettier"]
-}
