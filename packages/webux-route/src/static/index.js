@@ -20,13 +20,13 @@ const serveStatic = (resources, app, express, log = console) =>
     resources.forEach((resource) => {
       log.info(`\x1b[33mwebux-static - Link ${resource.path} to ${resource.resource}\x1b[0m`);
       if (!path.isAbsolute(resource.resource)) {
-        return reject(new Error('The resource path must be absolute'));
+        reject(new Error('The resource path must be absolute'));
+        return;
       }
       app.use(resource.path, express.static(resource.resource));
-      return resource;
     });
 
-    return resolve('Static resources loaded !');
+    resolve('Static resources loaded !');
   });
 
 module.exports = serveStatic;

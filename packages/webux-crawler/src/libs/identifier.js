@@ -9,9 +9,9 @@ function domainName(url) {
   // Extract the domain only
   let domain = url.split(/https?:\/\//)[1];
   if (domain) {
-    domain = domain.split('/')[0];
+    [domain] = domain.split('/');
   } else {
-    domain = url.split('/')[0];
+    [domain] = url.split('/');
   }
 
   let baseDomain = url.split(/(https?:\/\/)/)[1];
@@ -21,10 +21,24 @@ function domainName(url) {
 }
 
 /**
+ * * @typedef {Object} Identifier - A identifier schema
+ * @property {string} documentId
+ * @property {string} identifier
+ * @property {string} title
+ * @property {Date} timestamp
+ * @property {string} url
+ * @property {string} withoutProtocol
+ * @property {string} noTrailing
+ * @property {string} uuid
+ * @property {string} uuidWithoutProtocol
+ * @property {string} uuidNoTrailing
+ */
+
+/**
  * Generate Identifier using the title and url information
  * @param {String} title
  * @param {String} url
- * @returns {documentId,identifier,title,timestamp,url,withoutProtocol,noTrailing,uuid,uuidWithoutProtocol,uuidNoTrailing}
+ * @returns {Identifier}
  */
 function generateIdentifier(title, url) {
   const timestamp = new Date();

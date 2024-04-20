@@ -14,15 +14,14 @@ const path = require('path');
  * @param {String} destination The base path where the file is stored
  * @returns {Promise<String>} The file path
  */
-const download = (filename, destination) =>
-  // Default function to get started quickly
-  Promise.resolve(path.join(destination, filename));
+// Default function to get started quickly
+const download = (filename, destination) => Promise.resolve(path.join(destination, filename));
 /**
  * Default download route
  * It allows to use this module quickly
  * @param {String} destination The file location '/path/to/'
  * @param {String} key The query key to find the filename 'req.params[key]'
- * @param {Function} downloadFn Custom download action : downloadFn(destination)(req)=>{return Promise<String>}
+ * @param {Function} downloadFn Custom action: downloadFn(destination)(req)=>{return Promise<String>}
  * @param {Object} log Custom logger, by default : console
  */
 const downloadRoute =

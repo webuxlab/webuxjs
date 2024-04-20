@@ -43,12 +43,13 @@ class Mailer {
       const verified = await this.transporter.verify().catch((e) => reject(new Error(`webux-mailer - ${e.message}`)));
 
       if (!verified) {
-        return reject(new Error('webux-mailer - Please verify your connection or authentication information'));
+        reject(new Error('webux-mailer - Please verify your connection or authentication information'));
+        return;
       }
 
       this.log.debug('webux-mailer - Transporter connection and authentication verified');
 
-      return resolve('webux-mailer - Transporter connection and authentication verified');
+      resolve('webux-mailer - Transporter connection and authentication verified');
     });
   }
 
@@ -60,10 +61,12 @@ class Mailer {
   Sendmail(data) {
     return new Promise(async (resolve, reject) => {
       if (!this.isEnabled) {
-        return reject(new Error('webux-mailer - Mail feature is disabled'));
+        reject(new Error('webux-mailer - Mail feature is disabled'));
+        return;
       }
       if (!data) {
-        return reject(new Error('webux-mailer - Unable to send the email, no data provided'));
+        reject(new Error('webux-mailer - Unable to send the email, no data provided'));
+        return;
       }
 
       this.log.debug('webux-mailer - Sending the email');
@@ -71,10 +74,11 @@ class Mailer {
 
       if (!sent) {
         this.log.debug('webux-mailer - email not sent');
-        return reject(new Error('webux-mailer - Message not Sent'));
+        reject(new Error('webux-mailer - Message not Sent'));
+        return;
       }
       this.log.debug(`webux-mailer - email sent (id: ${sent.messageId})`);
-      return resolve(sent);
+      resolve(sent);
     });
   }
 }

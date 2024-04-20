@@ -148,7 +148,8 @@ const UploadFile = (options, files, filename, label = '', log = console) =>
       const fileErrored = [];
 
       if (!localFiles || localFiles.length === 0) {
-        return reject(new Error(`No files provided using ${options.express.key} for the key.`));
+        reject(new Error(`No files provided using ${options.express.key} for the key.`));
+        return;
       }
 
       if (localFiles.length > 0) {
@@ -186,11 +187,12 @@ const UploadFile = (options, files, filename, label = '', log = console) =>
             imageType(file.data) !== null &&
             options.mimeTypes.includes(imageType(file.data).mime)
           ) {
-            log.debug(`The file is an 'image' file`);
-            if (options.processImage === true)
+            log.debug("The file is an 'image' file");
+            if (options.processImage === true) {
               await ProcessImage(options.tmp, updatedFilename, extension, file, options.width, uploadDestination, log);
+            }
           } else if (options.filetype === 'multi' || options.filetype === 'text' || options.filetype === 'csv') {
-            log.debug(`The file is a 'text' or a 'csv' file`);
+            log.debug("The file is a 'text' or a 'csv' file");
             if (!options.mimeTypes.includes(file.mimetype)) {
               log.debug(`Invalid mimetype for ${file.name}`);
 
@@ -201,7 +203,7 @@ const UploadFile = (options, files, filename, label = '', log = console) =>
               );
             }
           } else {
-            log.debug(`The file is a 'binary' file`);
+            log.debug("The file is a 'binary' file");
             const info = await fileType.fromBuffer(file.data);
             if (!info || !options.mimeTypes.includes(info.mime)) {
               // await DeleteFile(file.name);
@@ -229,10 +231,11 @@ const UploadFile = (options, files, filename, label = '', log = console) =>
         }
       }
       if ((!fileProcessed || fileProcessed.length === 0) && (!fileErrored || fileErrored.length === 0)) {
-        return reject(new Error('An error has occured while processing uploaded files.'));
+        reject(new Error('An error has occured while processing uploaded files.'));
+        return;
       }
 
-      return resolve({ fileProcessed, fileErrored });
+      resolve({ fileProcessed, fileErrored });
     } catch (e) {
       log.error(e);
       throw new Error(
@@ -243,4 +246,9 @@ const UploadFile = (options, files, filename, label = '', log = console) =>
     }
   });
 
-module.exports = { UploadFile, DeleteFile, PostProcessing, ProcessImage };
+module.exports = {
+  UploadFile,
+  DeleteFile,
+  PostProcessing,
+  ProcessImage,
+};

@@ -104,7 +104,11 @@ class Queue {
    */
   async consumeMessage() {
     this.log.verbose('webux-queue: Consume Message');
-    return new Promise((resolve) => this.channel.consume(this.queueName, (msg) => resolve(msg)));
+    return new Promise((resolve) => {
+      this.channel.consume(this.queueName, (msg) => {
+        resolve(msg);
+      });
+    });
   }
 
   /**

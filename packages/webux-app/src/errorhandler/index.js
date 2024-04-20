@@ -131,4 +131,9 @@ class ApiError extends Error {
   }
 }
 
-module.exports = { Handler, GlobalHandler, NotFoundHandler, ApiError };
+module.exports = {
+  Handler,
+  GlobalHandler,
+  NotFoundHandler,
+  ApiError,
+};
