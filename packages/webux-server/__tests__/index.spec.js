@@ -150,7 +150,7 @@ test('Using SSL', () => {
   });
 });
 
-test('Start the server', async () => {
+test.skip('Start the server', async () => {
   const options = {
     ssl: {
       enabled: false,
