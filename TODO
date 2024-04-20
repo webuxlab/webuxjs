@@ -3,6 +3,7 @@
     - webux-crawler
     - webux-fileupload
     - webux-logger
+    - webux-mailer
 - Tasks
     - webux-logger
         - Investigate to introduce pino
