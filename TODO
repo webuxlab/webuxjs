@@ -10,6 +10,8 @@
     - webux-server
     - webux-sitemap
     - webux-socket
+    - webux-sql
+    - webux-telemetry
 - Tasks
     - webux-logger
         - Investigate to introduce 'pino' and 'pino-http'
