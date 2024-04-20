@@ -29,7 +29,7 @@ const options = {
   application_id: 'Test01',
   forceConsole: false,
   consoleLevel: 'silly',
-  logstash: { host: '127.0.0.1', port: '50000', mode: 'tcp' },
+  // logstash: { host: '127.0.0.1', port: '50000', mode: 'tcp' },
   filenames: {
     error: 'log/error.log',
     warn: 'log/warn.log',

@@ -1,3 +1,10 @@
 - Review JSDoc
     - webux-app
     - webux-crawler
+    - webux-fileupload
+    - webux-logger
+- Tasks
+    - webux-logger
+        - Investigate to introduce pino
+- completely skipped:
+    - the generator...
