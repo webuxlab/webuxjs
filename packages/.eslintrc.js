@@ -10,5 +10,7 @@ module.exports = {
     "no-await-in-loop": "warn",
     "import/no-amd": "warn",
     "import/newline-after-import": "warn",
+    "camelcase": "warn",
+    "no-param-reassign": "warn"
   },
 };

@@ -12,6 +12,7 @@
   - webux-socket
   - webux-sql
   - webux-telemetry
+  - webux-auth
 - Tasks
   - webux-logger
     - Investigate to introduce 'pino' and 'pino-http'

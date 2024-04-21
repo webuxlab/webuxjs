@@ -1,0 +1,17 @@
+<nav>
+  <ul>
+    <li><strong>Studio Webux</strong></li>
+  </ul>
+  <ul>
+    <li><a href="/" role="button"id="home-btn"> Home</a></li>
+    <% if (isAuthenticated) { %>
+        <li><a href="/auth/logout" role="button" id="sign-out-btn">Sign Out</a></li>
+    <li><a href="/profile" role="button">My Profile</a></li>
+    <li><a href="/api/secret" role="button">Secret Page</a></li>
+    <li><a href="/api/admin" role="button">Admin Page</a></li>
+    <li><a href="/kitty" role="button">Kitty Page</a></li>
+    <% } else { %>
+        <li><a href="/auth/login" role="button"id="sign-in-btn"> Sign In </a></li>
+    <% } %>
+  </ul>
+</nav>

@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <%- include('../partials/head'); %>
+  </head>
+  <body class="container">
+    <header><%- include('../partials/header'); %></header>
+
+    <main>
+      <h1>Kitty Page</h1>
+
+      <button hx-post="/api/kitty" hx-swap="innerHTML" hx-target="#state">Add a kitty</button>
+      <button hx-put="/api/kitty/1" hx-swap="innerHTML" hx-target="#state">Update a kitty</button>
+      <button hx-get="/api/kitty" hx-swap="innerHTML" hx-target="#state">Get all kitties</button>
+      <button hx-delete="/api/kitty/1" hx-swap="innerHTML" hx-target="#state">Kitty adopted 🎉</button>
+
+      <div>
+        <p id="state"></p>
+      </div>
+    </main>
+
+    <footer><%- include('../partials/footer'); %></footer>
+  </body>
+</html>
