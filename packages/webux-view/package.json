@@ -1,0 +1,36 @@
+{
+  "name": "@studiowebux/view",
+  "version": "5.0.0",
+  "description": "Setup ejs",
+  "main": "src/index.js",
+  "author": "Studio Webux",
+  "license": "SEE LICENSE IN license.txt",
+  "directories": {},
+  "homepage": "https://github.com/webuxlab/webuxjs/packages/webux-view/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/webuxlab/webuxjs.git"
+  },
+  "scripts": {
+    "lint": "eslint src/**",
+    "doc": "jsdoc src -d jsdoc/",
+    "installdeps": "npm install",
+    "auditfix": "npm audit fix"
+  },
+  "dependencies": {
+    "ejs": "^3.1.10"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3.0.2",
+    "@eslint/js": "^9.1.1",
+    "eslint": "^8.57.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-prettier": "^5.1.3",
+    "globals": "^15.0.0",
+    "jsdoc": "^4.0.2",
+    "prettier": "^3.2.5"
+  },
+  "gitHead": "01e1f846bfde6a9139e85cb14877996f01850615"
+}
