@@ -38,6 +38,9 @@ const Webux = require('../app');
   Webux.app.use('/', Webux.router);
   await Webux.Route.LoadStatic(Webux.app, Webux.express);
 
+  Webux.app.use(Webux.NotFoundErrorHandler());
+  Webux.app.use(Webux.GlobalErrorHandler());
+
   await Webux.Server.StartServer();
 
   Webux.Socket.Initialize(Webux.Server.server);

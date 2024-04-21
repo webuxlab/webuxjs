@@ -68,6 +68,12 @@ class MyApp extends Webux.WebuxApp {
     this.Server = new WebuxServer(this.config.server, this.app, this.log);
 
     /**
+     * Webux Security
+     */
+    this.Security = new WebuxSecurity(this.config.security, this.log);
+    this.Validators = this.Security.validators;
+
+    /**
      * Webux Routes and resources
      */
 
@@ -87,12 +93,6 @@ class MyApp extends Webux.WebuxApp {
      * Webux File Upload
      */
     this.FileUpload = new WebuxFileupload(this.config.fileupload, this.log);
-
-    /**
-     * Webux Security
-     */
-    this.Security = new WebuxSecurity(this.config.security, this.log);
-    this.Validators = this.Security.validators;
 
     /**
      * Webux View
