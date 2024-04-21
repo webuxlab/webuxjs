@@ -1,9 +1,9 @@
 # Step 1 - Generate Self Signed Certificate
 
 ```bash
-mkdir -p ~/keycloak/conf/
+mkdir -p ./keycloak/conf/
 
-keytool -genkeypair -storepass change-this-password -storetype PKCS12 -keyalg RSA -keysize 2048 -dname "CN=server" -alias server -ext "SAN:c=DNS:localhost,IP:127.0.0.1" -keystore ~/keycloak/conf/server.keystore
+keytool -genkeypair -storepass change-this-password -storetype PKCS12 -keyalg RSA -keysize 2048 -dname "CN=server" -alias server -ext "SAN:c=DNS:localhost,IP:127.0.0.1" -keystore ./keycloak/conf/server.keystore
 ```
 
 **Source**
@@ -114,7 +114,7 @@ npm run start
 ```
 
 Go to : `http://localhost:3000`
-Click on every button !  
+Click on every button !
 
 **Initial setup:**
 
@@ -204,7 +204,6 @@ Error: did not find expected authorization request details in session, req.sessi
 
 Set the `NODE_ENV="development"` and restart the server. Go to `http://localhost:3000` and it should be back on !
 
-
 ---
 
 # Redis
@@ -215,7 +214,17 @@ docker run --name redis-session -p 6379:6379 -v $(pwd)/tmp/redis:/data -d redis 
 
 **List all keys**
 
-
 ```bash
 scan 0
 ```
+
+# Enable Groups and Permissions in Keycloak
+
+To enable the **group** support in keycloak, navigate to : `https://localhost:8443/admin/master/console/#/studiowebux/clients/c1988e8a-49e1-40e5-93b9-0eda321b8dc8/clientScopes`
+which is: Clients -> nodejs -> Client Scopes -> microprofile-jwt -> Default
+Sign out (from your custom application) and log back in.
+
+To create a group, navigate to Groups, create a new one (name it : `Administrator`), then add your user(s) in sign out and sign in to reload the claims.
+Then go to Realm Roles, Click Create Role and name it the same `Administrator`, then back to the created group, we need to assign it to the role.
+
+For authorization, you need to go in the nodejs client, click authorization, then resources. You see that by default everything is allowed.

@@ -1,26 +1,24 @@
 const expressSession = require('express-session');
 const { Issuer, custom, Strategy, TokenSet } = require('openid-client');
 const passport = require('passport');
-const RedisStore = require('connect-redis');
+const RedisStore = require('connect-redis').default;
 const { createClient } = require('redis');
 
 class Auth {
   /**
    * Initialize the authentication module
    * @param {Object} opts
-   * @param {Object} store in memory, redis and etc.
-   * @param {Object} app Express Application
    * @param {Object} log Custom logger, by default: console
    * @returns {VoidFunction}
    */
-  constructor(opts, store, app, log = console) {
+  constructor(opts, log = console) {
     this.config = opts || {};
     this.log = log;
-    this.store = store; // session
 
-    this.app = app;
+    this.store = null; // session
     this.issue = null;
     this.client = null;
+    this.passport = passport;
   }
 
   //
@@ -28,7 +26,6 @@ class Auth {
   //
 
   /**
-   * Function to be wrapped in a app.use()
    * Enable Express session with user selected store
    * @returns {any}
    */
@@ -51,9 +48,9 @@ class Auth {
       url: this.config.redis.url,
     });
     redisClient
-      .on('error', (err) => console.log('Redis Client Error', err))
+      .on('error', (err) => this.log.log('Redis Client Error', err))
       .connect()
-      .catch(console.error);
+      .catch(this.log.error);
 
     // Initialize store.
     this.store = new RedisStore({
@@ -117,16 +114,19 @@ class Auth {
   // PASSPORTJS
   //
 
+  passport_session() {
+    return this.passport.authenticate('session');
+  }
+
   initialize_passport() {
     // Setup PassportJS and the session
-    this.app.use(passport.authenticate('session'));
+    // this.app.use(passport.authenticate('session'));
 
     // Setup PassportJS Strategy using OIDC and the Keycloak client
     // It stores only the tokenSet, the userInfo will be accessed through the tokenSet
-    passport.use(
+    this.passport.use(
       'oidc',
       new Strategy({ client: this.client }, (tokenSet, _userInfo, done) => {
-        // console.debug('OIDC', tokenSet, _userInfo);
         return done(null, tokenSet);
       })
     );
@@ -134,17 +134,17 @@ class Auth {
     /**
      * Receives a tokenSet
      */
-    passport.serializeUser(function (token, done) {
+    this.passport.serializeUser(function (token, done) {
       done(null, token);
     });
     /**
      * Returns an object with the userinfo and token
      */
-    passport.deserializeUser(function (token, done) {
+    this.passport.deserializeUser(function (token, done) {
       done(null, { userinfo: new TokenSet(token).claims(), token });
     });
 
-    return { app: this.app, passport };
+    return { passport: this.passport };
   }
 
   is_authenticated() {
@@ -153,10 +153,11 @@ class Auth {
         if (req.user.token) {
           const tokenSet = new TokenSet(req.user.token);
           const isAuth = await this.client.userinfo(tokenSet);
-          return isAuth() ? next() : await this.refresh(req, res, next);
+          return isAuth ? next() : await this.refresh(req, res, next);
         }
         return res.redirect('/');
-      } catch (_) {
+      } catch (e) {
+        this.log.error(e.message);
         return this.refresh(req, res, next);
       }
     };
@@ -169,39 +170,41 @@ class Auth {
    * @param {Function} next express Next
    * @returns next() or sign out the user
    */
-  refresh() {
-    return async (req, res, next) => {
-      try {
-        // the user is connected, but might not be valid anymore.
-        if (req.user) {
-          // try to get a new tokenSet, but depending on the SSO Session Idle and Max in keycloak
-          // It might be invalid
-          const tokenSet = await this.client.refresh(req.user.token.refresh_token);
-          req.session.passport.user = tokenSet;
-          return req.session.save(function (err) {
-            if (err) {
-              throw new Error('Unable to refresh the token. You must sign in.');
-            }
-            req.user.token = req.session.passport.user;
-            req.user.userinfo = tokenSet.claims();
-            return next();
-          });
-        }
-
-        throw new Error('Unable to refresh the token. You must sign in.');
-      } catch (e) {
-        const idToken = req.user.token.id_token;
-        // Logout local session (passportJS session)
-        return req.logout((err) => {
+  async refresh(req, res, next) {
+    this.log.debug('Trying to refresh');
+    try {
+      // the user is connected, but might not be valid anymore.
+      if (req.user) {
+        // try to get a new tokenSet, but depending on the SSO Session Idle and Max in keycloak
+        // It might be invalid
+        const tokenSet = await this.client.refresh(req.user.token.refresh_token);
+        req.session.passport.user = tokenSet;
+        return req.session.save(function (err) {
           if (err) {
-            return next(err);
+            throw new Error('Unable to refresh the token. You must sign in.');
           }
-          // Logout browser (Keycloak sign in page)
-          // Not convince that it is the way to go...
-          return this.force_logout(res, idToken);
+          req.user.token = req.session.passport.user;
+          req.user.userinfo = tokenSet.claims();
+
+          this.log.debug('token refreshed');
+          return next();
         });
       }
-    };
+
+      throw new Error('Unable to refresh the token. You must sign in.');
+    } catch (e) {
+      this.log.error(e.message);
+      const idToken = req.user.token.id_token;
+      // Logout local session (passportJS session)
+      return req.logout((err) => {
+        if (err) {
+          return next(err);
+        }
+        // Logout browser (Keycloak sign in page)
+        // Not convince that it is the way to go...
+        return this.force_logout(res, idToken);
+      });
+    }
   }
 
   //

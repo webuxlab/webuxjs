@@ -1,4 +1,4 @@
-version: "3.8"
+version: '3.8'
 services:
   postgres:
     container_name: keycloak-psqldb
@@ -13,7 +13,7 @@ services:
     volumes:
       - keycloak-psqldb:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready"]
+      test: ['CMD-SHELL', 'pg_isready']
       interval: 10s
       timeout: 5s
       retries: 5
@@ -28,14 +28,14 @@ services:
     ports:
       - 8443:8443
     volumes:
-      - $HOME/keycloak/conf/:/conf/:ro
-      - $HOME/keycloak/providers:/opt/keycloak/providers/
+      - $PWD/keycloak/conf/:/conf/:ro
+      - $PWD/keycloak/providers:/opt/keycloak/providers/
     environment:
       - KEYCLOAK_ADMIN=admin
       - KEYCLOAK_ADMIN_PASSWORD=change_me
       - KC_METRICS_ENABLED=true
       - KC_HEALTH_ENABLED=true
-    command: 
+    command:
       - --verbose
       - start
       - --db=postgres
@@ -45,6 +45,15 @@ services:
       - --db-password=keycloak-db-password
       - --https-key-store-file=/conf/server.keystore
       - --https-key-store-password=change-this-password
+
+  redis:
+    image: redis
+    container_name: redis-session
+    ports:
+      - 6379:6379
+    volumes:
+      - $PWD/tmp/redis:/data
+    command: redis-server --save 60 1 --loglevel warning
 
 volumes:
   keycloak-psqldb:

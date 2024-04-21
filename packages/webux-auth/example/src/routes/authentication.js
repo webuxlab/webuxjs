@@ -1,9 +1,8 @@
-import express from 'express';
-import { client } from '../keycloak.js';
+const express = require('express');
 
 const router = express.Router();
 
-export default function routes(passport) {
+module.exports = function routes(passport, client) {
   router.get('/auth/callback', (req, res, next) => {
     console.debug('/auth/callback');
 
@@ -37,4 +36,4 @@ export default function routes(passport) {
   });
 
   return router;
-}
+};

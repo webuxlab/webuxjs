@@ -3,4 +3,6 @@
  * @param {Object} req Express request
  * @returns
  */
-export const isHtmx = (req) => req.headers['hx-request'] === 'true';
+const isHtmx = (req) => req.headers['hx-request'] === 'true';
+
+module.exports = { isHtmx };

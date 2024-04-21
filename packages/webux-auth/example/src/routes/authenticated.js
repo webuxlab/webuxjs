@@ -1,12 +1,11 @@
-import express from 'express';
-import { isAuthenticated } from '../passport.js';
-import { checkGroup, checkPermission } from '../keycloak.js';
+const express = require('express');
+const auth = require('../auth');
 
 const router = express.Router();
 
-router.get('/profile', isAuthenticated, (req, res) => {
-  console.debug("profile")
-  console.log(req.user)
+router.get('/profile', auth.is_authenticated(), (req, res) => {
+  console.debug('profile');
+  console.log(req.user.userinfo.sub);
   res.render('pages/profile', {
     profile: req.user.userinfo,
     // expires_at: req.user.token.expires_at,
@@ -18,8 +17,8 @@ router.get('/profile', isAuthenticated, (req, res) => {
 
 router.get(
   '/api/secret',
-  isAuthenticated,
-  checkPermission('/api/secret/*'),
+  auth.is_authenticated(),
+  auth.check_permission('/api/secret/*'),
   (req, res) => {
     res.render('pages/secret', {
       isAuthenticated: req.isAuthenticated()
@@ -29,8 +28,8 @@ router.get(
 
 router.get(
   '/api/admin',
-  isAuthenticated,
-  checkGroup('Administrator'),
+  auth.is_authenticated(),
+  auth.check_group('Administrator'),
   (req, res) => {
     res.render('pages/admin', {
       isAuthenticated: req.isAuthenticated()
@@ -38,14 +37,10 @@ router.get(
   }
 );
 
-router.get(
-  '/kitty',
-  isAuthenticated,
-  (req, res) => {
-    res.render('pages/kitty', {
-      isAuthenticated: req.isAuthenticated()
-    });
-  }
-);
+router.get('/kitty', auth.is_authenticated(), (req, res) => {
+  res.render('pages/kitty', {
+    isAuthenticated: req.isAuthenticated()
+  });
+});
 
-export default router;
+module.exports = router;
