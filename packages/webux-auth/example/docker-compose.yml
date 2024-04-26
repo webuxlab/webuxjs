@@ -24,7 +24,7 @@ services:
         condition: service_healthy
     container_name: keycloak
     restart: unless-stopped
-    image: quay.io/keycloak/keycloak:23.0
+    image: quay.io/keycloak/keycloak:24.0.3
     ports:
       - 8443:8443
     volumes:

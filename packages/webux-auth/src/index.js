@@ -181,7 +181,7 @@ class Auth {
         req.session.passport.user = tokenSet;
         return req.session.save(function (err) {
           if (err) {
-            throw new Error('Unable to refresh the token. You must sign in.');
+            return next(new Error('Unable to refresh the token. You must sign in.'));
           }
           req.user.token = req.session.passport.user;
           req.user.userinfo = tokenSet.claims();
@@ -194,7 +194,8 @@ class Auth {
       throw new Error('Unable to refresh the token. You must sign in.');
     } catch (e) {
       this.log.error(e.message);
-      const idToken = req.user.token.id_token;
+      const idToken = req?.user?.token?.id_token;
+
       // Logout local session (passportJS session)
       return req.logout((err) => {
         if (err) {

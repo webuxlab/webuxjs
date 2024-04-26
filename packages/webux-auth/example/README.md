@@ -228,3 +228,30 @@ To create a group, navigate to Groups, create a new one (name it : `Administrato
 Then go to Realm Roles, Click Create Role and name it the same `Administrator`, then back to the created group, we need to assign it to the role.
 
 For authorization, you need to go in the nodejs client, click authorization, then resources. You see that by default everything is allowed.
+
+- Delete the default authorization
+- Create a new resource
+    - Named: `Secret`
+    - URIs: `/api/secret/*`
+- Then create a new Policy to enable the secret page to be accessed by members of the group `Administrator`
+    - Select Group
+    - Name it `secret-access`
+    - Add the `Administrator` group
+- Then create a resource based permission
+    - name it : `secret-access`
+    - select the `secret` resource
+    - select the `secret-access-policy`
+    - select the decision strategy based on how you want to build your permission system, for this I left `Unanimous`
+- Now if you simply refresh the page from the example, your user in the administrator group has immediate access to the secret page. (NO need to sign in again)
+
+For the kitties:
+
+- Same thing but this time with a read access AND a write access
+    - 
+
+
+To recap:
+
+- the /api/admin page is a role based permission
+- the /api/secret page is a resource based permission
+- the /kitty page is an "advanced" resource based permission, because we defined rules for Read vs Write access. (TODO)
