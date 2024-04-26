@@ -1,4 +1,5 @@
 module.exports = {
+  languageOptions: { parserOptions: { ecmaVersion: 12 } },
   rules: {
     "no-restricted-syntax": "warn",
     "no-async-promise-executor": "warn",
@@ -10,5 +11,7 @@ module.exports = {
     "no-await-in-loop": "warn",
     "import/no-amd": "warn",
     "import/newline-after-import": "warn",
+    camelcase: "warn",
+    "no-param-reassign": "warn",
   },
 };

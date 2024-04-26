@@ -1,0 +1,59 @@
+version: '3.8'
+services:
+  postgres:
+    container_name: keycloak-psqldb
+    restart: unless-stopped
+    image: postgres:16-alpine
+    ports:
+      - 5442:5432 # Local access using port 5442
+    environment:
+      - POSTGRES_PASSWORD=keycloak-db-password
+      - PGDATA=/var/lib/postgresql/data/pgdata
+      - POSTGRES_DB=keycloak
+    volumes:
+      - keycloak-psqldb:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  keycloak:
+    depends_on:
+      postgres:
+        condition: service_healthy
+    container_name: keycloak
+    restart: unless-stopped
+    image: quay.io/keycloak/keycloak:24.0.3
+    ports:
+      - 8443:8443
+    volumes:
+      - $PWD/keycloak/conf/:/conf/:ro
+      - $PWD/keycloak/providers:/opt/keycloak/providers/
+    environment:
+      - KEYCLOAK_ADMIN=admin
+      - KEYCLOAK_ADMIN_PASSWORD=change_me
+      - KC_METRICS_ENABLED=true
+      - KC_HEALTH_ENABLED=true
+    command:
+      - --verbose
+      - start
+      - --db=postgres
+      - --hostname=localhost
+      - --db-url=jdbc:postgresql://postgres:5432/keycloak
+      - --db-username=postgres
+      - --db-password=keycloak-db-password
+      - --https-key-store-file=/conf/server.keystore
+      - --https-key-store-password=change-this-password
+
+  redis:
+    image: redis
+    container_name: redis-session
+    ports:
+      - 6379:6379
+    volumes:
+      - $PWD/tmp/redis:/data
+    command: redis-server --save 60 1 --loglevel warning
+
+volumes:
+  keycloak-psqldb:
