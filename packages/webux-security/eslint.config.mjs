@@ -6,6 +6,7 @@ import { FlatCompat } from '@eslint/eslintrc';
 import pluginJs from '@eslint/js';
 
 import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended';
+const jest = require('eslint-plugin-jest');
 
 import local from '../.eslintrc.js';
 
@@ -23,4 +24,18 @@ export default [
   ...compat.extends('airbnb-base'),
   eslintPluginPrettierRecommended,
   local,
+  ...require('@eslint/js').configs.recommended,
+  {
+    files: ['__tests__/**'],
+    ...jest.configs['flat/recommended'],
+    rules: {
+      ...jest.configs['flat/recommended'].rules,
+      'jest/prefer-expect-assertions': 'off',
+    },
+  },
+  // you can also configure jest rules in other objects, so long as some of the `files` match
+  {
+    files: ['__tests__/**'],
+    rules: { 'jest/prefer-expect-assertions': 'off' },
+  },
 ];
