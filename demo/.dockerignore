@@ -10,3 +10,4 @@ Dockerfile
 .dockerignore
 .eslintrc.json
 Gruntfile.js
+.env*

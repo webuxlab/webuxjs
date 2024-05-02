@@ -20,6 +20,6 @@ VOLUME [ "/usr/src/app/defaults" ]
 VOLUME [ "/usr/src/app/uploads" ]
 VOLUME [ "/usr/src/app/locales" ]
 
-EXPOSE 3030
+EXPOSE 1337
 CMD [ "npm", "start" ]
 

@@ -1,0 +1,21 @@
+# docker compose up
+
+services:
+  redis:
+    container_name: redis
+    image: redis
+    command: 'redis-server --save 60 1 --loglevel warning'
+
+  backend:
+    build: .
+    volumes:
+      - ./log:/usr/src/app/log
+      - ./defaults:/usr/src/app/defaults
+      - ./uploads:/usr/src/app/uploads
+      - ./locales:/usr/src/app/locales
+    env_file:
+      - .env.docker
+    ports:
+      - 1337:1337
+    extra_hosts:
+      - 'host.docker.internal:host-gateway'
