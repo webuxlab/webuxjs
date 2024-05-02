@@ -136,5 +136,5 @@ test('Check API Key Usage and error handling', () => {
     }
   };
 
-  expect(t).toThrow('Too many requests');
+  expect(t).toThrow('Api key limit reached');
 });
