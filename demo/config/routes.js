@@ -5,6 +5,10 @@ const { handleHome } = require('../api/v1/actions/home');
 const { route: randomRoute } = require('../api/v1/actions/randomNumber');
 const { Get: GetRandom } = require('../api/v1/validations/example');
 
+const { route: nameGeneratorRoute } = require('../api/v1/actions/nameGenerator');
+
+const api_key_middleware = require('../api/v1/middlewares/api_key');
+
 /**
  *
  * @param {Webux} Webux
@@ -40,6 +44,13 @@ module.exports = (Webux) => ({
               res.success({
                 msg: 'Welcome ! ',
               }),
+          },
+        ],
+        '/generator/name': [
+          {
+            method: 'get',
+            middlewares: [api_key_middleware(Webux.Security)],
+            action: nameGeneratorRoute,
           },
         ],
         '/healthcheck': [

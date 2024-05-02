@@ -5,6 +5,8 @@
  * License: MIT
  */
 
+require('dotenv').config();
+
 /**
  * Load the Application modules and configurations
  */
@@ -34,6 +36,14 @@ const Webux = require('../app');
 
   await Webux.Route.LoadResponse(Webux.app);
   await Webux.Route.LoadRoute(Webux.router);
+
+  // Authentication & Authorization
+  Webux.auth.load_redis_store();
+  Webux.app.use(Webux.auth.load_express_session());
+  await Webux.auth.initialize_keycloak_issuer();
+  Webux.auth.initialize_keycloak_client();
+  Webux.auth.initialize_passport();
+  Webux.app.use(Webux.auth.passport_session());
 
   Webux.app.use('/', Webux.router);
   await Webux.Route.LoadStatic(Webux.app, Webux.express);
