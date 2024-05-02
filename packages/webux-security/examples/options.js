@@ -26,7 +26,7 @@ module.exports = {
     {
       name: 'Global',
       time: 60, // blocked for 1 minute
-      maxReq: 5, // after 5 tries the requester will be blocked for 1 minute
+      maxReq: 10, // after 5 tries the requester will be blocked for 1 minute
       pattern: '', // It applies globally
     },
   ],

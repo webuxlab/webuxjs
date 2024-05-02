@@ -102,13 +102,13 @@ function update_limit(daily) {
  * Otherwise it throws an error.
  * @param {ApiKeyClient} client The current client and usage associated
  * @returns {ApiKeyClient} return the updated client
- * @throws 'Too many requests' If the daily limit is exhausted
+ * @throws 'Api key limit reached' If the daily limit is exhausted
  */
 function check_api_key(client) {
   const today = new Date().toISOString().split('T')[0];
   if (client.limit.daily <= 0) throw new Error('This API Key has no limit configured');
   if (client.usage[today] >= client.limit.daily) {
-    throw new Error('Too many requests');
+    throw new Error('Api key limit reached');
   }
 
   const payload = { ...client, usage: { ...update_usage(client.usage) } };

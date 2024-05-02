@@ -14,6 +14,8 @@ const query = require('./query/index');
 const validators = require('./validator/index');
 const rateLimiter = require('./ratelimiter/index');
 
+const apiKey = require('./apikey/index');
+
 /**
  * It contains security modules
  * @class Security
@@ -28,6 +30,9 @@ class Security {
     this.config = opts || {};
     this.log = log;
     this.validators = validators;
+
+    // This Object is agnostic of the class itself as it provides helper functions.
+    this.ApiKey = apiKey;
   }
 
   /**
