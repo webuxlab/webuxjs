@@ -29,11 +29,6 @@
         - implement EJS
     - webux-auth
         - Keycloak
-    - webux-enqueue
-        - simple enqueue implementation
-    - webux-worker
-        - nodejs worker threads
-        - nodejs worker aync process pool
     - webux-api-key
     - webux-mtls
     - webux-mongo-db
@@ -41,4 +36,13 @@
     - webux-memory
         - redis
         - memcached
-- need a boilerplate :| 
+    - webux-tasks
+        - celery integration with rabbitmq OR redis
+        - enqueue
+            - simple enqueue implementation
+        - worker
+            - nodejs worker threads
+            - nodejs worker aync process pool
+- need a boilerplate :|
+- HAProxy + let's encrypt + nginx + webuxjs backend/frontend (in the demo)
+- Redis, RabbitMQ, Kafka, seaweedfs, keycloak, jaeger, logstash, prometheus, grafana, alertmanager, zincsearch, mongodb, postgres, janusgraph, scylladb, celery, jenkins, registry, docker-compose
