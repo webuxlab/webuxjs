@@ -30,6 +30,7 @@
     - webux-auth
         - Keycloak
     - webux-api-key
+      - this service has been added in the webux-security module
     - webux-mtls
     - webux-mongo-db
     - webux-gremlin
