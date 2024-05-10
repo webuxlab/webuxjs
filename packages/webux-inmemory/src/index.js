@@ -19,13 +19,13 @@ class InMemory {
   /**
    * Setup a redis connection
    * @param {*} mode 'redis'
-   * @returns a connected redis instance
+   * @returns a connected redis client instance
    */
   async initialize(mode = 'redis') {
     if (mode === 'redis') {
-      this.client = await createClient(this.config.redis)
-        .on('error', (err) => this.log.error('Redis Client Error', err))
-        .connect();
+      this.client = createClient(this.config.redis);
+      this.client.on('error', (err) => this.log.error('Redis Client Error', err));
+      await this.client.connect();
 
       return this.client;
     } else {
