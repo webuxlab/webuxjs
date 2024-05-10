@@ -1,0 +1,14 @@
+# docker compose -f docker-compose.master-slave.yml up
+services:
+  redis-master:
+    image: redis:latest
+    container_name: redis-master
+    ports:
+      - '6379:6379'
+
+  redis-slave:
+    image: redis:latest
+    container_name: redis-slave
+    ports:
+      - '6380:6379'
+    command: redis-server --slaveof redis-master 6379
