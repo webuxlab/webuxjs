@@ -13,6 +13,7 @@
   - webux-sql
   - webux-telemetry
   - webux-auth
+  - webux-inmemory
 - Tasks
   - webux-logger
     - Investigate to introduce 'pino' and 'pino-http'
@@ -31,9 +32,13 @@
         - Keycloak
     - webux-api-key
       - this service has been added in the webux-security module
+      - implement mongodb or postgres to save metadata, like usage tracking
+      - finish implementing redis to count request on a daily basis
     - webux-mtls
     - webux-mongo-db
     - webux-gremlin
+    - webux-scylla
+      - to store the api key client ? instead of mongo ?
     - webux-memory
         - redis
         - memcached

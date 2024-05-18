@@ -21,6 +21,8 @@ const WebuxLogger = require('@studiowebux/logger');
 const WebuxFileupload = require('@studiowebux/fileupload');
 const WebuxSecurity = require('@studiowebux/security');
 const WebuxView = require('@studiowebux/view');
+const WebuxAuth = require('@studiowebux/auth');
+const WebuxInMemory = require('@studiowebux/inmemory');
 
 class MyApp extends Webux.WebuxApp {
   constructor() {
@@ -74,6 +76,11 @@ class MyApp extends Webux.WebuxApp {
     this.Validators = this.Security.validators;
 
     /**
+     * Load Authentication Module
+     */
+    this.auth = new WebuxAuth(this.config.auth, this.log);
+
+    /**
      * Webux Routes and resources
      */
 
@@ -98,6 +105,12 @@ class MyApp extends Webux.WebuxApp {
      * Webux View
      */
     this.View = new WebuxView(this.config.view, this.log);
+
+    /**
+     * Webux InMemory
+     */
+    this.setApiKeyStore = new WebuxInMemory(this.config.inmemory.api_key, this.log);
+    this.getApiKeyStore = new WebuxInMemory(this.config.inmemory.api_key_read_only, this.log);
 
     // Custom modules
     // ...

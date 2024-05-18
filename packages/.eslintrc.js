@@ -14,4 +14,7 @@ module.exports = {
     camelcase: "warn",
     "no-param-reassign": "warn",
   },
+  env: {
+    "jest/globals": true,
+  },
 };

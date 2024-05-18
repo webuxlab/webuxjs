@@ -4,7 +4,16 @@ services:
   redis:
     container_name: redis
     image: redis
-    command: 'redis-server --save 60 1 --loglevel warning'
+    command: 'redis-server --save 60 1 --loglevel verbose'
+    volumes:
+      - redis:/data
+
+  redis-readonly:
+    image: redis
+    depends_on:
+      - redis
+    container_name: redis-readonly
+    command: redis-server --slaveof redis 6379
 
   backend:
     build: .
@@ -13,9 +22,13 @@ services:
       - ./defaults:/usr/src/app/defaults
       - ./uploads:/usr/src/app/uploads
       - ./locales:/usr/src/app/locales
+      - ./config:/usr/src/app/config
     env_file:
       - .env.docker
     ports:
       - 1337:1337
-    extra_hosts:
-      - 'host.docker.internal:host-gateway'
+    # extra_hosts:
+    #   - 'host.docker.internal:host-gateway'
+
+volumes:
+  redis:

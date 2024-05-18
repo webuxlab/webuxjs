@@ -7,6 +7,11 @@ const { Get: GetRandom } = require('../api/v1/validations/example');
 
 const { route: nameGeneratorRoute } = require('../api/v1/actions/nameGenerator');
 
+const { route: createApiKeyRoute } = require('../api/v1/actions/create_api_key');
+const { Post: PostApiKey } = require('../api/v1/validations/api_key');
+
+const { route: getUsageApiKeyRoute } = require('../api/v1/actions/get_api_key_usage');
+
 const api_key_middleware = require('../api/v1/middlewares/api_key');
 
 /**
@@ -26,6 +31,23 @@ module.exports = (Webux) => ({
             method: 'get',
             middlewares: [Webux.Security.validators.Body(GetRandom)],
             action: randomRoute,
+          },
+        ],
+        '/api_key': [
+          {
+            method: 'post',
+            middlewares: [
+              api_key_middleware(Webux.Security), // nah... this is a chicken and egg..
+              Webux.Security.validators.Body(PostApiKey),
+            ],
+            action: createApiKeyRoute,
+          },
+        ],
+        '/api_key/usage': [
+          {
+            method: 'get',
+            middlewares: [],
+            action: getUsageApiKeyRoute,
           },
         ],
       },

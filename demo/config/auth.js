@@ -1,29 +1,21 @@
 module.exports = {
-  local: {
-    username: "email",
-    password: "password",
-    passwordStrategy: {
-      enabled: false,
-      regex: "",
-      message: "The password strategy is enabled and you must be compliant."
-    },
-    autoLogonOnRegister: true,
-    autoActivate: true
-  },
-  jwt: {
-    accessSecret: process.env.JWT_ACCESS_SECRET || "SHUUUT!",
-    refreshSecret: process.env.JWT_REFRESH_SECRET || "SHUUUUT!",
-    accessLife: 900,
-    refreshLife: 86400,
-    scheme: "Bearer",
-    id: "_id",
-    serializeUser: ["_id", "email", "profileID"]
+  session: {
+    express_session_secret: process.env.EXPRESS_SESSION_SECRET,
+    resave: false,
+    save_uninitialized: true,
+    cookie: { secure: process.env.NODE_ENV === 'production' ? true : false },
   },
   redis: {
-    mock: process.env.REDIS_MOCK && process.env.REDIS_MOCK == "false" ? false : true,
-    host: process.env.REDIS_HOST || "127.0.0.1",
-    port: process.env.REDIS_PORT || "6379",
-    password: process.env.REDIS_PASSWORD || "",
-    no_ready_check: process.env.REDIS_NO_READY_CHECK && process.env.REDIS_NO_READY_CHECK == "false" ? false : true,
-  }
+    url: process.env.REDIS_URL,
+    prefix: process.env.REDIS_PREFIX,
+  },
+  keycloak: {
+    keycloak_issuer: process.env.KEYCLOAK_ISSUER,
+    keycloak_client_id: process.env.KEYCLOAK_CLIENT_ID,
+    keycloak_client_secret: process.env.KEYCLOAK_CLIENT_SECRET,
+    keycloak_redirect_uris: process.env.KEYCLOAK_REDIRECT_URIS,
+    keycloak_logout_redirect_uris: process.env.KEYCLOAK_LOGOUT_REDIRECT_URIS,
+    keycloak_response_types: process.env.KEYCLOAK_RESPONSE_TYPES,
+    keycloak_response_mode: process.env.KEYCLOAK_RESPONSE_MODE,
+  },
 };

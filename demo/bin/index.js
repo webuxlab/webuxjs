@@ -18,6 +18,9 @@ const Webux = require('../app');
 (async () => {
   await Webux.Initialize();
 
+  await Webux.setApiKeyStore.initialize();
+  await Webux.getApiKeyStore.initialize();
+
   Webux.Security.SetResponseHeader(Webux.app);
   Webux.Security.SetBodyParser(Webux.app);
   Webux.Security.SetCookieParser(Webux.app);

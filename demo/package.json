@@ -20,7 +20,6 @@
   "devDependencies": {
     "@eslint/eslintrc": "^3.0.2",
     "@eslint/js": "^9.1.1",
-    "dotenv": "^16.4.5",
     "eslint": "^8.57.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-prettier": "^9.1.0",
@@ -38,7 +37,8 @@
     "@studiowebux/fileupload": "^5.0.0",
     "@studiowebux/logger": "^5.0.0",
     "@studiowebux/route": "^5.0.0",
-    "@studiowebux/security": "file:../packages/webux-security",
+    "@studiowebux/security": "^5.0.0-alpha",
+    "@studiowebux/inmemory": "^5.0.0",
     "@studiowebux/server": "^5.0.0",
     "@studiowebux/socket": "^5.0.0",
     "@studiowebux/sql": "^5.0.0",
@@ -53,6 +53,7 @@
     "mime": "^3.0.0",
     "pg": "^8.11.5",
     "sqlite3": "^5.1.7",
-    "uuid": "^9.0.1"
+    "uuid": "^9.0.1",
+    "dotenv": "^16.4.5"
   }
 }
