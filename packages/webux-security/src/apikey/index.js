@@ -106,6 +106,7 @@ function update_limit(daily) {
  */
 function check_api_key(client) {
   const today = new Date().toISOString().split('T')[0];
+  if (!client) throw new Error('Missing client configuration');
   if (client.limit.daily <= 0) throw new Error('This API Key has no limit configured');
   if (client.usage[today] >= client.limit.daily) {
     throw new Error('Api key limit reached');
