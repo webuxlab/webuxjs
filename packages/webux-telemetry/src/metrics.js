@@ -2,6 +2,14 @@ const promClient = require('prom-client');
 const promBundle = require('express-prom-bundle');
 
 module.exports = {
+  /**
+   * Collect and offers prometheus metric for the service
+   * TODO: Implement security
+   * @param {*} projectName
+   * @param {*} serviceName
+   * @param {*} version
+   * @returns
+   */
   metricsMiddleware(projectName, serviceName, version = '0') {
     return promBundle({
       buckets: [0.1, 5, 15, 50, 100, 200, 300, 400, 500],
@@ -17,6 +25,13 @@ module.exports = {
     });
   },
 
+  /**
+   * Increase a counter based on the request
+   * @param {*} projectName
+   * @param {*} serviceName
+   * @param {*} version
+   * @returns
+   */
   requestCounterMiddleware(projectName, serviceName, version = '0') {
     const httpRequestsTotal = new promClient.Counter({
       name: 'http_requests_total',

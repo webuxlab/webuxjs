@@ -5,6 +5,12 @@
  * License: MIT
  */
 
+const WebuxTelemetry = require('@studiowebux/telemetry');
+WebuxTelemetry.opentelemetry.tracing_v2({
+  trace: { url: process.env.TRACE_URL },
+  metric: { url: process.env.METRIC_URL },
+});
+
 const Webux = require('@studiowebux/app');
 
 const path = require('path');
@@ -45,6 +51,12 @@ class MyApp extends Webux.WebuxApp {
      * Load all configurations
      */
     this.config = this.LoadConfiguration(path.join(__dirname, '..', 'config'));
+
+    /**
+     * Telemetry
+     */
+    this.telemetry = new WebuxTelemetry.Telemetry(this.config.telemetry);
+    this.metrics = WebuxTelemetry.metrics;
 
     /**
      * Load all Modules and Variables

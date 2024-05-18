@@ -6,3 +6,4 @@ coverage/
 defaults/xw
 .env.docker
 .env
+keycloak/

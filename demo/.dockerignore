@@ -12,3 +12,4 @@ Dockerfile
 Gruntfile.js
 .env*
 config/
+keycloak/

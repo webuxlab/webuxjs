@@ -1,5 +1,5 @@
 const Telemetry = require('./telemetry');
-const tracing = require('./tracing');
+const opentelemetry = require('./opentelemetry');
 const metrics = require('./metrics');
 
-module.exports = { Telemetry, tracing, metrics };
+module.exports = { Telemetry, opentelemetry, metrics };

@@ -31,6 +31,7 @@ function handler(operation, { min, max }) {
   return { value };
 }
 
+// curl -XPOST http://localhost:1337/api/v1/admin/random -H "Accept: application/json" -H "Content-Type: application/json" -d '{"operation":"Integer"}' | jq
 function route(req, res, _next) {
   const { operation, min, max } = req.body;
 

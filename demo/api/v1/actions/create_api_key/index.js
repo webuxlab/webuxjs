@@ -21,7 +21,7 @@ async function handler({ client_name, description, api_key_length, daily_limit }
   return { client };
 }
 
-// curl -XPOST localhost:1337/api/v1/admin/api_key -H "X-Api-Key: hello" -d '{"client_name":"studiowebux","description":"yeahh","api_key_length":42,"daily_limit":9}' -H "Content-Type: application/json"
+// curl -XPOST localhost:1337/api/v1/admin/api_key -H "X-Api-Key: hello-1" -d '{"client_name":"studiowebux","description":"yeahh","api_key_length":42,"daily_limit":9}' -H "Content-Type: application/json" | jq
 async function route(req, res, _next) {
   const { client_name, description, api_key_length, daily_limit } = req.body;
   const response = await handler({ client_name, description, api_key_length, daily_limit });

@@ -32,28 +32,30 @@
     "prettier": "^3.2.5"
   },
   "dependencies": {
+    "@opentelemetry/winston-transport": "^0.3.0",
     "@studiowebux/app": "^5.0.0",
     "@studiowebux/auth": "^5.0.0",
     "@studiowebux/fileupload": "^5.0.0",
+    "@studiowebux/inmemory": "^5.0.0",
     "@studiowebux/logger": "^5.0.0",
     "@studiowebux/route": "^5.0.0",
     "@studiowebux/security": "^5.0.0-alpha",
-    "@studiowebux/inmemory": "^5.0.0",
     "@studiowebux/server": "^5.0.0",
     "@studiowebux/socket": "^5.0.0",
     "@studiowebux/sql": "^5.0.0",
-    "@studiowebux/telemetry": "^5.0.0",
+    "@studiowebux/telemetry": "^5.0.0-alpha-3",
     "@studiowebux/view": "^5.0.0",
     "bcrypt": "^5.1.1",
     "body-parser": "^1.20.2",
     "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
     "express": "^4.19.2",
+    "gremlin": "^3.7.2",
     "joi": "^17.12.3",
     "knex": "^3.1.0",
     "mime": "^3.0.0",
     "pg": "^8.11.5",
     "sqlite3": "^5.1.7",
-    "uuid": "^9.0.1",
-    "dotenv": "^16.4.5"
+    "uuid": "^9.0.1"
   }
 }

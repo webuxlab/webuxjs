@@ -32,6 +32,21 @@ const Webux = require('../app');
 
   Webux.app.use(Webux.I18nOnRequest());
 
+  Webux.app.use(
+    Webux.metrics.metricsMiddleware(
+      Webux.config.server.project,
+      Webux.config.server.project.service,
+      Webux.config.server.version,
+    ),
+  );
+  Webux.app.use(
+    Webux.metrics.requestCounterMiddleware(
+      Webux.config.server.project,
+      Webux.config.server.project.service,
+      Webux.config.server.version,
+    ),
+  );
+
   Webux.app.set('node_env', process.env.NODE_ENV || 'development');
   Webux.app.set('port', process.env.PORT || Webux.config.server.port);
 

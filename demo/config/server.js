@@ -8,6 +8,7 @@ module.exports = {
   enterprise: 'Your Company',
   author: 'Your Name',
   project: 'Your Project Name',
+  service: 'Your Service Name',
   version: require('../package.json').version,
   endpoint: '/api/v1',
   port: process.env.PORT || 1337,

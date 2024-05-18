@@ -28,7 +28,7 @@ module.exports = (Webux) => ({
       resources: {
         '/random': [
           {
-            method: 'get',
+            method: 'post',
             middlewares: [Webux.Security.validators.Body(GetRandom)],
             action: randomRoute,
           },

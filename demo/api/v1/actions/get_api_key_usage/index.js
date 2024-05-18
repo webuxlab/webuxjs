@@ -11,7 +11,7 @@ async function handler({ api_key }) {
   return { usage };
 }
 
-// curl -XGET localhost:1337/api/v1/admin/api_key/usage -H "X-Api-Key: hello"
+// curl -XGET localhost:1337/api/v1/admin/api_key/usage -H "X-Api-Key: hello" | jq
 async function route(req, res, _next) {
   const api_key = req.headers['x-api-key'];
   const response = await handler({ api_key });
