@@ -1,6 +1,7 @@
 const expressSession = require('express-session');
 const { Issuer, custom, Strategy, TokenSet } = require('openid-client');
 const passport = require('passport');
+const LocalStrategy = require('passport-local').Strategy;
 const RedisStore = require('connect-redis').default;
 const { createClient } = require('redis');
 
@@ -15,7 +16,7 @@ class Auth {
     this.config = opts || {};
     this.log = log;
 
-    this.store = null; // session
+    this.store = undefined; // session
     this.issue = null;
     this.client = null;
     this.passport = passport;
@@ -34,7 +35,7 @@ class Auth {
       secret: this.config.session.express_session_secret,
       resave: this.config.session.resave,
       saveUninitialized: this.config.session.save_uninitialized,
-      store: this.store,
+      store: this.store, // defaults to memoryStore
       cookie: this.config.session.cookie,
     });
   }
@@ -118,10 +119,34 @@ class Auth {
     return this.passport.authenticate('session');
   }
 
-  initialize_passport() {
-    // Setup PassportJS and the session
-    // this.app.use(passport.authenticate('session'));
+  initialize_local_passport(login_function) {
+    this.passport.use(new LocalStrategy(login_function));
 
+    /**
+     * Receives a USER from database
+     */
+    this.passport.serializeUser(function (user, done) {
+      console.log('Serialize', user.id);
+      done(null, user.id); // SHould only save the userId and fetch everytime from the database (or use a JWT token at this point ... will be implemented later on.)
+    });
+
+    /**
+     * Returns the user info
+     */
+    this.passport.deserializeUser(function (user_id, done) {
+      console.log('Deserialize', user_id);
+      // TODO: fetch from DB...
+      done(null, { username: 'tommy', email: 'tommy@studiowebux.com', id: '123' });
+    });
+
+    return { passport: this.passport };
+  }
+
+  initialize_passport() {
+    return this.passport.initialize();
+  }
+
+  initialize_oidc_passport() {
     // Setup PassportJS Strategy using OIDC and the Keycloak client
     // It stores only the tokenSet, the userInfo will be accessed through the tokenSet
     this.passport.use(
@@ -159,6 +184,23 @@ class Auth {
       } catch (e) {
         this.log.error(e.message);
         return this.refresh(req, res, next);
+      }
+    };
+  }
+
+  is_local_authenticated() {
+    return async (req, res, next) => {
+      console.log(req);
+      console.debug('cookies', req.cookies);
+      try {
+        console.log('req.user', req.user);
+        if (req.user && req.isAuthenticated()) {
+          return next();
+        }
+        return res.redirect(this.config.local.redirect_url);
+      } catch (e) {
+        this.log.error(e.message);
+        return next(e.message);
       }
     };
   }
@@ -260,6 +302,52 @@ class Auth {
         return next();
       }
       return next(new Error(`Not authorized to access resource, claim not found in expected group`));
+    };
+  }
+
+  // TODO: Add simple username/password
+  // Nothing fancy, just a simple username/password in a postgresDB
+  // Later on if needed we can add more features, but at this point using something keycloak is more than preferable.
+  local_login() {
+    return async (req, res, next) => {
+      return this.passport.authenticate('local', function (err, user, info) {
+        if (err) {
+          return next(err);
+        }
+        if (!user) {
+          return res.redirect('/login');
+        }
+        req.logIn(user, function (err) {
+          if (err) {
+            return next(err);
+          }
+          return res.redirect('/users/' + user.username);
+        });
+      })(req, res, next);
+      // return this.passport.authenticate('local', (err, user, info, status) => {
+      //   console.log(err, user, info, status);
+      //   if (err) {
+      //     return next(err);
+      //   }
+      //   if (!user) {
+      //     this.log.debug('User not found.');
+      //     return res.redirect(this.config.local.redirect_url);
+      //   }
+
+      //   // req.session.passport.user = user;
+      //   // return req.session.save(function (err) {
+      //   //   if (err) {
+      //   //     return next(new Error('Unable to save information. You must login.'));
+      //   //   }
+      //   //   req.user.token = null;
+      //   //   req.user.userinfo = user;
+
+      //   //   this.log.debug('user session saved');
+      //   //   return next();
+      //   // });
+      //   // res.redirect(this.config.local.redirect_home);
+      //   return next();
+      // })(req, res, next);
     };
   }
 }

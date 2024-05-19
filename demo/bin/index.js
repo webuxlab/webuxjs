@@ -60,7 +60,7 @@ const Webux = require('../app');
   Webux.app.use(Webux.auth.load_express_session());
   await Webux.auth.initialize_keycloak_issuer();
   Webux.auth.initialize_keycloak_client();
-  Webux.auth.initialize_passport();
+  Webux.auth.initialize_oidc_passport();
   Webux.app.use(Webux.auth.passport_session());
 
   Webux.app.use('/', Webux.router);
