@@ -6,9 +6,33 @@
  * License: All rights reserved Studio Webux 2015-Present
  */
 
-import { isEmpty } from 'lodash';
 import { format } from 'winston';
 import cluster from 'cluster';
+
+function isEmpty(value) {
+  // Check if the value is null or undefined
+  if (value == null) {
+    return true;
+  }
+
+  // Check if the value is an array, string, or arguments object
+  if (Array.isArray(value) || typeof value === 'string' || typeof value.callee === 'function') {
+    return value.length === 0;
+  }
+
+  // Check if the value is a Map or Set
+  if (value instanceof Map || value instanceof Set) {
+    return value.size === 0;
+  }
+
+  // Check if the value is an object
+  if (typeof value === 'object') {
+    return Object.keys(value).length === 0;
+  }
+
+  // If none of the above, assume the value is not empty
+  return false;
+}
 
 /**
  * Check if the parent/child contain a denied element, if so, update the value to '*****'
