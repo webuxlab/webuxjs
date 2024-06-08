@@ -1,4 +1,3 @@
-/* eslint-disable no-underscore-dangle */
 /**
  * File: index.js
  * Author: Tommy Gingras

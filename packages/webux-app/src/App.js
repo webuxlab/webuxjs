@@ -63,7 +63,6 @@ export default class App {
    * by default the value defined in the server will be used.
    * @returns {String} converted id to URL '/endpoint/resource/id'
    */
-  // eslint-disable-next-line class-methods-use-this
   IdToURL(id, resource, endpoint) {
     return idToURL(id, resource, endpoint);
   }
@@ -73,7 +72,6 @@ export default class App {
    * @param {Array} array must be an array
    * @returns {Object} converted array to JSON
    */
-  // eslint-disable-next-line class-methods-use-this
   ToObject(array) {
     return toObject(array);
   }
@@ -100,7 +98,6 @@ export default class App {
    * @param {Object} request The request
    * @returns {String} The client IP
    */
-  // eslint-disable-next-line class-methods-use-this
   GetIP(request) {
     return getIP(request);
   }
@@ -113,7 +110,6 @@ export default class App {
    * @param {String} devMsg The error message for the dev. team
    * @returns {Error} It returns an error ready to be catch by the global error handler
    */
-  // eslint-disable-next-line class-methods-use-this
   ErrorHandler(code, msg, extra, devMsg) {
     return Handler(code, msg, extra, devMsg);
   }

@@ -47,3 +47,9 @@ npm i -g husky lerna
 ```bash
 npx lerna publish
 ```
+
+## Cleanup
+
+```bash
+for f in *; do echo $f; pushd $f; rm package-lock.json; rm -fr node_modules/; popd; done
+```

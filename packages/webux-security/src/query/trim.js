@@ -25,7 +25,6 @@ export default (select, limitation, validSelect) => {
       throw new Error('The select and limitation fields are required and must be an array');
     }
     limitation.forEach((element) => {
-      // eslint-disable-next-line no-param-reassign
       delete select[element];
     });
 
@@ -34,7 +33,7 @@ export default (select, limitation, validSelect) => {
       return validSelect;
     }
     return select;
-  } catch (e) {
+  } catch {
     return false;
   }
 };

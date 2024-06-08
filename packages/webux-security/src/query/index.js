@@ -22,7 +22,6 @@ export default (deniedKeys, defaultSelect, errorHandler = null) =>
   (req, res, next) => {
     try {
       if (!errorHandler) {
-        // eslint-disable-next-line no-param-reassign
         errorHandler = Handler;
       }
       // Nothing to do

@@ -37,7 +37,6 @@ export const NotFoundHandler = (i18n = null, log = console) => {
   // catch 404 and forward to error handler
   // if no router get the request we hit this one.
   return (req, res, next) => {
-    // eslint-disable-next-line no-underscore-dangle
     const msg = i18n ? i18n.__('ROUTE_NOT_FOUND') : 'Route not found';
     log.error('Route Not Found, Please Refer To Documentation.');
     const err = new Error(msg);

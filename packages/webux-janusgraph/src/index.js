@@ -29,7 +29,6 @@ export default class janusgraph {
 
     const traversal = gremlin.process.AnonymousTraversalSource.traversal;
     const DriverRemoteConnection = gremlin.driver.DriverRemoteConnection;
-    const authenticator = this.config.authenticator || undefined;
     this.gremlin = traversal().withRemote(new DriverRemoteConnection(this.config.url, this.config.options));
   }
 }

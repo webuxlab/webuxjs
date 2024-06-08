@@ -12,9 +12,7 @@ function slugify(str) {
     n: 'ñ|Ñ',
   };
 
-  // eslint-disable-next-line guard-for-in
   for (const pattern in map) {
-    // eslint-disable-next-line no-param-reassign
     str = str.replace(new RegExp(map[pattern], 'g'), pattern);
   }
 

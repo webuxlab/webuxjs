@@ -143,7 +143,7 @@ export class PubSub {
           this.log.error(e);
           await client.disconnect();
           process.exit(0);
-        } catch (_) {
+        } catch {
           process.exit(1);
         }
       });

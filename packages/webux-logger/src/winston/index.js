@@ -68,7 +68,6 @@ export default (options = {}) => {
 
   // Adds console redirection,
   // If not in 'production' or 'forced' to print.
-  // eslint-disable-next-line eqeqeq
   if (process.env.LOGGER_FORCE_CONSOLE == true || options.forceConsole === true || process.env.NODE_ENV !== 'production') {
     logger.info('Adding Console to transport');
     logger.add(
@@ -97,7 +96,7 @@ export default (options = {}) => {
         cleaned.url = JSON.parse(message).url ? JSON.parse(message).url : '';
 
         logger.info({ ...object, ...cleaned });
-      } catch (e) {
+      } catch {
         // It goes here when the JSON.parse fail
         // This is expected based on the type configured.
         logger.info({ message });

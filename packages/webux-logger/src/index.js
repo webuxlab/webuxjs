@@ -1,4 +1,3 @@
-/* eslint-disable global-require */
 /**
  * File: index.js
  * Author: Tommy Gingras

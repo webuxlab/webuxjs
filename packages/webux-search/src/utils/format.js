@@ -1,4 +1,3 @@
-/* eslint-disable no-underscore-dangle */
 /**
  * Format Zinc API Response
  * @param {Object} rawResponse { took: number, timed_out: boolean, hits:{ total: { value: number}, max_score: number, hits: [{_index: string, _type: '_doc', _id: string, _score: number, '@timestamp': string, _source: { description: string, title: string, url: string }}]}

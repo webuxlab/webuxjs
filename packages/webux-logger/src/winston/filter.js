@@ -1,4 +1,3 @@
-/* eslint-disable no-param-reassign */
 /**
  * File: filter.js
  * Author: Tommy Gingras

@@ -14,7 +14,6 @@ import imageType from 'image-type';
 import fileType from 'file-type';
 import { ProcessImage, DeleteFile } from '../validators/index.js';
 
-// eslint-disable-next-line no-console
 const logDebug = (message) => (process.env.DEBUG ? console.debug(message) : null);
 
 // Configuration
@@ -114,7 +113,6 @@ export default (opts, log = console) =>
       logDebug(`Error ${event}`);
     });
 
-    // eslint-disable-next-line consistent-return
     ss(socket).on('download', (stream, name, callback) => {
       const filePath = path.join(opts.destination, name.toString());
 

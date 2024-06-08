@@ -151,7 +151,7 @@ export default class Auth {
      * Returns the user info
      */
     this.passport.deserializeUser(async (user_id, done) => {
-      this.log.debug('Deserialize', user[id_key]);
+      this.log.debug('Deserialize', user_id);
       try {
         const user = await deserialize_function(user_id);
         done(null, user);
@@ -349,7 +349,7 @@ export default class Auth {
    */
   local_login(success_redirect, error_redirect = '/login') {
     return async (req, res, next) => {
-      return this.passport.authenticate('local', function (err, user, info) {
+      return this.passport.authenticate('local', function (err, user) {
         if (err) {
           return next(err);
         }

@@ -1,1 +1,0 @@
-Your Database model definition (Tested only with mongoose.)

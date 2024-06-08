@@ -1,1 +1,0 @@
-The Static resources to be served by express
