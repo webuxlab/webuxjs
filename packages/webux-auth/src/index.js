@@ -1,11 +1,11 @@
-const expressSession = require('express-session');
-const { Issuer, custom, Strategy, TokenSet } = require('openid-client');
-const passport = require('passport');
-const LocalStrategy = require('passport-local').Strategy;
-const RedisStore = require('connect-redis').default;
-const { createClient } = require('redis');
+import expressSession from 'express-session';
+import { Issuer, custom, Strategy, TokenSet } from 'openid-client';
+import passport from 'passport';
+import { Strategy as LocalStrategy } from 'passport-local';
+import RedisStore from 'connect-redis';
+import { createClient } from 'redis';
 
-class Auth {
+export default class Auth {
   /**
    * Initialize the authentication module
    * @param {Object} opts
@@ -100,7 +100,7 @@ class Auth {
   }
 
   /**
-   * Force to logout the user session
+   * Force to logout the user session using keycloak
    * @param {Object} res express response
    * @param {String} idToken The latest id_token to logout the user session, it skips the keycloak UI doing so.
    * @returns redirect to logout redirect uri, if it is an array, this is not implemented.
@@ -115,37 +115,67 @@ class Auth {
   // PASSPORTJS
   //
 
+  /**
+   * Setup passport to use the session based authentication
+   * @returns
+   */
   passport_session() {
     return this.passport.authenticate('session');
   }
 
-  initialize_local_passport(login_function) {
+  /**
+   * Username/Password local authentication (Manual implementation)
+   * Requires custom function to handle everything
+   * Requires a database to store the account information
+   * Requires custom functions to handle permissions
+   * Requires custom function to handle user profile
+   *
+   * The serialize function keeps only the user.id
+   * The deserialize function takes the user.id and fetch extra values from the database
+   * @param {Function} login_function a function that authenticate the user, (username, password, done)=>done(err,user)
+   * @param {Function} deserialize_function (user_id)=>Promise<{}>
+   * @returns
+   */
+  initialize_local_passport(login_function, deserialize_function, id_key = 'id') {
     this.passport.use(new LocalStrategy(login_function));
 
     /**
      * Receives a USER from database
      */
-    this.passport.serializeUser(function (user, done) {
-      console.log('Serialize', user.id);
-      done(null, user.id); // SHould only save the userId and fetch everytime from the database (or use a JWT token at this point ... will be implemented later on.)
+    this.passport.serializeUser((user, done) => {
+      this.log.debug('Serialize', user[id_key]);
+      done(null, user[id_key]); // Should only save the userId and fetch everytime from the database (or use a JWT token at this point ... will be implemented later on.)
     });
 
     /**
      * Returns the user info
      */
-    this.passport.deserializeUser(function (user_id, done) {
-      console.log('Deserialize', user_id);
-      // TODO: fetch from DB...
-      done(null, { username: 'tommy', email: 'tommy@studiowebux.com', id: '123' });
+    this.passport.deserializeUser(async (user_id, done) => {
+      this.log.debug('Deserialize', user[id_key]);
+      try {
+        const user = await deserialize_function(user_id);
+        done(null, user);
+      } catch (e) {
+        this.log.error('Deserialize error', e.message);
+        done(e, null);
+      }
     });
 
     return { passport: this.passport };
   }
 
+  /**
+   * Initialize Passport with local authentication (username/password)
+   * @returns
+   */
   initialize_passport() {
     return this.passport.initialize();
   }
 
+  /**
+   * Initialize passport with keycloak
+   * @returns
+   */
   initialize_oidc_passport() {
     // Setup PassportJS Strategy using OIDC and the Keycloak client
     // It stores only the tokenSet, the userInfo will be accessed through the tokenSet
@@ -172,6 +202,11 @@ class Auth {
     return { passport: this.passport };
   }
 
+  /**
+   * Verify if the user token is valid
+   * Works only when using keycloak
+   * @returns
+   */
   is_authenticated() {
     return async (req, res, next) => {
       try {
@@ -182,24 +217,25 @@ class Auth {
         }
         return res.redirect('/');
       } catch (e) {
-        this.log.error(e.message);
+        this.log.error(arguments.callee.name, e.message);
         return this.refresh(req, res, next);
       }
     };
   }
 
+  /**
+   * Check if the user is authenticated when using local (username/password) session based
+   * @returns
+   */
   is_local_authenticated() {
-    return async (req, res, next) => {
-      console.log(req);
-      console.debug('cookies', req.cookies);
+    return (req, res, next) => {
       try {
-        console.log('req.user', req.user);
         if (req.user && req.isAuthenticated()) {
           return next();
         }
         return res.redirect(this.config.local.redirect_url);
       } catch (e) {
-        this.log.error(e.message);
+        this.log.error(arguments.callee.name, e.message);
         return next(e.message);
       }
     };
@@ -213,7 +249,7 @@ class Auth {
    * @returns next() or sign out the user
    */
   async refresh(req, res, next) {
-    this.log.debug('Trying to refresh');
+    this.log.debug('Trying to refresh a token');
     try {
       // the user is connected, but might not be valid anymore.
       if (req.user) {
@@ -305,51 +341,28 @@ class Auth {
     };
   }
 
-  // TODO: Add simple username/password
-  // Nothing fancy, just a simple username/password in a postgresDB
-  // Later on if needed we can add more features, but at this point using something keycloak is more than preferable.
-  local_login() {
+  /**
+   * Authenticate the user using local database
+   * @param {string} success_redirect Path to redirect the user when the login is successful
+   * @param {string} error_redirect Path to redirect the user when the login fails
+   * @returns
+   */
+  local_login(success_redirect, error_redirect = '/login') {
     return async (req, res, next) => {
       return this.passport.authenticate('local', function (err, user, info) {
         if (err) {
           return next(err);
         }
         if (!user) {
-          return res.redirect('/login');
+          return res.redirect(error_redirect);
         }
         req.logIn(user, function (err) {
           if (err) {
             return next(err);
           }
-          return res.redirect('/users/' + user.username);
+          return res.redirect(success_redirect);
         });
       })(req, res, next);
-      // return this.passport.authenticate('local', (err, user, info, status) => {
-      //   console.log(err, user, info, status);
-      //   if (err) {
-      //     return next(err);
-      //   }
-      //   if (!user) {
-      //     this.log.debug('User not found.');
-      //     return res.redirect(this.config.local.redirect_url);
-      //   }
-
-      //   // req.session.passport.user = user;
-      //   // return req.session.save(function (err) {
-      //   //   if (err) {
-      //   //     return next(new Error('Unable to save information. You must login.'));
-      //   //   }
-      //   //   req.user.token = null;
-      //   //   req.user.userinfo = user;
-
-      //   //   this.log.debug('user session saved');
-      //   //   return next();
-      //   // });
-      //   // res.redirect(this.config.local.redirect_home);
-      //   return next();
-      // })(req, res, next);
     };
   }
 }
-
-module.exports = Auth;

@@ -1,8 +1,17 @@
-/* eslint-disable import/no-dynamic-require */
-/* eslint-disable global-require */
-const path = require('path');
-const express = require('express');
-const WebuxRoute = require('../src');
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { jest } from '@jest/globals';
+import express from 'express';
+import WebuxRoute from '../src/index.js';
+import { route as create } from '../examples/actions/user/create.js';
+import { route as find } from '../examples/actions/user/find.js';
+import { route as findOne } from '../examples/actions/user/findOne.js';
+import { route as remove } from '../examples/actions/user/remove.js';
+import { route as update } from '../examples/actions/user/update.js';
+
+// mimic CommonJS variables -- not needed if using CommonJS
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 test('Create webuxRoute instance without options', () => {
   const Route = new WebuxRoute();
@@ -96,29 +105,29 @@ test('Create WebuxRoute instance with some routes', () => {
             {
               method: 'get',
               middlewares: [],
-              action: require(path.join(__dirname, '..', 'examples', 'actions', 'user', 'find')).route,
+              action: find,
             },
             {
               method: 'post',
               middlewares: [],
-              action: require(path.join(__dirname, '..', 'examples', 'actions', 'user', 'create')).route,
+              action: create,
             },
           ],
           '/:id': [
             {
               method: 'get',
               middlewares: [],
-              action: require(path.join(__dirname, '..', 'examples', 'actions', 'user', 'findOne')).route,
+              action: findOne,
             },
             {
               method: 'put',
               middlewares: [],
-              action: require(path.join(__dirname, '..', 'examples', 'actions', 'user', 'update')).route,
+              action: update,
             },
             {
               method: 'delete',
               middlewares: [],
-              action: require(path.join(__dirname, '..', 'examples', 'actions', 'user', 'remove')).route,
+              action: remove,
             },
           ],
         },

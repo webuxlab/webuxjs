@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   // HTML Elements
   elements: ['p', 'li', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'pre', 'code', 'span', 'img', 'a', 'footer', 'header', 'td'],
 

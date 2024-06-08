@@ -5,12 +5,13 @@
  * License: All rights reserved Studio Webux 2015-Present
  */
 
-const { Kafka, CompressionTypes, logLevel } = require('kafkajs');
+import { Kafka, CompressionTypes } from 'kafkajs';
+export { logLevel } from 'kafkajs';
 
 /**
  * @class PubSub Class
  */
-class PubSub {
+export class PubSub {
   /**
    *
    * @param {object} opts Options
@@ -159,6 +160,3 @@ class PubSub {
     });
   }
 }
-
-module.exports.PubSub = PubSub;
-module.exports.logLevel = logLevel;

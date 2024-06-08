@@ -5,21 +5,21 @@
  * License: All rights reserved Studio Webux 2015-Present
  */
 
-const fs = require('fs');
-const path = require('path');
-const sharp = require('sharp');
-const mime = require('mime');
-const imageType = require('image-type');
-const fileType = require('file-type');
-const ErrorHandler = require('../defaults/errorHandler');
-const { securePath } = require('../utils/secure');
+import fs from 'node:fs';
+import path from 'node:path';
+import sharp from 'sharp';
+import mime from 'mime';
+import imageType from 'image-type';
+import fileType from 'file-type';
+import ErrorHandler from '../defaults/errorHandler.js';
+import { securePath } from '../utils/secure.js';
 
 /**
  * It deletes the file pass in parameter.
  * @param {String} filepath The full path to the file
  * @returns {Promise} Returns a promise
  */
-const DeleteFile = (filepath) =>
+export const DeleteFile = (filepath) =>
   new Promise((resolve) => {
     // Check if the file is present
     fs.stat(filepath, (statError) => {
@@ -66,7 +66,7 @@ function moveFile(file, destination, log = console) {
  * @param {String} realFilename Final filename
  * @returns {Promise<String>} Returns the final filename
  */
-async function PostProcessing(width, filename, realFilename, log = console) {
+export async function PostProcessing(width, filename, realFilename, log = console) {
   return new Promise((resolve) => {
     log.silly('Post Processing image with sharp');
     sharp(filename)
@@ -96,7 +96,7 @@ async function PostProcessing(width, filename, realFilename, log = console) {
  * @param {String} realFilename The final file name (where the file will be stored after processing)
  * @returns {Promise<String>} the final filename
  */
-async function ProcessImage(tmpDirectory, filename, extension, file, width, realFilename, log = console) {
+export async function ProcessImage(tmpDirectory, filename, extension, file, width, realFilename, log = console) {
   log.silly('Process Image');
   // If the image is not a GIF.
   // We can't resize a gif.
@@ -138,7 +138,7 @@ async function ProcessImage(tmpDirectory, filename, extension, file, width, real
  * @param {string} label The identifier to be added at the end of the file
  * @returns {Promise<String>} The filename
  */
-const UploadFile = (options, files, filename, label = '', log = console) =>
+export const UploadFile = (options, files, filename, label = '', log = console) =>
   new Promise(async (resolve, reject) => {
     try {
       // req.files.KEY
@@ -246,9 +246,4 @@ const UploadFile = (options, files, filename, label = '', log = console) =>
     }
   });
 
-module.exports = {
-  UploadFile,
-  DeleteFile,
-  PostProcessing,
-  ProcessImage,
-};
+

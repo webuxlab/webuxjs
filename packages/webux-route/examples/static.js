@@ -1,8 +1,10 @@
-/* eslint-disable import/no-extraneous-dependencies */
-const path = require('path');
-const express = require('express');
-const WebuxRoute = require('../src/index');
-
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import express from 'express';
+import WebuxRoute from '../src/index.js';
+// mimic CommonJS variables -- not needed if using CommonJS
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 const app = express();
 
 const resources = [

@@ -1,6 +1,5 @@
-const Sitemapper = require('sitemapper');
-
-const { domainName } = require('./domain');
+import Sitemapper from 'sitemapper';
+import { domainName } from './domain.js';
 
 /**
  * Fetch Sitemap
@@ -8,7 +7,7 @@ const { domainName } = require('./domain');
  * @param {*} timeout Default: 15 seconds
  * @returns
  */
-async function fetchSitemap(url, timeout = 15000) {
+export async function fetchSitemap(url, timeout = 15000) {
   const sitemap = new Sitemapper({
     url,
     timeout,
@@ -18,7 +17,3 @@ async function fetchSitemap(url, timeout = 15000) {
 
   return { ...sites, ...domainName(url) };
 }
-
-module.exports = {
-  fetchSitemap,
-};

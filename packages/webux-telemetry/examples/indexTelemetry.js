@@ -1,19 +1,19 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
-require('../src/tracing').tracing('service-telemetry', require('../package.json').version);
-const express = require('express');
-const axios = require('axios').default;
-const { middlewareTracing } = require('../src/tracing');
-const { Telemetry } = require('../src/index');
+import { tracing_v2, Telemetry } from '../src/index.js';
+tracing_v2();
+import express from 'express';
+import axios from 'axios';
 
 const telemetry = new Telemetry({ telemetryEndpoint: 'http://localhost:3002/telemetry' });
 
 const app = express();
-const port = 3000;
+const port = 3011;
 
 app.use(express.json()); // for parsing application/json
 app.use(express.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 
-app.all('/telemetry', middlewareTracing, async (req, res) => {
+// curl http://localhost:3011/telemetry
+app.all('/telemetry', async (req, res) => {
   telemetry.StartTimer();
   telemetry.RetrieveSystemInformation();
   telemetry.LogAction('fetch random product', true);

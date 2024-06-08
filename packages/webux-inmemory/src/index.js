@@ -1,6 +1,6 @@
-const { createClient, createCluster } = require('redis');
+import { createClient, createCluster } from 'redis';
 
-class InMemory {
+export default class InMemory {
   /**
    * Initialize the in-memory module
    * @param {Object} opts
@@ -50,5 +50,3 @@ class InMemory {
     }
   }
 }
-
-module.exports = InMemory;

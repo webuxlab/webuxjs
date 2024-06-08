@@ -1,4 +1,4 @@
-const WebuxAuth = require('../../../webux-auth/src/index.js');
-const config = require("./config")
+import WebuxAuth from '../../../webux-auth/src/index.js';
+import config from './config.js';
 
-module.exports = new WebuxAuth(config, console); // FIXME: There is coupling :cry:
+export default new WebuxAuth(config, console); // FIXME: There is coupling :cry:

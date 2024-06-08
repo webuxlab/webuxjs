@@ -6,9 +6,9 @@
  * License: All rights reserved Studio Webux 2015-Present
  */
 
-const _ = require('lodash');
-const { format } = require('winston');
-const cluster = require('cluster');
+import { isEmpty } from 'lodash';
+import { format } from 'winston';
+import cluster from 'cluster';
 
 /**
  * Check if the parent/child contain a denied element, if so, update the value to '*****'
@@ -46,7 +46,7 @@ const hasDenylist = (processed, parent, child, find) => {
  * @param {Object} deniedKeys The array of denied elements, Mandatory
  * @returns {Object} Returns the new entry with the modified values if applicable.
  */
-const filterSecret = (deniedKeys) =>
+export const filterSecret = (deniedKeys) =>
   format((info) => {
     // To attach observaiblity information
     info.traceId = typeof info.traceId === 'function' ? info.traceId().toString() : null;
@@ -140,7 +140,7 @@ const filterSecret = (deniedKeys) =>
 
       // logstash required that empty objects are removed ...
       Object.keys(info).forEach((item) => {
-        if (_.isEmpty(info[item])) {
+        if (isEmpty(info[item])) {
           info[item] = '{}';
         }
       });
@@ -148,7 +148,3 @@ const filterSecret = (deniedKeys) =>
 
     return info;
   });
-
-module.exports = {
-  filterSecret,
-};

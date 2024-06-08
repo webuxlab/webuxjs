@@ -1,10 +1,11 @@
 {
   "name": "@studiowebux/server",
-  "version": "5.0.0",
+  "version": "6.0.0",
   "description": "The entry point for our framework, http or https and port configuration",
   "main": "src/index.js",
   "author": "Studio Webux",
   "license": "SEE LICENSE IN license.txt",
+  "type": "module",
   "directories": {
     "example": "examples",
     "doc": "docs"
@@ -15,7 +16,7 @@
     "url": "https://github.com/webuxlab/webuxjs.git"
   },
   "scripts": {
-    "test": "jest",
+    "test": "node --experimental-vm-modules ./node_modules/.bin/jest",
     "lint": "eslint src/**",
     "doc": "jsdoc src -d jsdoc/",
     "installdeps": "npm install",

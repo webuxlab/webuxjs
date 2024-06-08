@@ -12,7 +12,7 @@
  * @param {String} url The url, mandatory
  * @returns {String} return the sanitized URL
  */
-function sanitizeURL(url) {
+export function sanitizeURL(url) {
   const u = url;
   if (u.match(/\/\/+/)) {
     return u.replace(/(\/)\/+/g, '$1'); // Remove duplicate slashes (/)
@@ -28,7 +28,7 @@ function sanitizeURL(url) {
  * @param {String} URL The URL to access the resource
  * @returns {Object} The route object
  */
-function routeType(router, action, URL) {
+export function routeType(router, action, URL) {
   if (typeof action.action === 'string') {
     // This is the path to the action
     return router[action.method.toLowerCase()](URL.toLowerCase(), action.middlewares, require(action.action));
@@ -40,5 +40,3 @@ function routeType(router, action, URL) {
 
   throw new Error("The action must be a 'path' or a 'function'.");
 }
-
-module.exports = { sanitizeURL, routeType };

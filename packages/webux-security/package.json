@@ -1,9 +1,10 @@
 {
   "name": "@studiowebux/security",
-  "version": "5.0.0-alpha",
+  "version": "6.0.0-alpha",
   "description": "This module is a wrapper for all the security stuff around the framework",
   "main": "src/index.js",
   "author": "Studio Webux",
+  "type": "module",
   "directories": {
     "example": "examples",
     "doc": "docs"
@@ -14,7 +15,7 @@
     "url": "https://github.com/webuxlab/webuxjs.git"
   },
   "scripts": {
-    "test": "jest",
+    "test": "node --experimental-vm-modules ./node_modules/.bin/jest",
     "lint": "eslint src/**",
     "doc": "jsdoc src -d jsdoc/",
     "installdeps": "npm install",

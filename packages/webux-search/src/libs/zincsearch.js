@@ -1,4 +1,4 @@
-const axios = require('axios').default;
+import axios from 'axios';
 
 /**
  *
@@ -31,7 +31,7 @@ function search(endpoint, authentication, index, params) {
  * @param {Number} from Start At
  * @returns Promise<{ took: number, timed_out: boolean, hits:{ total: { value: number}, max_score: number, hits: [{_index: string, _type: '_doc', _id: string, _score: number, '@timestamp': string, _source: { description: string, title: string, url: string }}]}>
  */
-async function searchDocument(
+export async function searchDocument(
   searchQuery,
   endpoint,
   authentication,
@@ -57,7 +57,3 @@ async function searchDocument(
 
   return { data, status };
 }
-
-module.exports = {
-  searchDocument,
-};

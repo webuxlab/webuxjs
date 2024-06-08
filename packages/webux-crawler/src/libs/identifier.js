@@ -1,6 +1,6 @@
-const { v5: uuidv5 } = require('uuid');
+import { v5 as uuidv5 } from 'uuid';
 
-const { sanitizeString } = require('./utils');
+import { sanitizeString } from './utils.js';
 
 function domainName(url) {
   if (!url) {
@@ -40,7 +40,7 @@ function domainName(url) {
  * @param {String} url
  * @returns {Identifier}
  */
-function generateIdentifier(title, url) {
+export function generateIdentifier(title, url) {
   const timestamp = new Date();
 
   // URL
@@ -76,7 +76,3 @@ function generateIdentifier(title, url) {
     ...domainName(url),
   };
 }
-
-module.exports = {
-  generateIdentifier,
-};

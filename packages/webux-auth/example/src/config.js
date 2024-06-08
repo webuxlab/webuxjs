@@ -1,5 +1,4 @@
-/* eslint-disable camelcase */
-module.exports = {
+export default {
   session: {
     express_session_secret: process.env.EXPRESS_SESSION_SECRET,
     resave: false,

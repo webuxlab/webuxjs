@@ -1,7 +1,12 @@
-const express = require('express');
-const path = require('path');
+import express from 'express';
+import path from 'node:path';
+import { WebuxApp } from '../src/index.js';
+import { fileURLToPath } from 'node:url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 const app = express();
-const { WebuxApp } = require('../src/index');
 
 const options = {
   configuration: path.join(__dirname, 'config'),
@@ -9,7 +14,7 @@ const options = {
 
 const webuxApp = new WebuxApp(options);
 
-webuxApp.LoadConfiguration();
+await webuxApp.LoadConfiguration();
 
 const i18n = webuxApp.ConfigureLanguage();
 

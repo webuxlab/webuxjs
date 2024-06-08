@@ -4,7 +4,7 @@
  * @param {String[]} elements
  * @returns { page: Object, elements: String[], content: {} }
  */
-async function extractElements(page, elements) {
+export async function extractElements(page, elements) {
   const content = {};
   for await (const element of elements) {
     content[element] = await page.$$eval(element, (htmlElements) =>
@@ -37,7 +37,3 @@ async function extractElements(page, elements) {
 
   return { page, elements, content };
 }
-
-module.exports = {
-  extractElements,
-};

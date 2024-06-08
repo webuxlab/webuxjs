@@ -19,7 +19,7 @@ const isEmptyObject = (object) => !Object.keys(object).length;
  * @param {Array} validSelect the default select valued, Mandatory
  * @return {Array} The select fields (projection) or false,
  */
-module.exports = (select, limitation, validSelect) => {
+export default (select, limitation, validSelect) => {
   try {
     if (!select || !limitation) {
       throw new Error('The select and limitation fields are required and must be an array');

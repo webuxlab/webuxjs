@@ -13,7 +13,7 @@
  * @param {Function} log The log function, optional, by default console
  * @return {VoidFunction} Only print details on the console.
  */
-module.exports = (options, log = console) => {
+export default (options, log = console) => {
   log.info('/****************************************************************/');
   log.info('/* Application started with success.');
   log.info(`/* Version : ${options.version}`);

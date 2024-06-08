@@ -1,4 +1,4 @@
-const WebuxMailer = require('../src');
+import WebuxMailer from '../src/index.js';
 
 test('Create Mail Instance without options', () => {
   const mail = new WebuxMailer();

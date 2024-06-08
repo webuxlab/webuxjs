@@ -1,5 +1,3 @@
-const Telemetry = require('./telemetry');
-const opentelemetry = require('./opentelemetry');
-const metrics = require('./metrics');
-
-module.exports = { Telemetry, opentelemetry, metrics };
+export { default as Telemetry } from './telemetry.js';
+export * from './opentelemetry.js';
+export * from './metrics.js';

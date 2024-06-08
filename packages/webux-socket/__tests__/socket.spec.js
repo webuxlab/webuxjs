@@ -1,8 +1,12 @@
-const path = require('path');
-const express = require('express');
-const server = require('http');
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import express from 'express';
+import server from 'node:http';
+import { jest } from '@jest/globals';
+import WebuxSocket from '../src/index.js';
 
-const WebuxSocket = require('../src');
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 test('Create new WebuxSocket instance without options', () => {
   const socket = new WebuxSocket();

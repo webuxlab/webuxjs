@@ -5,13 +5,13 @@
  * License: All rights reserved Studio Webux 2024-Present
  */
 
-const cassandra = require('cassandra-driver');
+import cassandra from 'cassandra-driver';
 
 /**
  * Cassandra driver Wrapper
  * @class scylla
  */
-class scylla {
+export default class scylla {
   /**
    * To initialize the cassandra Instance
    * @param {*} opts The options to configure cassandra
@@ -31,5 +31,3 @@ class scylla {
   // TODO: add more functions if necessary.
   //       I think using the cassandra driver directly will be the best approach and only wrap the constructor here.
 }
-
-module.exports = scylla;

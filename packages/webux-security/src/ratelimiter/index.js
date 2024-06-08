@@ -5,7 +5,7 @@
  * License: All rights reserved Studio Webux 2015-Present
  */
 
-const rateLimit = require('express-rate-limit');
+import rateLimit from 'express-rate-limit';
 
 /**
  * Creates a new limiter.
@@ -14,7 +14,7 @@ const rateLimit = require('express-rate-limit');
  * @param {Object} log The log function, optional
  * @return {VoidFunction}
  */
-module.exports = (options, app, log = console) => {
+export default (options, app, log = console) => {
   log.info(`Creating rate limiter ${options.name}`);
 
   const opts = {

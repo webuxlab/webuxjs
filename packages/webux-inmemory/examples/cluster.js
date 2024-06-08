@@ -1,4 +1,4 @@
-const InMemory = require('../src/index');
+import InMemory from '../src/index.js';
 
 (async () => {
   const inMemory = new InMemory({

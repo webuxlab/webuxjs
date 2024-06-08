@@ -1,9 +1,9 @@
 // node api_key.js
-const express = require('express');
-const WebuxSecurity = require('../src/index');
+import express from 'express';
+import WebuxSecurity from '../src/index.js';
+import options from './options.js';
 
 const app = express();
-const options = require('./options');
 const Security = new WebuxSecurity(options, console);
 
 let CLIENT_MOCK = [

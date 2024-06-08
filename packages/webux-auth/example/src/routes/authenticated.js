@@ -1,5 +1,5 @@
-const express = require('express');
-const auth = require('../auth');
+import express from 'express';
+import auth from '../auth.js';
 
 const router = express.Router();
 

@@ -5,7 +5,7 @@
  * License: All rights reserved Studio Webux 2015-Present
  */
 
-const { sanitizeURL, routeType } = require('./utils');
+import { sanitizeURL, routeType } from './utils.js';
 
 /**
  * Process each action in a top level/specific resource
@@ -76,7 +76,7 @@ async function processResources(route, routes, router, log) {
  * @param {Object} log A custom logger function, optional
  * @returns {Promise}
  */
-function processRoutes(routes, router, log) {
+export function processRoutes(routes, router, log) {
   // eslint-disable-next-line no-async-promise-executor
   return new Promise(async (resolve, reject) => {
     // eslint-disable-next-line no-restricted-syntax
@@ -89,7 +89,3 @@ function processRoutes(routes, router, log) {
     resolve(true);
   });
 }
-
-module.exports = {
-  processRoutes,
-};

@@ -1,4 +1,4 @@
-const { generate_api_key, create_api_key_client, update_usage, update_limit, reset_usage, check_api_key } = require('../src/apikey/index');
+import { generate_api_key, create_api_key_client, update_usage, update_limit, reset_usage, check_api_key } from '../src/apikey/index.js';
 
 test('Generate API Key', () => {
   const api_key = generate_api_key(42);

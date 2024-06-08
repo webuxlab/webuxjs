@@ -1,10 +1,10 @@
 /* eslint-disable import/no-extraneous-dependencies */
-const express = require('express');
-const WebuxRoute = require('../src/index');
+import express from 'express';
+import WebuxRoute from '../src/index.js';
+import options from './config.js';
 
 const app = express();
 const router = express.Router();
-const options = require('./config');
 
 const webuxRoute = new WebuxRoute(options, console);
 

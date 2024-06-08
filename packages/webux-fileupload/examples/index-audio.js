@@ -1,14 +1,19 @@
-const express = require('express');
+import { fileURLToPath } from "node:url";
+import express from 'express';
+import { Server } from 'socket.io';
+import path from 'node:path';
+import cors from 'cors';
+import mime from 'mime';
+import { copyFileSync } from 'node:fs';
+import WebuxFileupload from '../src/index.js';
 
 const app = express();
-const socketIO = require('socket.io')();
-const path = require('path');
-const cors = require('cors');
-const mime = require('mime');
 
-const { copyFileSync } = require('fs');
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
-const WebuxFileupload = require('../src/index');
+console.silly = (msg) => console.debug(msg);
+console.verbose = (msg) => console.debug(msg);
 
 const opts = {
   sanitizeFilename: (filename) => {
@@ -108,7 +113,7 @@ const server = app.listen(1340, () => {
   console.log('Server listening on port 1340');
 });
 
-const io = socketIO.listen(server);
+const io = new Server().listen(server);
 
 // default namespace
 io.on('connection', (socket) => {

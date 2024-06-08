@@ -2,15 +2,16 @@
 const timeout = (ms) => new Promise((res) => setTimeout(res, ms));
 
 // action
-const find = () => new Promise(async (resolve, reject) => {
-  console.log('Start searching for messages');
-  console.log('then wait 3 seconds');
-  await timeout(3000);
-  return reject(new Error('No messages found !'));
-});
+export const find = () =>
+  new Promise(async (resolve, reject) => {
+    console.log('Start searching for messages');
+    console.log('then wait 3 seconds');
+    await timeout(3000);
+    return reject(new Error('No messages found !'));
+  });
 
 // route
-const route = async (req, res, next) => {
+export const route = async (req, res, next) => {
   try {
     const obj = await find();
     if (!obj) {
@@ -23,7 +24,7 @@ const route = async (req, res, next) => {
 };
 
 // socket
-const socket = (client, io) => async () => {
+export const socket = (client, io) => async () => {
   console.log('findMessage called !');
   try {
     const obj = await find().catch((e) => {
@@ -39,10 +40,4 @@ const socket = (client, io) => async () => {
     console.error(e);
     client.emit('gotError', e.message);
   }
-};
-
-module.exports = {
-  find,
-  route,
-  socket,
 };

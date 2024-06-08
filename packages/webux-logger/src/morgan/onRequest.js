@@ -5,9 +5,9 @@
  * License: All rights reserved Studio Webux 2015-Present
  */
 
-const morgan = require('morgan');
-const json = require('morgan-json');
-const defaultTokens = require('./defaultRequest');
+import morgan from 'morgan';
+import json from 'morgan-json';
+import defaultTokens from './defaultRequest.js';
 
 /**
  * this function calls the stream function of winston, it logs the request content.
@@ -20,7 +20,7 @@ const defaultTokens = require('./defaultRequest');
  * @param {Object} log The log function, optional
  * @returns {VoidFunction} return nothing
  */
-const Logging = (type = 'common', format = null, tokens = null, log = console) => {
+export default (type = 'common', format = null, tokens = null, log = console) => {
   log.info('Webux-logging - Configuring morgan');
   let tokensToIterate = [];
 
@@ -65,5 +65,3 @@ const Logging = (type = 'common', format = null, tokens = null, log = console) =
 
   return instance;
 };
-
-module.exports = Logging;

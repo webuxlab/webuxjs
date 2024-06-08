@@ -1,5 +1,5 @@
-const crypto = require('crypto');
-const Queue = require('../src');
+import crypto from 'crypto';
+import Queue from '../src/index.js';
 
 const logger = {
   verbose: console.debug,

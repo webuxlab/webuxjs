@@ -1,8 +1,9 @@
 {
   "name": "@studiowebux/view",
-  "version": "5.0.0",
+  "version": "6.0.0",
   "description": "Setup ejs",
   "main": "src/index.js",
+  "type": "module",
   "author": "Studio Webux",
   "license": "SEE LICENSE IN license.txt",
   "directories": {},

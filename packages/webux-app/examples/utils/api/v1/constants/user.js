@@ -1,21 +1,7 @@
-const blacklist = [
-  'refreshToken',
-  'email',
-];
+export const blacklist = ['refreshToken', 'email'];
 
-const privateBlacklist = [
-  'refreshToken',
-  'lostPassword',
-];
+export const privateBlacklist = ['refreshToken', 'lostPassword'];
 
-const privateSelect =
-  'fullname url';
+export const privateSelect = 'fullname url';
 
-const select = 'fullname url profilePicture';
-
-module.exports = {
-  blacklist,
-  select,
-  privateBlacklist,
-  privateSelect,
-};
+export const select = 'fullname url profilePicture';

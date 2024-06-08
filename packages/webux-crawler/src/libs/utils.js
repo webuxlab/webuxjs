@@ -25,7 +25,7 @@ function slugify(str) {
  *  Sanitize a string
  * @param {String} str String to process
  */
-function sanitizeString(str) {
+export function sanitizeString(str) {
   return slugify(str)
     .toLowerCase()
     .replace(/[^a-zA-Z0-9]/g, '_')
@@ -37,11 +37,6 @@ function sanitizeString(str) {
  *  Sanitize the image key
  * @param {String} imgKey Image Key to process
  */
-function sanitizeImg(imgKey) {
+export function sanitizeImg(imgKey) {
   return imgKey.split('?')[0].split('').reverse().join('').split('/')[0].split('').reverse().join('');
 }
-
-module.exports = {
-  sanitizeString,
-  sanitizeImg,
-};

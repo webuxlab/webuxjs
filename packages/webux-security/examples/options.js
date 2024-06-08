@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   bodyParser: {
     limit: '1mb',
     extended: false,
@@ -13,8 +13,7 @@ module.exports = {
     trustProxy: true,
     allowedMethods: 'GET, POST, PUT, DELETE, PATCH, OPTIONS',
     allowedCredentials: false,
-    allowedHeaders:
-      'Origin, X-Requested-with, Accept, Authorization, Content-Type, Accept-Language',
+    allowedHeaders: 'Origin, X-Requested-with, Accept, Authorization, Content-Type, Accept-Language',
   },
   rateLimiters: [
     {

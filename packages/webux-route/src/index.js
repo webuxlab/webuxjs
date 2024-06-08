@@ -5,14 +5,14 @@
  * License: All rights reserved Studio Webux 2015-Present
  */
 
-const response = require('./response/index');
-const serveStatic = require('./static/index');
-const createRoute = require('./route/index');
+import response from './response/index.js';
+import serveStatic from './static/index.js';
+import createRoute from './route/index.js';
 
 /**
  * @class Route
  */
-class Route {
+export default class Route {
   /**
    * Initialize the route
    * @param {Object} opts
@@ -57,5 +57,3 @@ class Route {
     response(app);
   }
 }
-
-module.exports = Route;

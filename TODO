@@ -14,6 +14,8 @@
   - webux-telemetry
   - webux-auth
   - webux-inmemory
+- Tests
+  - write jest test for modules that font have anything currently
 - Tasks
   - webux-logger
   - Investigate to introduce 'pino' and 'pino-http'
@@ -57,3 +59,26 @@
 - need a boilerplate :|
 - HAProxy + let's encrypt + nginx + webuxjs backend/frontend (in the demo)
 - Redis, RabbitMQ, Kafka, seaweedfs, keycloak, jaeger, logstash, prometheus, grafana, alertmanager, zincsearch, mongodb, postgres, janusgraph, scylladb, celery, jenkins, registry, docker-compose
+
+- ESM convertion
+  - view
+  - telemetry
+  - sql
+  - socket
+  - sitemap
+  - server
+  - security
+  - search
+  - scylla
+  - route
+  - queue
+  - pubsub
+  - mailer
+  - logger
+  - janusgraph (This module is not finished at all)
+  - inMemory
+  - GENERATOR has been skipped (yes again...)
+  - fileupload (not fully tested, need to update packages as well)
+  - crawler
+  - Auth, im unhappy with it, need to get rid of passport.. too heavy for no good reason .. need a session and jwt based auth + oidc, there is real need to use passport (but will tackle this one later)
+  - App

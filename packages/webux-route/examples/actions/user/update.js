@@ -1,4 +1,4 @@
-const route = async (req, res) => {
+export const route = async (req, res) => {
   await setTimeout(() => {
     console.log("I'm doing something great, ");
   }, 5000);
@@ -7,5 +7,3 @@ const route = async (req, res) => {
 
   return res.status(200).send('Update !');
 };
-
-module.exports = { route };

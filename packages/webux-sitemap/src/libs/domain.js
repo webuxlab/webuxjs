@@ -1,4 +1,4 @@
-function domainName(url) {
+export function domainName(url) {
   if (!url) {
     throw new Error('No url provided');
   }
@@ -17,7 +17,3 @@ function domainName(url) {
 
   return { domain, baseDomain };
 }
-
-module.exports = {
-  domainName,
-};

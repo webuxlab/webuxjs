@@ -1,10 +1,11 @@
 {
   "name": "@studiowebux/sitemap",
-  "version": "5.0.0",
+  "version": "6.0.0",
   "description": "Sitemap plugin",
+  "type": "module",
   "main": "src/index.js",
   "scripts": {
-    "test": "jest --coverage",
+    "test": "node --experimental-vm-modules ./node_modules/.bin/jest --coverage",
     "lint": "eslint src/**",
     "doc": "jsdoc src -d jsdoc/",
     "installdeps": "npm install",

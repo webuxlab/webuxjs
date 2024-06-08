@@ -19,4 +19,4 @@ messages.DEVMSG_UNPROCESSABLE = 'Resource unprocessable';
 messages.MSG_UNAUTHORIZED = 'You are not authorized to access this resource, please contact an administrator to get the proper rights.';
 messages.DEVMSG_UNAUTHORIZED = "the user is logged in but he doesn't have the permission to do an action";
 
-module.exports = messages;
+export default messages;

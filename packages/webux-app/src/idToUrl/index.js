@@ -14,7 +14,7 @@
  * @returns {String} converted id to URL '/endpoint/resource/id'
  */
 
-module.exports = (id, resource, endpoint) => {
+export default (id, resource, endpoint) => {
   const newEndpoint = endpoint || this.config.server.endpoint;
   return `${newEndpoint}/${resource}/${id}`;
 };

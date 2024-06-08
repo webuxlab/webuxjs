@@ -1,7 +1,8 @@
 {
   "name": "@studiowebux/socket",
-  "version": "5.0.0",
+  "version": "6.0.0",
   "description": "A wrapper around socket.io",
+  "type": "module",
   "main": "src/index.js",
   "directories": {
     "example": "examples",
@@ -13,7 +14,7 @@
     "url": "https://github.com/webulab/webuxjs.git"
   },
   "scripts": {
-    "test": "jest",
+    "test": "node --experimental-vm-modules ./node_modules/.bin/jest",
     "lint": "eslint src/**",
     "doc": "jsdoc src -d jsdoc/",
     "installdeps": "npm install",

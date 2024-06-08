@@ -11,7 +11,7 @@
  * it also provides support to custom transport with the ELK suite.
  * @class Log
  */
-class Log {
+export default class Log {
   /**
    *
    * @param {Object} opts The options to configure the server (Default: {})
@@ -43,5 +43,3 @@ class Log {
     return require('./morgan/onRequest')(this.config.type, this.config.format, this.config.tokens, this.log);
   }
 }
-
-module.exports = Log;

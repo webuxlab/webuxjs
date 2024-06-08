@@ -1,14 +1,14 @@
 // jest.config.js
 
-module.exports = {
+export default {
   testTimeout: 30000,
   reporters: [
-    "default",
+    'default',
     [
-      "jest-junit",
+      'jest-junit',
       {
-        outputDirectory: "./reports",
-        outputName: "report.xml",
+        outputDirectory: './reports',
+        outputName: 'report.xml',
       },
     ],
   ],

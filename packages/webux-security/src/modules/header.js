@@ -12,7 +12,7 @@
  * @param {Object} log The log function, optional, by default console
  * @return {VoidFunction} Return nothing.
  */
-module.exports = (options, app, log = console) => {
+export default (options, app, log = console) => {
   log.info('\x1b[33mwebux-security - Set the response header\x1b[0m');
   app.use((req, res, next) => {
     res.header('Access-Control-Allow-Methods', options.allowedMethods);

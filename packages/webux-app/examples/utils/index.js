@@ -1,7 +1,12 @@
-const path = require('path');
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
-const { WebuxApp } = require('../../src/index');
-const app = require('express')();
+import { WebuxApp } from '../../src/index.js';
+import express from 'express';
+
+const app = express();
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 let webuxApp = new WebuxApp({
   configuration: path.join(__dirname, '..', 'config'),

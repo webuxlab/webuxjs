@@ -5,7 +5,7 @@
  * License: All rights reserved Studio Webux 2015-Present
  */
 
-const bodyParser = require('body-parser');
+import bodyParser from 'body-parser';
 
 /**
  * Initialize the body-parser
@@ -15,7 +15,7 @@ const bodyParser = require('body-parser');
  * @param {Object} log The log function, optional, by default console
  * @return {VoidFunction} Return nothing
  */
-module.exports = (options, app, log = console) => {
+export default (options, app, log = console) => {
   log.info('\x1b[33mwebux-security - Configuring the body parser\x1b[0m');
 
   app.use(

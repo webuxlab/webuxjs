@@ -1,8 +1,9 @@
 {
   "name": "@studiowebux/app",
-  "version": "5.0.0",
+  "version": "6.0.0",
   "description": "This module can be use as the core of the application, it offers directly some tools.",
   "main": "src/index.js",
+  "type": "module",
   "directories": {
     "example": "examples",
     "doc": "docs"
@@ -13,7 +14,7 @@
     "url": "https://github.com/webuxlab/webuxjs.git"
   },
   "scripts": {
-    "test": "jest",
+    "test": "node --experimental-vm-modules ./node_modules/.bin/jest",
     "lint": "eslint src/**",
     "doc": "jsdoc src -d jsdoc/",
     "installdeps": "npm install",

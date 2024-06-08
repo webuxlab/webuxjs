@@ -5,9 +5,9 @@
  * License: All rights reserved Studio Webux 2015-Present
  */
 
-const { v1 } = require('uuid');
-const crypto = require('crypto');
-const GetIP = require('../ip/index');
+import { v1 } from 'uuid';
+import crypto from 'node:crypto';
+import GetIP from '../ip/index.js';
 
 /**
  * It formats the response to send it back to the client.
@@ -32,7 +32,7 @@ function response(res, code, error = {}) {
  * @param {Object} log The custom logger, default : console
  * @returns {Function} Returns the middleware to catch the not found
  */
-const NotFoundHandler = (i18n = null, log = console) => {
+export const NotFoundHandler = (i18n = null, log = console) => {
   log.debug('Webux-errorhandler - Creating the Resource Not Found Handler');
   // catch 404 and forward to error handler
   // if no router get the request we hit this one.
@@ -56,7 +56,7 @@ const NotFoundHandler = (i18n = null, log = console) => {
  * @param {Object} log The log function, optional
  * @return {Function} Returns the middleware to intercept the error. (app.use())
  */
-const GlobalHandler = (log = console) => {
+export const GlobalHandler = (log = console) => {
   log.debug('Webux-errorhandler - Creating the Global Error Handler');
 
   // eslint-disable-next-line no-unused-vars
@@ -108,7 +108,7 @@ const GlobalHandler = (log = console) => {
  * @param {String} devMsg The development message to return, optional
  * @returns {Error} returns an error object
  */
-const Handler = (code, msg, extra, devMsg) => {
+export const Handler = (code, msg, extra, devMsg) => {
   const error = new Error();
 
   error.code = code || 500;
@@ -119,7 +119,7 @@ const Handler = (code, msg, extra, devMsg) => {
   return error;
 };
 
-class ApiError extends Error {
+export class ApiError extends Error {
   constructor(message, name, code, extra, devMsg) {
     super(message);
 
@@ -130,10 +130,3 @@ class ApiError extends Error {
     this.devMessage = devMsg || '';
   }
 }
-
-module.exports = {
-  Handler,
-  GlobalHandler,
-  NotFoundHandler,
-  ApiError,
-};

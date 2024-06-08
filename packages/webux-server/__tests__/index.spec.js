@@ -1,7 +1,6 @@
-/* eslint-disable global-require */
-const express = require('express');
-
-const WebuxServer = require('../src');
+import express from 'express';
+import packageJson from '../package.json' assert { type: 'json' };
+import WebuxServer from '../src/index.js';
 
 test('Creates a server instance without options nor app', () => {
   function check() {
@@ -22,7 +21,7 @@ test('Creates a server instance with options but no app', () => {
     enterprise: 'Studio Webux',
     author: 'Tommy Gingras',
     project: '@studiowebux/bin',
-    version: require('../package.json').version,
+    version: packageJson.version,
     endpoint: '/api/v1',
     port: process.env.PORT || 1337,
   };
@@ -49,7 +48,7 @@ test('Creates a server instance with options and an app', () => {
     enterprise: 'Studio Webux',
     author: 'Tommy Gingras',
     project: '@studiowebux/bin',
-    version: require('../package.json').version,
+    version: packageJson.version,
     endpoint: '/api/v1',
     port: process.env.PORT || 1337,
   };
@@ -72,7 +71,7 @@ test('Using a random port', () => {
     enterprise: 'Studio Webux',
     author: 'Tommy Gingras',
     project: '@studiowebux/bin',
-    version: require('../package.json').version,
+    version: packageJson.version,
     endpoint: '/api/v1',
   };
 
@@ -98,7 +97,7 @@ test('Using a custom handler', () => {
     enterprise: 'Studio Webux',
     author: 'Tommy Gingras',
     project: '@studiowebux/bin',
-    version: require('../package.json').version,
+    version: packageJson.version,
     endpoint: '/api/v1',
     port: process.env.PORT || 1337,
   };
@@ -130,7 +129,7 @@ test('Using SSL', () => {
     enterprise: 'Studio Webux',
     author: 'Tommy Gingras',
     project: '@studiowebux/bin',
-    version: require('../package.json').version,
+    version: packageJson.version,
     endpoint: '/api/v1',
     port: process.env.PORT || 1337,
   };
@@ -160,7 +159,7 @@ test.skip('Start the server', async () => {
     enterprise: 'Studio Webux',
     author: 'Tommy Gingras',
     project: '@studiowebux/bin',
-    version: require('../package.json').version,
+    version: packageJson.version,
     endpoint: '/api/v1',
     port: process.env.PORT || 1337,
   };

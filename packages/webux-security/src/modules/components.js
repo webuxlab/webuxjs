@@ -5,8 +5,8 @@
  * License: All rights reserved Studio Webux 2015-Present
  */
 
-const helmet = require('helmet');
-const compression = require('compression');
+import helmet from 'helmet';
+import compression from 'compression';
 
 /**
  * Initialize all security modules.
@@ -15,7 +15,7 @@ const compression = require('compression');
  * @param {object} log The log function, optional, by default console
  * @return {VoidFunction} Return nothing.
  */
-module.exports = (options, app, log = console) => {
+export default (options, app, log = console) => {
   log.info('\x1b[33mwebux-security - Initialize the security components\x1b[0m');
   app.use(compression());
   app.enable('trust proxy');

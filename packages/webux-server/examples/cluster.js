@@ -1,5 +1,7 @@
-/* eslint-disable import/no-extraneous-dependencies */
-/* eslint-disable global-require */
+import express from 'express';
+import WebuxServer from '../src/index.js';
+import packageJson from '../package.json' assert { type: 'json' };
+
 const options = {
   ssl: {
     enabled: false,
@@ -9,14 +11,11 @@ const options = {
   enterprise: 'Studio Webux',
   author: 'Tommy Gingras',
   project: '@studiowebux/bin',
-  version: require('../package.json').version,
+  version: packageJson.version,
   endpoint: '/api/v1',
   port: process.env.PORT || 1337,
   cores: 4, // If removed, it will automatically use all available cores.
 };
-
-const express = require('express');
-const WebuxServer = require('../src/index');
 
 const app = express();
 const webuxServer = new WebuxServer(options, app, console);

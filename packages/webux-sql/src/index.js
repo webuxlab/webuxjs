@@ -5,13 +5,13 @@
  * License: All rights reserved Studio Webux 2015-Present
  */
 
-const knex = require('knex');
+import knex from 'knex';
 
 /**
  * KnexJS Wrapper
  * @class sql
  */
-class sql {
+export default class sql {
   /**
    * To initialize the Knex Instance
    * @param {*} opts The options to configure Knex
@@ -35,13 +35,13 @@ class sql {
    * @param {String} name the name of the new table (Only used with action 'make')
    * @return {Promise}
    */
-  Migration(action = 'latest', name = '') {
+  Migration(action = 'latest', name = '', opts) {
     if (action !== 'make') {
       this.log.debug(`webux-sql - Run Migration with this '${action}'`);
-      return this.sql.migrate[action](this.config);
+      return this.sql.migrate[action](opts);
     }
     this.log.debug(`webux-sql - Create new table named '${name}'`);
-    return this.sql.migrate[action](name, this.config);
+    return this.sql.migrate[action](name, opts);
   }
 
   /**
@@ -59,5 +59,3 @@ class sql {
     return this.sql.seed.make(name, this.config);
   }
 }
-
-module.exports = sql;

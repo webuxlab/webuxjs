@@ -1,10 +1,11 @@
 {
   "name": "@studiowebux/search",
-  "version": "5.0.0",
+  "version": "6.0.0",
   "description": "Search plugin",
   "main": "src/index.js",
+  "type": "module",
   "scripts": {
-    "test": "jest --coverage",
+    "test": "node --experimental-vm-modules ./node_modules/.bin/jest --coverage",
     "lint": "eslint src/**",
     "doc": "jsdoc src -d jsdoc/",
     "installdeps": "npm install",

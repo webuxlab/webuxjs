@@ -4,22 +4,23 @@ const cluster = require('cluster');
 const timeout = (ms) => new Promise((res) => setTimeout(res, ms));
 
 // action
-const createProfile = (body) => new Promise(async (resolve, reject) => {
-  if (!body) {
-    console.log('No Body !');
-    return reject(new Error('Body is not present !'));
-  }
-  console.log('Start the creation of the entry');
-  console.log('then wait 2 seconds');
-  await timeout(2000);
-  return resolve({
-    msg: 'Success !',
-    cluster: cluster && cluster.worker ? cluster.worker.id : 'Single Node',
+export const createProfile = (body) =>
+  new Promise(async (resolve, reject) => {
+    if (!body) {
+      console.log('No Body !');
+      return reject(new Error('Body is not present !'));
+    }
+    console.log('Start the creation of the entry');
+    console.log('then wait 2 seconds');
+    await timeout(2000);
+    return resolve({
+      msg: 'Success !',
+      cluster: cluster && cluster.worker ? cluster.worker.id : 'Single Node',
+    });
   });
-});
 
 // route
-const route = async (req, res, next) => {
+export const route = async (req, res, next) => {
   try {
     const obj = await createProfile(req.body);
     if (!obj) {
@@ -33,7 +34,7 @@ const route = async (req, res, next) => {
 
 // socket with auth
 
-const socket = (client, io) => async (body) => {
+export const socket = (client, io) => async (body) => {
   console.log('called !');
   try {
     const obj = await createProfile(body).catch((e) => {
@@ -52,10 +53,4 @@ const socket = (client, io) => async (body) => {
     console.error(e);
     client.emit('gotError', e.message);
   }
-};
-
-module.exports = {
-  createProfile,
-  socket,
-  route,
 };

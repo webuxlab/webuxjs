@@ -1,8 +1,9 @@
 {
   "name": "@studiowebux/logger",
-  "version": "5.0.0",
+  "version": "6.0.0",
   "description": "A wrapper to log everything with winston and morgan.",
   "main": "src/index.js",
+  "type": "module",
   "author": "Studio Webux",
   "license": "SEE LICENSE IN license.txt",
   "directories": {
@@ -15,7 +16,7 @@
     "url": "https://github.com/webuxlab/webuxjs.git"
   },
   "scripts": {
-    "test": "jest",
+    "test": "node --experimental-vm-modules ./node_modules/.bin/jest",
     "lint": "eslint src/**",
     "doc": "jsdoc src -d jsdoc/",
     "installdeps": "npm install",

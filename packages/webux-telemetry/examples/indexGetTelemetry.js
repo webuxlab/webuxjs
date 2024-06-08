@@ -1,5 +1,5 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
-const express = require('express');
+import express from 'express';
 
 const app = express();
 const port = 3002;
@@ -7,6 +7,7 @@ const port = 3002;
 app.use(express.json()); // for parsing application/json
 app.use(express.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 
+// curl http://localhost:3002/telemetry
 app.all('/telemetry', async (req, res) => {
   console.debug(JSON.stringify(req.body, null, 2));
   res.json({

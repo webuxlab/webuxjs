@@ -1,3 +1,3 @@
-const MyCore = require('./MyCore');
+import MyCore from './MyCore.js';
 
-module.exports = new MyCore();
+export default new MyCore();

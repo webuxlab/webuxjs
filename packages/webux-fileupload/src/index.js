@@ -5,18 +5,18 @@
  * License: All rights reserved Studio Webux 2015-Present
  */
 
-const { fileUploadMiddleware } = require('./express/index');
-const SocketIOFileUpload = require('./socketIO/index');
-const { UploadFile, DeleteFile, ProcessImage } = require('./validators/index');
-const { downloadRoute } = require('./express/routes/download');
-const { uploadRoute } = require('./express/routes/upload');
-const { securePath } = require('./utils/secure');
-const { saveToObjectStorage, initObjectStorageClient } = require('./objectStorage');
+import { fileUploadMiddleware } from './express/index.js';
+import SocketIOFileUpload from './socketIO/index.js';
+import { UploadFile, DeleteFile, ProcessImage } from './validators/index.js';
+import { downloadRoute } from './express/routes/download.js';
+import { uploadRoute } from './express/routes/upload.js';
+import { securePath } from './utils/secure.js';
+import { saveToObjectStorage, initObjectStorageClient } from './objectStorage/index.js';
 
 /**
  * @class fileupload
  */
-class FileUpload {
+export default class FileUpload {
   /**
    * Initializes the fileupload module
    * @param {Object} opts The configuration
@@ -114,5 +114,3 @@ class FileUpload {
     return saveToObjectStorage(this.client, input, this.log);
   }
 }
-
-module.exports = FileUpload;

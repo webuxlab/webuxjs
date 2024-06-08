@@ -1,4 +1,4 @@
-const { webuxApp } = require('./app');
+import { webuxApp } from './app.js';
 const { app, ErrorHandler } = webuxApp;
 
 app.use(webuxApp.I18nOnRequest());

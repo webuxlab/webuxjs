@@ -5,13 +5,13 @@
  * License: All rights reserved Studio Webux 2024-Present
  */
 
-const gremlin = require('gremlin');
+import gremlin from 'gremlin';
 
 /**
  * Gremlin Wrapper
  * @class janusgraph
  */
-class janusgraph {
+export default class janusgraph {
   /**
    * To initialize the gremlin Instance
    * @param {*} opts The options to configure gremlin
@@ -33,5 +33,3 @@ class janusgraph {
     this.gremlin = traversal().withRemote(new DriverRemoteConnection(this.config.url, this.config.options));
   }
 }
-
-module.exports = janusgraph;

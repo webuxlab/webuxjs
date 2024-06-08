@@ -1,7 +1,8 @@
-const express = require('express');
+import express from 'express';
+import { jest } from '@jest/globals';
 // const Joi = require('joi');
 
-const WebuxSecurity = require('../src');
+import WebuxSecurity from '../src/index.js';
 
 test('Create security instance without options', () => {
   const Security = new WebuxSecurity();

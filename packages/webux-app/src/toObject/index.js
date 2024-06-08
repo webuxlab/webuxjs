@@ -11,7 +11,7 @@
  * @param {Array} array must be an array
  * @returns {JSON} converted array to JSON
  */
-function toObject(array) {
+export default function toObject(array) {
   const json = {};
   if (array && (typeof array !== 'object' || !Array.isArray(array))) {
     throw new Error('Function toObject(array) parameter must be an array.');
@@ -26,5 +26,3 @@ function toObject(array) {
 
   return json;
 }
-
-module.exports = toObject;

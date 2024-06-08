@@ -5,14 +5,14 @@
  * License: All rights reserved Studio Webux 2015-Present
  */
 
-const Core = require('./App');
+import Core from './App.js';
 /**
  * Exports the ore as new Object
  * It allows to use the import across multiple modules
  */
-module.exports = new Core();
+export default new Core();
 
 /**
  * It exports the WebuxApp object
  */
-module.exports.WebuxApp = Core;
+export const WebuxApp = Core;

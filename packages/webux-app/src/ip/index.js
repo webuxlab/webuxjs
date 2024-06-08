@@ -10,7 +10,7 @@
  * @param {Object} req The request variable, Mandatory
  * @return {String} The IP of the client.
  */
-module.exports = (req) => {
+export default (req) => {
   if (!req) {
     throw new Error('req parameter is required.');
   }

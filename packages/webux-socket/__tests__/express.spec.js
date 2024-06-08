@@ -1,9 +1,9 @@
-const express = require('express');
-const cors = require('cors');
-const jwt = require('jsonwebtoken');
-const http = require('http');
-const request = require('supertest');
-const WebuxSocket = require('../src'); // @studiowebux/socket
+import express from 'express';
+import cors from 'cors';
+import jwt from 'jsonwebtoken';
+import http from 'http';
+import request from 'supertest';
+import WebuxSocket from '../src/index.js'; // @studiowebux/socket
 
 /**
  * This function is used to authenticate the user using the socket.io.

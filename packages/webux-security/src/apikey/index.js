@@ -7,7 +7,7 @@
  * @module apikey
  */
 
-const { randomUUID, randomBytes } = require('node:crypto');
+import { randomUUID, randomBytes } from 'node:crypto';
 
 /**
  * API Key Limit
@@ -39,7 +39,7 @@ const { randomUUID, randomBytes } = require('node:crypto');
  * @param {number} api_key_length length of the api key to generate
  * @returns {string} The client api key
  */
-function generate_api_key(api_key_length = 42) {
+export function generate_api_key(api_key_length = 42) {
   return randomBytes(api_key_length).toString('hex').substring(0, api_key_length);
 }
 
@@ -51,7 +51,7 @@ function generate_api_key(api_key_length = 42) {
  * @param {number} daily_limit the number of requests allowed on a daily basis
  * @returns {ApiKeyClient} a client
  */
-function create_api_key_client(name, description, api_key_length, daily_limit = 0) {
+export function create_api_key_client(name, description, api_key_length, daily_limit = 0) {
   return {
     created_at: new Date(),
     updated_at: null,
@@ -70,7 +70,7 @@ function create_api_key_client(name, description, api_key_length, daily_limit = 
  * @param {ApiKeyUsage} usage the current usage for a client
  * @returns {ApiKeyUsage}
  */
-function update_usage(usage) {
+export function update_usage(usage) {
   const today = new Date().toISOString().split('T')[0];
   return { ...usage, [today]: (usage[today] || 0) + 1 };
 }
@@ -80,7 +80,7 @@ function update_usage(usage) {
  * @param {ApiKeyUsage} usage the current usage for a client
  * @returns {ApiKeyUsage}
  */
-function reset_usage(usage) {
+export function reset_usage(usage) {
   const today = new Date().toISOString().split('T')[0];
   return { ...usage, [today]: 0 };
 }
@@ -90,7 +90,7 @@ function reset_usage(usage) {
  * @param {number} daily the new daily limit to apply
  * @returns {ApiKeyLimit}
  */
-function update_limit(daily) {
+export function update_limit(daily) {
   return {
     daily,
   };
@@ -104,7 +104,7 @@ function update_limit(daily) {
  * @returns {ApiKeyClient} return the updated client
  * @throws 'Api key limit reached' If the daily limit is exhausted
  */
-function check_api_key(client) {
+export function check_api_key(client) {
   const today = new Date().toISOString().split('T')[0];
   if (!client) throw new Error('Missing client configuration');
   if (client.limit.daily <= 0) throw new Error('This API Key has no limit configured');
@@ -115,12 +115,3 @@ function check_api_key(client) {
   const payload = { ...client, usage: { ...update_usage(client.usage) } };
   return payload;
 }
-
-module.exports = {
-  generate_api_key,
-  create_api_key_client,
-  update_usage,
-  update_limit,
-  reset_usage,
-  check_api_key,
-};

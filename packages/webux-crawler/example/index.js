@@ -1,13 +1,11 @@
-const puppeteer = require('puppeteer');
-
-const { elements, metas, extensions } = require('../src/libs/constants');
-
-const { getPage } = require('../src/libs/puppeteer/page');
-const { extractElements } = require('../src/libs/puppeteer/elements');
-const { extractMetas } = require('../src/libs/puppeteer/meta');
-const { getDocument, getBodyHtml, getTitle } = require('../src/libs/puppeteer/html');
-const { takeScreenshot } = require('../src/libs/puppeteer/screenshot');
-const { generateIdentifier } = require('../src/libs/identifier');
+import puppeteer from 'puppeteer';
+import constants from '../src/libs/constants.js';
+import { getPage } from '../src/libs/puppeteer/page.js';
+import { extractElements } from '../src/libs/puppeteer/elements.js';
+import { extractMetas } from '../src/libs/puppeteer/meta.js';
+import { getDocument, getBodyHtml, getTitle } from '../src/libs/puppeteer/html.js';
+import { takeScreenshot } from '../src/libs/puppeteer/screenshot.js';
+import { generateIdentifier } from '../src/libs/identifier.js';
 
 (async () => {
   const userAgent =
@@ -17,7 +15,7 @@ const { generateIdentifier } = require('../src/libs/identifier');
   let browser;
 
   try {
-    const instance = await getPage(url, userAgent, puppeteer, extensions, false);
+    const instance = await getPage(url, userAgent, puppeteer, constants.extensions, false);
 
     page = instance.page;
     browser = instance.browser;
@@ -25,8 +23,8 @@ const { generateIdentifier } = require('../src/libs/identifier');
     console.debug('har', instance.har);
     console.debug('errors', instance.errors);
 
-    const content = await extractElements(page, elements);
-    content.meta = await extractMetas(page, metas);
+    const content = await extractElements(page, constants.elements);
+    content.meta = await extractMetas(page, constants.metas);
 
     const bodyHtml = await getBodyHtml(page);
     const document = await getDocument(page);

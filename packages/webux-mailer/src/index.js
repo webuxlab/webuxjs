@@ -6,12 +6,12 @@
  * License: All rights reserved Studio Webux 2015-Present
  */
 
-const nodemailer = require('nodemailer');
+import nodemailer from 'nodemailer';
 
 /**
  * @class Mailer Class
  */
-class Mailer {
+export default class Mailer {
   /**
    *
    * @param {object} opts Options to enable the mailer and configure the transport
@@ -82,5 +82,3 @@ class Mailer {
     });
   }
 }
-
-module.exports = Mailer;

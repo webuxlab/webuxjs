@@ -7,7 +7,7 @@
 
 // The default tokens used with the request interceptor
 // it can be modified using the 'tokens' options.
-module.exports = [
+export default [
   {
     name: 'body',
     needStringify: true,

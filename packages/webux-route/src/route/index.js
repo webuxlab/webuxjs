@@ -5,7 +5,7 @@
  * License: All rights reserved Studio Webux 2015-Present
  */
 
-const { processRoutes } = require('./Helpers/process');
+import { processRoutes } from './Helpers/process.js';
 
 /**
  * this function creates custom routes with parameters
@@ -14,7 +14,7 @@ const { processRoutes } = require('./Helpers/process');
  * @param {Object} log The log function, optional
  * @returns {Promise}
  */
-const CreateRoutes = (routes, router, log = console) =>
+export default (routes, router, log = console) =>
   new Promise((resolve) => {
     try {
       log.info('\x1b[33mwebux-route - Creating routes\x1b[0m');
@@ -32,5 +32,3 @@ const CreateRoutes = (routes, router, log = console) =>
       throw e;
     }
   });
-
-module.exports = CreateRoutes;

@@ -1,10 +1,10 @@
-/* eslint-disable global-require */
-const express = require('express');
-const WebuxServer = require('../../src/index');
+import express from 'express';
+import WebuxServer from '../../src/index.js';
+import packageJson from './package.json' assert { type: 'json' };
 
 const app = express();
 
-function Core() {
+export default function Core() {
   this.config = {
     ssl: {
       enabled: !!(process.env.KEY && process.env.CERT),
@@ -14,7 +14,7 @@ function Core() {
     enterprise: 'Studio Webux',
     author: 'Tommy Gingras',
     project: '@studiowebux/bin',
-    version: require('./package.json').version,
+    version: packageJson.version,
     endpoint: '/api/v1',
     port: process.env.PORT || 1337,
     cores: 4,
@@ -26,5 +26,3 @@ function Core() {
 
   this.server = new WebuxServer(this.config, this.app, this.log);
 }
-
-module.exports = Core;

@@ -5,22 +5,22 @@
  * License: All rights reserved Studio Webux 2015-Present
  */
 
-const header = require('./modules/header');
-const bodyParser = require('./modules/bodyParser');
-const cookieParser = require('./modules/cookieParser');
-const cors = require('./modules/cors');
-const components = require('./modules/components');
-const query = require('./query/index');
-const validators = require('./validator/index');
-const rateLimiter = require('./ratelimiter/index');
+import header from './modules/header.js';
+import bodyParser from './modules/bodyParser.js';
+import cookieParser from './modules/cookieParser.js';
+import cors from './modules/cors.js';
+import components from './modules/components.js';
+import query from './query/index.js';
+import * as validators from './validator/index.js';
+import rateLimiter from './ratelimiter/index.js';
 
-const apiKey = require('./apikey/index');
+import * as apiKey from './apikey/index.js';
 
 /**
  * It contains security modules
  * @class Security
  */
-class Security {
+export default class Security {
   /**
    * Initialize the security class
    * @param {Object} opts Module configuration
@@ -119,5 +119,3 @@ class Security {
     });
   }
 }
-
-module.exports = Security;
