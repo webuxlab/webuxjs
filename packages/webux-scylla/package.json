@@ -31,5 +31,6 @@
     "globals": "^15.4.0",
     "jsdoc": "^4.0.2",
     "prettier": "^3.2.5"
-  }
+  },
+  "gitHead": "00f95cf83a94a52f0fc87f7204ee29f4664cf7f4"
 }

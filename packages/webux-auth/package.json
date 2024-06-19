@@ -43,5 +43,6 @@
     "knex": "^3.1.0",
     "prettier": "^3.2.5",
     "sqlite3": "^5.1.7"
-  }
+  },
+  "gitHead": "00f95cf83a94a52f0fc87f7204ee29f4664cf7f4"
 }

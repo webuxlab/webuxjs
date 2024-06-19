@@ -82,3 +82,8 @@
   - crawler
   - Auth, im unhappy with it, need to get rid of passport.. too heavy for no good reason .. need a session and jwt based auth + oidc, there is real need to use passport (but will tackle this one later)
   - App
+
+NPMJS
+- release 
+  - janusgraph
+  - scylla

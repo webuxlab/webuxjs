@@ -9,8 +9,8 @@ import http from 'node:http';
 import https from 'node:https';
 import cluster from 'node:cluster';
 
-import header from './Helpers/header.js';
-import { normalizePort, setNumCores, onError, onClose, onListening, parseSSL, UpdatePort } from './Helpers/tools.js';
+import header from './helpers/header.js';
+import { normalizePort, setNumCores, onError, onClose, onListening, parseSSL, UpdatePort } from './helpers/tools.js';
 
 /**
  * Creates a simple HTTP or HTTPS server or a cluster.
