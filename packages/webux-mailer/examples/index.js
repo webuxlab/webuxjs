@@ -1,4 +1,4 @@
-const WebuxMailer = require('../src/index');
+import WebuxMailer from '../src/index.js';
 
 try {
   // const webuxMailer = new WebuxMailer();

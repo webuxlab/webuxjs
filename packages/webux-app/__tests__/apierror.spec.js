@@ -1,5 +1,5 @@
-const { ApiError } = require('../src/errorhandler');
-const WebuxApp = require('../src');
+import { ApiError } from '../src/errorhandler/index.js';
+import WebuxApp from '../src/index.js';
 
 test('API Error', () => {
   const handler = () => {

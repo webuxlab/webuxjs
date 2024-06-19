@@ -4,7 +4,9 @@ FROM node:latest AS backendbuilder
 WORKDIR /usr/src/app
 COPY ./package.json .
 
-RUN npm install --production
+RUN npm install --omit=dev
+
+
 
 
 # create the container to host the backend.
@@ -20,6 +22,6 @@ VOLUME [ "/usr/src/app/defaults" ]
 VOLUME [ "/usr/src/app/uploads" ]
 VOLUME [ "/usr/src/app/locales" ]
 
-EXPOSE 3030
+EXPOSE 1337
 CMD [ "npm", "start" ]
 

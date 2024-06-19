@@ -7,9 +7,9 @@
  * License: All rights reserved Studio Webux 2015-Present
  */
 
-const fs = require('fs');
-const path = require('path');
-const { FirstLetterCaps } = require('../lib/helpers');
+import fs from 'node:fs';
+import path from 'node:path';
+import { FirstLetterCaps } from '../lib/helpers.js';
 
 // List of words prohibited,
 // this is according of the socket.io documentation
@@ -122,7 +122,7 @@ function AttachActions(log, config) {
 /**
  * Call the AttachActions based on the configuration file
  */
-function Actions() {
+export default function Actions() {
   if (!this.config || !this.config.namespaces) {
     throw new Error('No Namespace defined');
   }
@@ -151,5 +151,3 @@ function Actions() {
     }
   });
 }
-
-module.exports = Actions;

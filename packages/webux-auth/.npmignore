@@ -7,3 +7,10 @@ jest.config.js
 Jenkinsfile
 log/
 babel.config.js
+keycloak/
+node_modules/
+tmp/
+.env
+screenshots/
+example/
+*.tgz

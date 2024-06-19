@@ -5,7 +5,7 @@
  * License: All rights reserved Studio Webux 2015-Present
  */
 
-const Handler = require('../defaults/errorHandler');
+import Handler from '../defaults/errorHandler.js';
 
 /**
  * Checks the body
@@ -13,7 +13,7 @@ const Handler = require('../defaults/errorHandler');
  * @param {Function} errorHandler Custom ErrorHandler, optional
  * @return {Function} return a middleware function
  */
-const Body =
+export const Body =
   (schema, errorHandler = Handler) =>
   async (req, res, next) => {
     try {
@@ -32,7 +32,7 @@ const Body =
  * @param {Function} errorHandler Custom ErrorHandler, optional
  * @return {Function} return a middleware function
  */
-const MongoID =
+export const MongoID =
   (schema, errorHandler = Handler) =>
   async (req, res, next) => {
     try {
@@ -51,7 +51,7 @@ const MongoID =
  * @param {Function} errorHandler Custom ErrorHandler, optional
  * @return {Function} return a middleware function
  */
-const Id =
+export const Id =
   (schema, errorHandler = Handler) =>
   async (req, res, next) => {
     try {
@@ -70,7 +70,7 @@ const Id =
  * @param {Function} errorHandler Custom ErrorHandler, optional
  * @return {Function} return a middleware function
  */
-const MongoIdOrURL =
+export const MongoIdOrURL =
   (schema, errorHandler = Handler) =>
   async (req, res, next) => {
     try {
@@ -91,7 +91,7 @@ const MongoIdOrURL =
  * @param {Function} errorHandler Custom ErrorHandler, optional
  * @return {Function} return a middleware function
  */
-const User =
+export const User =
   (schema, errorHandler = Handler) =>
   async (req, res, next) => {
     try {
@@ -110,7 +110,7 @@ const User =
  * @param {Function} errorHandler Custom ErrorHandler, optional
  * @return {Function} return a middleware function
  */
-const Headers =
+export const Headers =
   (schema, errorHandler = Handler) =>
   async (req, res, next) => {
     try {
@@ -129,7 +129,7 @@ const Headers =
  * @param {Function} errorHandler Custom ErrorHandler, optional
  * @return {Function} return a middleware function
  */
-const Files =
+export const Files =
   (schema, errorHandler = Handler) =>
   async (req, res, next) => {
     try {
@@ -149,7 +149,7 @@ const Files =
  * @param {Function} errorHandler Custom ErrorHandler, optional
  * @return {Promise} return a promise
  */
-const Custom = (schema, object, errorHandler = Handler) => {
+export const Custom = (schema, object, errorHandler = Handler) => {
   try {
     const value = schema.validateAsync(object, {
       allowUnknown: false,
@@ -160,15 +160,4 @@ const Custom = (schema, object, errorHandler = Handler) => {
       errorHandler(400, e.details && e.details[0] ? e.details[0].message : e.details, { type: 'Custom Object Schema Validator' }, e),
     );
   }
-};
-
-module.exports = {
-  Body,
-  User,
-  MongoID,
-  MongoIdOrURL,
-  Headers,
-  Files,
-  Custom,
-  Id,
 };

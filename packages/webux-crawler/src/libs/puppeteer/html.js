@@ -3,7 +3,7 @@
  * @param {Object} page
  * @returns String
  */
-function getBodyHtml(page) {
+export function getBodyHtml(page) {
   return page.$eval('body', (el) => el.innerHTML);
 }
 
@@ -12,7 +12,7 @@ function getBodyHtml(page) {
  * @param {Object} page
  * @returns String
  */
-function getDocument(page) {
+export function getDocument(page) {
   return page.content();
 }
 
@@ -21,12 +21,6 @@ function getDocument(page) {
  * @param {Object} page
  * @returns String
  */
-function getTitle(page) {
+export function getTitle(page) {
   return page.title();
 }
-
-module.exports = {
-  getBodyHtml,
-  getDocument,
-  getTitle,
-};

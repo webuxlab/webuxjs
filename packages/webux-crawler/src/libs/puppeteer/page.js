@@ -1,4 +1,4 @@
-const PuppeteerHar = require('puppeteer-har');
+import PuppeteerHar from 'puppeteer-har';
 
 /**
  * Open a browser, open a page, intercept Requests for media, collect HAR, and crawl the URL
@@ -10,7 +10,7 @@ const PuppeteerHar = require('puppeteer-har');
  * @param {boolean} headless Default: false
  * @returns { browser, page, har, errors, resources }
  */
-async function getPage(url, agent, puppeteer, extensions, headless = false) {
+export async function getPage(url, agent, puppeteer, extensions, headless = false) {
   const errors = [];
   const resources = {
     images: [],
@@ -81,7 +81,3 @@ async function getPage(url, agent, puppeteer, extensions, headless = false) {
     resources,
   };
 }
-
-module.exports = {
-  getPage,
-};

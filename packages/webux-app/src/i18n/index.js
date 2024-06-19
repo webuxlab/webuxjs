@@ -1,4 +1,3 @@
-/* eslint-disable global-require */
 /**
  * File: index.js
  * Author: Tommy Gingras
@@ -6,7 +5,8 @@
  * License: All rights reserved Studio Webux 2015-Present
  */
 
-const path = require('path');
+import path from 'node:path';
+import i18n from 'i18n';
 
 /**
  *
@@ -15,7 +15,7 @@ const path = require('path');
  * @param {Object} log Custom logger, by default : console
  * @returns {Function} The express middleware
  */
-const onRequest = (availableLanguage, i18n, log = console) => {
+export const onRequest = (availableLanguage, i18n, log = console) => {
   log.debug('Webux-app - Attach i18n');
   return (req, res, next) => {
     const lang = req.headers && req.headers['accept-language'] ? req.headers['accept-language'] : 'en';
@@ -35,9 +35,8 @@ const onRequest = (availableLanguage, i18n, log = console) => {
  * @param {Object} log The log function, optional
  * @returns {Object} returns the i18n object
  */
-const configure = (options = {}, log = console) => {
+export const configure = (options = {}, log = console) => {
   log.debug('Webux-app - Configure i18n');
-  const i18n = require('i18n');
 
   i18n.configure({
     locales: options.availables,
@@ -49,9 +48,4 @@ const configure = (options = {}, log = console) => {
   });
 
   return i18n;
-};
-
-module.exports = {
-  configure,
-  onRequest,
 };

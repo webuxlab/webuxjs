@@ -1,4 +1,4 @@
-const { WebuxApp } = require('../src');
+import { WebuxApp } from '../src/index.js';
 
 test('Creates Application with no options', () => {
   const app = new WebuxApp();

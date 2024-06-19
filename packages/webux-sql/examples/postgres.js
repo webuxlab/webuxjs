@@ -5,8 +5,8 @@
  *
  * Please launch this docker to have the actual DB
  * docker run -d --name webux_db \
- * -e POSTGRES_PASSWORD=webux_password \
- * -e POSTGRES_USER=webux \
+ * -e POSTGRES_PASSWORD=password \
+ * -e POSTGRES_USER=username \
  * -e POSTGRES_DB=webux_sql \
  * -p 5432:5432 \
  * postgres:latest
@@ -30,16 +30,16 @@
  * License: All rights reserved Studio Webux 2015-Present
  */
 
-const WebuxSQL = require('../src/index');
+import WebuxSQL from '../src/index.js';
 
 const opts = {
   development: {
     client: 'postgresql',
     connection: {
-      host: '192.168.2.19',
-      port: '5433',
-      user: 'webux',
-      password: 'webux_password',
+      host: '127.0.0.1',
+      port: '5432',
+      user: 'username',
+      password: 'password',
       database: 'webux_sql',
     },
     migrations: {
@@ -70,10 +70,10 @@ async function database() {
     const exist = await webuxSQL.sql.schema.hasTable('Users');
 
     if (!exist) {
-      await webuxSQL.Migration('make', 'Users');
-      await webuxSQL.Migration('make', 'Empty');
+      await webuxSQL.Migration('make', 'Users', { extension: 'cjs' });
+      await webuxSQL.Migration('make', 'Empty', { extension: 'cjs' });
       console.log('*** You should put some stuffs within the migration files');
-      await webuxSQL.Seed('make', 'Users');
+      await webuxSQL.Seed('make', 'Users', { extension: 'cjs' });
       console.log('*** You should put some stuffs within the seed file');
       console.log('After configuring the files, you can relaunch the script.');
       process.exit(0);

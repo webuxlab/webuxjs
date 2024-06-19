@@ -18,7 +18,7 @@ const options = {
   deniedKeys: ['password', 'authorization', 'accessToken', 'refreshToken'],
 };
 
-const Webuxlogger = require('../../src/index');
+import Webuxlogger from '../../src/index.js';
 
 // const levels = {
 //   error: 0,

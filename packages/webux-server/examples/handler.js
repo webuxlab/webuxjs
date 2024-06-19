@@ -1,5 +1,5 @@
-/* eslint-disable global-require */
-const WebuxServer = require('../src/index');
+import WebuxServer from '../src/index.js';
+import packageJson from '../package.json' assert { type: 'json' };
 
 const handler = (req, res) => {
   res.writeHead(200, { 'Content-Type': 'text/html' });
@@ -10,7 +10,7 @@ const options = {
   enterprise: 'Studio Webux',
   author: 'Tommy Gingras',
   project: '@studiowebux/bin',
-  version: require('../package.json').version,
+  version: packageJson.version,
   endpoint: '/api/v1',
   port: process.env.PORT || 1337,
 };

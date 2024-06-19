@@ -1,5 +1,5 @@
-const path = require('path');
-const { securePath } = require('../src/utils/secure');
+import path from 'node:path';
+import { securePath } from '../src/utils/secure.js';
 
 const logger = {
   verbose: console.debug,

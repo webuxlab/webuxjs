@@ -1,7 +1,7 @@
 /* eslint-disable import/no-extraneous-dependencies */
-const express = require('express');
-const Joi = require('joi');
-const WebuxSecurity = require('../src/index');
+import express from 'express';
+import Joi from 'joi';
+import WebuxSecurity from '../src/index.js';
 
 const app = express();
 const options = require('./options');

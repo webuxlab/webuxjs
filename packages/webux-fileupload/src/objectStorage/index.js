@@ -5,14 +5,14 @@
  * License: All rights reserved Studio Webux 2015-Present
  */
 
-const { S3Client, PutObjectCommand } = require('@aws-sdk/client-s3');
+import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
 
-function initObjectStorageClient(config, log) {
+export function initObjectStorageClient(config, log) {
   log.verbose(config);
   return new S3Client(config.s3 || undefined);
 }
 
-async function saveToObjectStorage(client, input, log) {
+export async function saveToObjectStorage(client, input, log) {
   if (!client) throw new Error('No Client provided');
   log.verbose(input);
 
@@ -21,5 +21,3 @@ async function saveToObjectStorage(client, input, log) {
 
   return response;
 }
-
-module.exports = { saveToObjectStorage, initObjectStorageClient };

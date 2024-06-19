@@ -1,4 +1,4 @@
-const WebuxLogger = require('../src');
+import WebuxLogger from '../src/index.js';
 
 test('Create logger without option', () => {
   const logger = new WebuxLogger();

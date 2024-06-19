@@ -5,13 +5,13 @@
  * License: All rights reserved Studio Webux 2015-Present
  */
 
-const amqp = require('amqplib');
-const crypto = require('crypto');
+import amqp from 'amqplib';
+import crypto from 'node:crypto';
 
 /**
  * @class Queue Class
  */
-class Queue {
+export default class Queue {
   /**
    *
    * @param {object} opts Options
@@ -36,7 +36,7 @@ class Queue {
    */
   async connect() {
     try {
-      this.log.verbose('webux-queue: Connect');
+      this.log.debug('webux-queue: Connect');
       this.connection = await amqp.connect(this.config.connection);
     } catch (e) {
       this.log.error(e.message);
@@ -50,7 +50,7 @@ class Queue {
    */
   async disconnect() {
     try {
-      this.log.verbose('webux-queue: Disconnect');
+      this.log.debug('webux-queue: Disconnect');
       if (!this.connection) throw new Error(`Connection not initialized.`);
       await this.connection.close();
     } catch (e) {
@@ -65,7 +65,7 @@ class Queue {
    * @returns void
    */
   async createChannel(queueName) {
-    this.log.verbose('webux-queue: Create Channel');
+    this.log.debug('webux-queue: Create Channel');
     if (this.channel) throw new Error('Channel already linked');
     this.channel = await this.connection.createChannel();
     this.queueName = queueName;
@@ -77,7 +77,7 @@ class Queue {
    * @returns void
    */
   async disconnectChannel() {
-    this.log.verbose('webux-queue: Disconnect Channel');
+    this.log.debug('webux-queue: Disconnect Channel');
     if (!this.channel) throw new Error('Channel not linked');
     await this.channel.close();
     this.channel = null;
@@ -88,7 +88,7 @@ class Queue {
    * @param {Buffer} payload
    */
   async sendToQueue(payload) {
-    this.log.verbose('webux-queue: Send to Queue');
+    this.log.debug('webux-queue: Send to Queue');
     if (!this.channel) throw new Error('Channel not linked');
     await this.channel.sendToQueue(this.queueName, payload, {
       ...this.config.queue,
@@ -99,16 +99,12 @@ class Queue {
   }
 
   /**
-   *
-   * @returns message
+   * take a callback function in parameter to handle the messages
+   * @returns Promise
    */
-  async consumeMessage() {
-    this.log.verbose('webux-queue: Consume Message');
-    return new Promise((resolve) => {
-      this.channel.consume(this.queueName, (msg) => {
-        resolve(msg);
-      });
-    });
+  async consumeMessage(callback) {
+    this.log.debug('webux-queue: Consume Message');
+    return this.channel.consume(this.queueName, async (msg) => await callback(this.channel, msg));
   }
 
   /**
@@ -117,7 +113,7 @@ class Queue {
    * @returns void
    */
   ack(message) {
-    this.log.verbose('webux-queue: Acknowledge Message');
+    this.log.debug('webux-queue: Acknowledge Message');
     return this.channel.ack(message, this.config.queue.allUpTo, this.config.queue.requeue);
   }
 
@@ -127,10 +123,8 @@ class Queue {
    * @returns void
    */
   async nack(message) {
-    this.log.verbose('webux-queue: Reject Message');
+    this.log.debug('webux-queue: Reject Message');
     this.channel.nack(message, this.config.queue.allUpTo, this.config.queue.requeue);
     if (this.config.queue.requeue) await this.channel.recover();
   }
 }
-
-module.exports = Queue;

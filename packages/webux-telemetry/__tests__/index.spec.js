@@ -1,4 +1,4 @@
-const { Telemetry } = require('../src');
+import { Telemetry } from '../src/index.js';
 
 function timer(duration = 1000) {
   return new Promise((resolve) => {

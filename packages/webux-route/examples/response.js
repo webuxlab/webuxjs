@@ -1,6 +1,5 @@
-/* eslint-disable import/no-extraneous-dependencies */
-const express = require('express');
-const WebuxRoute = require('../src/index');
+import express from 'express';
+import WebuxRoute from '../src/index.js';
 
 const app = express();
 

@@ -1,8 +1,8 @@
-const express = require('express');
+import express from 'express';
 
 const router = express.Router();
 
-module.exports = function routes(passport, client) {
+export default function routes(passport, client) {
   router.get('/auth/callback', (req, res, next) => {
     console.debug('/auth/callback');
 
@@ -36,4 +36,4 @@ module.exports = function routes(passport, client) {
   });
 
   return router;
-};
+}

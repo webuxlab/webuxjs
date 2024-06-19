@@ -1,23 +1,12 @@
-/* eslint-disable import/newline-after-import */
-require('../../../webux-telemetry/src/tracing').tracing(require('./package.json').name, require('./package.json').version);
-
-/* eslint-disable import/no-extraneous-dependencies */
-const express = require('express');
-const bodyParser = require('body-parser');
-const WebuxLog = require('../../src/index');
-const { metrics, tracing } = require('../../../webux-telemetry/src/index');
+import express from 'express';
+import bodyParser from 'body-parser';
+import WebuxLog from '../../src/index.js';
 
 function waitForIt() {
   return new Promise((resolve) => setTimeout(async () => resolve(), Math.random() * 10000));
 }
 
 const app = express();
-
-app.use(
-  metrics.requestCounterMiddleware(require('./package.json').name, require('./package.json').name, require('./package.json').version),
-);
-app.use(metrics.metricsMiddleware(require('./package.json').name, require('./package.json').name, require('./package.json').version));
-app.use(tracing.middlewareTracing);
 
 // Only to configure winston
 const options = {

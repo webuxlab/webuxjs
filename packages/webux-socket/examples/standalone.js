@@ -1,22 +1,20 @@
 // Please run this command before,
 // docker run --name redis -p 6379:6379 redis
 
-const WebuxSocket = require('../src/index'); // @studiowebux/socket
-const express = require('express');
-const jwt = require('jsonwebtoken');
-const cors = require('cors');
+import WebuxSocket from '../src/index.js'; // @studiowebux/socket
+import express from 'express';
+import jwt from 'jsonwebtoken';
+import cors from 'cors';
+import http from 'node:http';
 
 const app = express();
-const server = require('http').createServer(app);
+const server = http.createServer(app);
 
 app.use(cors());
 
 // to give a jwt token for testing,
 app.use('/giveme', (req, res, next) => {
-  const token = jwt.sign(
-    { aString: 'SHuuut ! this is my payload' },
-    'HARDCODED_JWT_SECRET',
-  );
+  const token = jwt.sign({ aString: 'SHuuut ! this is my payload' }, 'HARDCODED_JWT_SECRET');
 
   res.status(200).json({
     accessToken: token,

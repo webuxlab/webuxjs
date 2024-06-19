@@ -1,5 +1,3 @@
-/* eslint-disable import/no-dynamic-require */
-/* eslint-disable global-require */
 /**
  * File: index.js
  * Author: Tommy Gingras
@@ -7,8 +5,8 @@
  * License: All rights reserved Studio Webux 2015-Present
  */
 
-const fs = require('fs');
-const path = require('path');
+import fs from 'node:fs';
+import path from 'node:path';
 
 /**
  * To create the key name without the XX_ naming convention.
@@ -33,23 +31,26 @@ function splitName(moduleName) {
  * @param {Function} log The log function, optional (Default: console)
  * @return {Array} The mapping of the config name and the key/values.
  */
-module.exports = (configPath, log = console) => {
+export default async (configPath, log = console) => {
   if (configPath && typeof configPath === 'string') {
     const modules = {};
     // Get all files in the directory, process only the .js files
     try {
-      fs.readdirSync(configPath)
-        .sort()
-        .forEach((file) => {
-          if (file.includes('.js')) {
-            // link the configuration values with the filename.
-            const configName = file.split('.js')[0];
-            const processedNamde = splitName(configName);
+      const files = fs.readdirSync(configPath).sort();
 
-            modules[processedNamde] = require(path.join(configPath, file));
-            log.info(`\x1b[32mwebux-loader - Configuration : ${processedNamde} loaded\x1b[0m`);
-          }
-        });
+      for (const file of files) {
+        if (file.includes('.js')) {
+          // link the configuration values with the filename.
+          const configName = file.split('.js')[0];
+          const processedName = splitName(configName);
+          log.info(`\x1b[32mwebux-loader - Trying to load configuration : ${processedName}\x1b[0m`);
+
+          const config = await import(path.join(configPath, file));
+          modules[processedName] = config.default;
+          log.info(`\x1b[32mwebux-loader - Configuration : ${processedName} loaded\x1b[0m`);
+        }
+      }
+
       // return the mapping config/name
       return modules;
     } catch (e) {

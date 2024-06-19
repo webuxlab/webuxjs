@@ -1,22 +1,29 @@
 // Please run this command before,
 // docker run --name redis -p 6379:6379 redis
 
-const WebuxSocket = require('../src/index'); // @studiowebux/socket
-const express = require('express');
-const jwt = require('jsonwebtoken');
-const cors = require('cors');
-const path = require('path');
+import WebuxSocket from '../src/index.js'; // @studiowebux/socket
+import express from 'express';
+import jwt from 'jsonwebtoken';
+import cors from 'cors';
+import path from 'node:path';
+import http from 'node:http';
+import { fileURLToPath } from 'node:url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
-const server = require('http').createServer(app);
+const server = http.createServer(app);
 
 app.use(cors());
+
+const isAuthModule = await import(path.join(__dirname, '.', 'isAuth.js'));
 
 const opts = {
   authentication: {
     namespaces: ['profile', 'default'],
     accessTokenKey: 'accessToken', // The cookie key name
-    isAuthenticated: require(path.join(__dirname, '.', 'isAuth.js')), // the function to check if the user if authenticated
+    isAuthenticated: isAuthModule.default, // the function to check if the user if authenticated
   },
   redis: {
     host: process.env.REDIS_HOST || '127.0.0.1',
@@ -42,10 +49,7 @@ const opts = {
 // to give a jwt token for testing,
 
 app.use('/giveme', (req, res, next) => {
-  const token = jwt.sign(
-    { aString: 'SHuuut ! this is my payload' },
-    'HARDCODED_JWT_SECRET',
-  );
+  const token = jwt.sign({ aString: 'SHuuut ! this is my payload' }, 'HARDCODED_JWT_SECRET');
 
   res.status(200).json({
     accessToken: token,

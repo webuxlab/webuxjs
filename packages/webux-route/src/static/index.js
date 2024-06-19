@@ -5,7 +5,7 @@
  * License: All rights reserved Studio Webux 2015-Present
  */
 
-const path = require('path');
+import path from 'node:path';
 
 /**
  * Load static resources
@@ -15,7 +15,7 @@ const path = require('path');
  * @param {Function} log The log function, optional, by default console
  * @returns {Promise}
  */
-const serveStatic = (resources, app, express, log = console) =>
+export default (resources, app, express, log = console) =>
   new Promise((resolve, reject) => {
     resources.forEach((resource) => {
       log.info(`\x1b[33mwebux-static - Link ${resource.path} to ${resource.resource}\x1b[0m`);
@@ -28,5 +28,3 @@ const serveStatic = (resources, app, express, log = console) =>
 
     resolve('Static resources loaded !');
   });
-
-module.exports = serveStatic;

@@ -5,7 +5,7 @@
  * License: All rights reserved Studio Webux 2015-Present
  */
 
-class View {
+export default class View {
   /**
    * Initialize the application
    * @param {Object} opts
@@ -35,5 +35,3 @@ class View {
     return req.headers['hx-request'] === 'true';
   }
 }
-
-module.exports = View;

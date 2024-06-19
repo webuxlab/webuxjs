@@ -1,4 +1,3 @@
-/* eslint-disable global-require */
 /**
  * File: Tools.js
  * Author: Tommy Gingras
@@ -6,12 +5,14 @@
  * License: All rights reserved Studio Webux 2015-Present
  */
 
+import os from 'node:os';
+
 /**
  * Normalize a port into a number, string, or false.
  * @param {Number} port The port to listen
  * @returns {Number} The port parsed as Integer
  */
-const normalizePort = (port) => {
+export const normalizePort = (port) => {
   if (parseInt(port, 10) >= 0) {
     return parseInt(port, 10);
   }
@@ -23,7 +24,7 @@ const normalizePort = (port) => {
  * @param {Number} port The port to listen
  * @returns {Number} The port parsed as Integer
  */
-const UpdatePort = (port) => {
+export const UpdatePort = (port) => {
   // set the environment port to the new port
   process.env.PORT = port;
   return port;
@@ -34,7 +35,7 @@ const UpdatePort = (port) => {
  * @param {Object} server The server instance
  * @param {Object} log The custom logger, by default, this is set to console
  */
-const onListening =
+export const onListening =
   (server, log = console) =>
   () => {
     const addr = server.address();
@@ -47,7 +48,7 @@ const onListening =
  * @param {Object} error The actual error that occured
  * @throws {Error}
  */
-const onError = (error) => {
+export const onError = (error) => {
   if (error.syscall !== 'listen') {
     throw error;
   }
@@ -71,7 +72,7 @@ const onError = (error) => {
  * @param {Object} log The custom logger, by default, this is set to console
  * @returns {VoidFunction}
  */
-const onClose =
+export const onClose =
   (log = console) =>
   () => {
     log.info(`PID : ${process.pid} -> Server Closed`);
@@ -82,24 +83,14 @@ const onClose =
  * @param {Number} cores The number of cores to use
  * @returns {Number} The cores parse in Integer
  */
-const setNumCores = (cores) => parseInt(cores, 10) || require('os').cpus().length;
+export const setNumCores = (cores) => parseInt(cores, 10) || os.cpus().length;
 
 /**
  * It converts the base64 key and cert to text
  * @param {Object} ssl the key and the cert in base64
  * @returns {Object} The key and cert
  */
-const parseSSL = (ssl) => ({
+export const parseSSL = (ssl) => ({
   key: Buffer.from(ssl.key, 'base64').toString('ascii'),
   cert: Buffer.from(ssl.cert, 'base64').toString('ascii'),
 });
-
-module.exports = {
-  normalizePort,
-  onListening,
-  onError,
-  onClose,
-  setNumCores,
-  parseSSL,
-  UpdatePort,
-};

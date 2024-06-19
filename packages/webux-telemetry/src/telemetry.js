@@ -5,13 +5,13 @@
  * Date: 2021-07-01
  * License: All rights reserved Studio Webux 2015-Present
  */
-const os = require('os');
-const axios = require('axios').default;
+import os from 'node:os';
+import axios from 'axios';
 
 /**
  * @class Telemetry
  */
-class Telemetry {
+export default class Telemetry {
   /**
    *
    * @param {Object} opts The options to configure the telemetry (Default: {})
@@ -139,5 +139,3 @@ class Telemetry {
     }
   }
 }
-
-module.exports = Telemetry;

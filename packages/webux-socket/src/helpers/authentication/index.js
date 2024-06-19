@@ -7,7 +7,7 @@
  * License: All rights reserved Studio Webux 2015-Present
  */
 
-const cookie = require('cookie');
+import cookie from 'cookie';
 
 /**
  * To configure the authentication
@@ -58,7 +58,7 @@ function useAuthentication(checkAuth, config, log) {
  * The authentication can also be configured per namespaces.
  * @return {VoidFunction}
  */
-function Authenticate() {
+export default async function Authenticate() {
   let checkAuth = null;
 
   if (!this.config || !this.config.authentication || !this.config.authentication.namespaces) {
@@ -71,10 +71,15 @@ function Authenticate() {
   } else if (typeof this.config.authentication.isAuthenticated === 'function') {
     checkAuth = this.config.authentication.isAuthenticated;
   } else if (
-    typeof this.config.authentication.isAuthenticated === 'string' &&
-    typeof require(this.config.authentication.isAuthenticated) === 'function'
+    typeof this.config.authentication.isAuthenticated === 'string'
   ) {
-    checkAuth = require(this.config.authentication.isAuthenticated);
+    const modulePath = this.config.authentication.isAuthenticated;
+    const importedModule = await import(modulePath);
+    if (typeof importedModule.default === 'function') {
+        checkAuth = importedModule.default;
+    } else {
+        throw new Error('The authentication method must be a function or a path');
+    }
   } else {
     throw new Error('The authentication method must be a function or a path');
   }
@@ -90,5 +95,3 @@ function Authenticate() {
     }
   });
 }
-
-module.exports = Authenticate;

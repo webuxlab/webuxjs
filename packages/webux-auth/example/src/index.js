@@ -1,14 +1,14 @@
-const express = require('express');
-const cors = require('cors');
+import express from 'express';
+import cors from 'cors';
 
-const { initView } = require('./view.js');
+import { initView } from './view.js';
 
-const authentication = require('./routes/authentication.js');
-const unprotected = require('./routes/unprotected.js');
-const authenticated = require('./routes/authenticated.js');
-const kitty = require('./routes/kitty.js');
+import authentication from './routes/authentication.js';
+import unprotected from './routes/unprotected.js';
+import authenticated from './routes/authenticated.js';
+import kitty from './routes/kitty.js';
 
-const auth = require('./auth.js');
+import auth from './auth.js';
 
 const { EXPRESS_PORT, EXPRESS_HOSTNAME } = process.env;
 const app = express();
@@ -24,7 +24,7 @@ const app = express();
   app.use(auth.load_express_session());
   await auth.initialize_keycloak_issuer();
   auth.initialize_keycloak_client();
-  auth.initialize_passport();
+  auth.initialize_oidc_passport();
   app.use(auth.passport_session());
 
   app.use(authentication(auth.passport, auth.client));

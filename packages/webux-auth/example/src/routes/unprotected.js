@@ -1,4 +1,5 @@
-const express = require('express');
+import express from 'express';
+
 const router = express.Router();
 
 router.get('/', function (req, res) {
@@ -6,4 +7,4 @@ router.get('/', function (req, res) {
   res.render('pages/home', { isAuthenticated: req.isAuthenticated() });
 });
 
-module.exports = router;
+export default router;

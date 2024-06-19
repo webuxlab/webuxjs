@@ -3,3 +3,7 @@ node_modules/
 log/
 uploads/
 coverage/
+defaults/xw
+.env.docker
+.env
+keycloak/

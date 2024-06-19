@@ -1,4 +1,3 @@
-/* eslint-disable global-require */
 /**
  * File: index.js
  * Author: Tommy Gingras
@@ -6,14 +5,18 @@
  * License: All rights reserved Studio Webux 2015-Present
  */
 
-const header = require('./Helpers/header');
-const { normalizePort, setNumCores, onError, onClose, onListening, parseSSL, UpdatePort } = require('./Helpers/Tools');
+import http from 'node:http';
+import https from 'node:https';
+import cluster from 'node:cluster';
+
+import header from './Helpers/header.js';
+import { normalizePort, setNumCores, onError, onClose, onListening, parseSSL, UpdatePort } from './Helpers/tools.js';
 
 /**
  * Creates a simple HTTP or HTTPS server or a cluster.
  * @class Server
  */
-class Server {
+export default class Server {
   /**
    *
    * @param {*} opts The options to configure the server
@@ -53,10 +56,10 @@ class Server {
     return new Promise((resolve) => {
       if (this.ssl) {
         this.log.info(`webux-server - (${process.pid}) Starting an HTTPS server ...`);
-        this.server = require('https').createServer(this.ssl, this.app);
+        this.server = https.createServer(this.ssl, this.app);
       } else {
         this.log.info('webux-server - Starting an HTTP server ...');
-        this.server = require('http').createServer(this.app);
+        this.server = http.createServer(this.app);
       }
 
       this.log.debug(`webux-server - (${process.pid}) Set the application port to ${this.port}`);
@@ -101,7 +104,7 @@ class Server {
   StartCluster() {
     // To enable the cluster mode and
     // define the number of cores to use.
-    this.cluster = require('cluster');
+    this.cluster = cluster;
     this.numCPUs = setNumCores(this.config.cores);
 
     if (this.cluster.isMaster) {
@@ -123,5 +126,3 @@ class Server {
     return this.StartServer();
   }
 }
-
-module.exports = Server;

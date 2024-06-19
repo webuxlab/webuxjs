@@ -5,16 +5,15 @@
  * License: All rights reserved Studio Webux 2015-Present
  */
 
-const SocketIOFileUpload = require('socketio-file-upload');
-const ss = require('socket.io-stream');
-const fs = require('fs');
-const path = require('path');
-const readChunk = require('read-chunk');
-const imageType = require('image-type');
-const fileType = require('file-type');
-const { ProcessImage, DeleteFile } = require('../validators/index');
+import SocketIOFileUpload from 'socketio-file-upload';
+import ss from 'socket.io-stream';
+import fs from 'node:fs';
+import path from 'node:path';
+import readChunk from 'read-chunk';
+import imageType from 'image-type';
+import fileType from 'file-type';
+import { ProcessImage, DeleteFile } from '../validators/index.js';
 
-// eslint-disable-next-line no-console
 const logDebug = (message) => (process.env.DEBUG ? console.debug(message) : null);
 
 // Configuration
@@ -27,8 +26,7 @@ const logDebug = (message) => (process.env.DEBUG ? console.debug(message) : null
  * @param {Object} log Custom logger, by default : console
  * @returns {Function<Object>} It returns a function to be use with 'io.of("upload").on("connection", * this function * );'
  */
-module.exports =
-  (opts, log = console) =>
+export default (opts, log = console) =>
   (socket) => {
     // log.debug("'upload' > Hello - " + socket.id);
 
@@ -115,7 +113,6 @@ module.exports =
       logDebug(`Error ${event}`);
     });
 
-    // eslint-disable-next-line consistent-return
     ss(socket).on('download', (stream, name, callback) => {
       const filePath = path.join(opts.destination, name.toString());
 

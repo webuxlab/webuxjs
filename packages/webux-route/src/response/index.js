@@ -6,7 +6,7 @@
  * License: All rights reserved Studio Webux 2015-Present
  */
 
-const defMsg = require('./constants');
+import defMsg from './constants.js';
 
 /**
  * return success (200)
@@ -192,7 +192,7 @@ function unauthorized(msg, devMsg) {
  * @param {Function} express The express variable, Mandatory
  * @returns {VoidFunction} return nothing.
  */
-function hook(express, log = console) {
+export default function hook(express, log = console) {
   log.info('Attach `res.success` response');
   express.response.success = success;
   log.info('Attach `res.created` response');
@@ -216,5 +216,3 @@ function hook(express, log = console) {
   log.info('Attach `res.custom` response');
   express.response.custom = custom;
 }
-
-module.exports = hook;

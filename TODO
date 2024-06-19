@@ -13,32 +13,72 @@
   - webux-sql
   - webux-telemetry
   - webux-auth
+  - webux-inmemory
+- Tests
+  - write jest test for modules that font have anything currently
 - Tasks
   - webux-logger
-    - Investigate to introduce 'pino' and 'pino-http'
-    - Investigate to introduce 'opentelemetry' transport
-    - Investigate to introduce 'loki' transport
+  - Investigate to introduce 'pino' and 'pino-http'
+  - Investigate to introduce 'opentelemetry' transport
+  - Investigate to introduce 'loki' transport
   - webux-security
-    - ~~Make 'helmet' configurable~~
+  - ~~Make 'helmet' configurable~~
   - webux-telemetry
     - implement new opentelemetry approach (see JOP Project for reference)
+    - Review and upgrade the documentation + config
+    - deprecate the old approach with tracing
+    - maybe decoupled tracing from this package...
+    - tracing does not fully work currently.
+    - Secure the metrics endpoint.
 - completely skipped:
-  - the generator...
+    - the generator...
 - new service (need to add)
-    - webux-view
-        - implement EJS
-    - webux-auth
-        - Keycloak
-    - webux-enqueue
-        - simple enqueue implementation
-    - webux-worker
-        - nodejs worker threads
-        - nodejs worker aync process pool
-    - webux-api-key
-    - webux-mtls
-    - webux-mongo-db
-    - webux-gremlin
-    - webux-memory
-        - redis
-        - memcached
-- need a boilerplate :| 
+  - webux-view
+  - implement EJS
+  - webux-auth
+  - Keycloak
+  - webux-api-key
+  - this service has been added in the webux-security module
+  - implement mongodb or postgres to save metadata, like usage tracking
+  - finish implementing redis to count request on a daily basis
+  - webux-mtls
+  - webux-mongo-db
+  - webux-gremlin
+  - webux-scylla
+  - to store the api key client ? instead of mongo ?
+  - webux-memory
+  - redis
+  - memcached
+  - webux-tasks
+  - celery integration with rabbitmq OR redis
+  - enqueue
+  - simple enqueue implementation
+  - worker
+  - nodejs worker threads
+  - nodejs worker aync process pool
+- need a boilerplate :|
+- HAProxy + let's encrypt + nginx + webuxjs backend/frontend (in the demo)
+- Redis, RabbitMQ, Kafka, seaweedfs, keycloak, jaeger, logstash, prometheus, grafana, alertmanager, zincsearch, mongodb, postgres, janusgraph, scylladb, celery, jenkins, registry, docker-compose
+
+- ESM convertion
+  - view
+  - telemetry
+  - sql
+  - socket
+  - sitemap
+  - server
+  - security
+  - search
+  - scylla
+  - route
+  - queue
+  - pubsub
+  - mailer
+  - logger
+  - janusgraph (This module is not finished at all)
+  - inMemory
+  - GENERATOR has been skipped (yes again...)
+  - fileupload (not fully tested, need to update packages as well)
+  - crawler
+  - Auth, im unhappy with it, need to get rid of passport.. too heavy for no good reason .. need a session and jwt based auth + oidc, there is real need to use passport (but will tackle this one later)
+  - App

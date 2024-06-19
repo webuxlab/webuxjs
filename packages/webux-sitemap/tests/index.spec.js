@@ -1,4 +1,4 @@
-const { fetchSitemap } = require('../src/libs/sitemap');
+import { fetchSitemap } from '../src/libs/sitemap.js';
 
 test('Fetch Sitemap', async () => {
   const sites = await fetchSitemap('https://webuxlab.com/sitemap.xml');

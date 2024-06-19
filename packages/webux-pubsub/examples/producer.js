@@ -1,4 +1,4 @@
-const { PubSub, logLevel } = require('../src/index');
+import { PubSub, logLevel } from '../src/index.js';
 
 const logCreator =
   () =>

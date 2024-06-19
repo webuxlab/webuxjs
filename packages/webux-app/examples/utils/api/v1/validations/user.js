@@ -5,28 +5,22 @@
  * License: All rights reserved Studio Webux 2015-Present
  */
 
-"use strict";
+'use strict';
 
-const Joi = require("joi");
+import Joi from 'joi';
 
-const Create = Joi.object()
+export const Create = Joi.object()
   .keys({
-    fullname: Joi.string().required()
+    fullname: Joi.string().required(),
   })
   .required();
 
-const Update = Joi.object()
+export const Update = Joi.object()
   .keys({
-    fullname: Joi.string().required()
+    fullname: Joi.string().required(),
   })
   .required();
 
-const MongoID = Joi.string()
+export const MongoID = Joi.string()
   .regex(/^(?=[a-f\d]{24}$)(\d+[a-f]|[a-f]+\d)/i)
   .required();
-
-module.exports = {
-  Create,
-  Update,
-  MongoID
-};

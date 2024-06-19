@@ -4,7 +4,7 @@
  * @param {String[]} metas
  * @returns { page, metas, content }
  */
-async function extractMetas(page, metas) {
+export async function extractMetas(page, metas) {
   const content = {};
   for await (const meta of metas) {
     content[meta] = await page.$$eval(`meta[name="${meta}"]`, (elements) => elements.map((el) => el.content).filter((el) => el !== null));
@@ -13,6 +13,4 @@ async function extractMetas(page, metas) {
   return { page, metas, content };
 }
 
-module.exports = {
-  extractMetas,
-};
+

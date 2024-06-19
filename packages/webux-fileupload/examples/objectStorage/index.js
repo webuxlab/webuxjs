@@ -1,13 +1,9 @@
 // This is my tests and in the same time dummy examples.
 
-/* eslint-disable no-underscore-dangle */
-const { readFileSync } = require('fs');
-// eslint-disable-next-line import/no-extraneous-dependencies
-const mime = require('mime-types');
-
-const { S3Client, GetObjectCommand, GetObjectTaggingCommand } = require('@aws-sdk/client-s3');
-
-const FileUpload = require('../../src/index');
+import { readFileSync } from 'node:fs';
+import mime from 'mime-types';
+import { S3Client, GetObjectCommand, GetObjectTaggingCommand } from '@aws-sdk/client-s3';
+import FileUpload from '../../src/index.js';
 
 const _console = {
   log: console.log,

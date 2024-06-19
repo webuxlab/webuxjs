@@ -5,7 +5,7 @@
  * License: All rights reserved Studio Webux 2015-Present
  */
 
-const { UploadFile } = require('../../validators/index');
+import { UploadFile } from '../../validators/index.js';
 
 /**
  * Default upload action
@@ -13,7 +13,7 @@ const { UploadFile } = require('../../validators/index');
  * @param {String} filename The file name
  * @returns {Promise<String>}
  */
-const upload = async (filename) =>
+export const upload = async (filename) =>
   // If any error occured,
   // by doing this you we will be able to delete the file
   // if (error) {
@@ -31,7 +31,7 @@ const upload = async (filename) =>
  * @param {Function} uploadFn Custom upload action : uploadFn(filename)(req)=>{return Promise<Any>}
  * @param {Object} log Custom logger, by default : console
  */
-const uploadRoute =
+export const uploadRoute =
   (opts, uploadFn = null, log = console) =>
   async (req, res) => {
     try {
@@ -75,5 +75,3 @@ const uploadRoute =
       return res.status(422).json({ message: 'File unprocessable !', error: e.message });
     }
   };
-
-module.exports = { upload, uploadRoute };

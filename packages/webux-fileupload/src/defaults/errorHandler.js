@@ -13,7 +13,7 @@
  * @param {String} devMsg Message dedicated for developers
  * @returns {Error} An error
  */
-module.exports = (code, msg, extra, devMsg) => {
+export default (code, msg, extra, devMsg) => {
   const error = new Error();
 
   error.code = code || 500;

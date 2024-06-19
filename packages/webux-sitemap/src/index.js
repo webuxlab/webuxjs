@@ -1,5 +1,1 @@
-const { fetchSitemap } = require('./libs/sitemap');
-
-module.exports = {
-  fetchSitemap,
-};
+export * from './libs/sitemap.js';

@@ -5,7 +5,7 @@
  * License: All rights reserved Studio Webux 2015-Present
  */
 
-const cors = require('cors');
+import cors from 'cors';
 
 /**
  * Configure the cors
@@ -14,7 +14,7 @@ const cors = require('cors');
  * @param {Object} log The log function, optional, by default console
  * @return {Object} Return the cors.
  */
-module.exports = (whitelist, app, log = console) => {
+export default (whitelist, app, log = console) => {
   const corsOptions = {
     origin(origin, callback) {
       log.debug(whitelist);

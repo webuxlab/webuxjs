@@ -1,4 +1,3 @@
-/* eslint-disable global-require */
 /**
  * File: index.js
  * Author: Tommy Gingras
@@ -6,12 +5,15 @@
  * License: All rights reserved Studio Webux 2015-Present
  */
 
+import morgan from './morgan/onRequest.js';
+import winston from './winston/index.js';
+
 /**
  * Creates logger using winston and morgan,
  * it also provides support to custom transport with the ELK suite.
  * @class Log
  */
-class Log {
+export default class Log {
   /**
    *
    * @param {Object} opts The options to configure the server (Default: {})
@@ -28,7 +30,7 @@ class Log {
    * @returns {Object} Returns the log function
    */
   CreateLogger() {
-    this.log = require('./winston/index')(this.config);
+    this.log = winston(this.config);
     return this.log;
   }
 
@@ -39,9 +41,6 @@ class Log {
    */
   OnRequest() {
     this.log.info('Webux-logging - Configuring the `on request` interceptor');
-
-    return require('./morgan/onRequest')(this.config.type, this.config.format, this.config.tokens, this.log);
+    return morgan(this.config.type, this.config.format, this.config.tokens, this.log);
   }
 }
-
-module.exports = Log;

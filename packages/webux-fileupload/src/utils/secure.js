@@ -1,4 +1,4 @@
-function securePath(startsWith, pathToVerify, log = console) {
+export function securePath(startsWith, pathToVerify, log = console) {
   log.verbose('startsWith', startsWith);
   log.verbose('pathToVerify', pathToVerify);
   if (pathToVerify.startsWith(startsWith)) {
@@ -8,7 +8,3 @@ function securePath(startsWith, pathToVerify, log = console) {
   log.verbose('Path is Invalid');
   return false;
 }
-
-module.exports = {
-  securePath,
-};

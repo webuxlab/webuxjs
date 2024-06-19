@@ -1,0 +1,156 @@
+# Source: https://raw.githubusercontent.com/scylladb/scylla-code-samples/master/mms/janusgraph/docker-compose-cql.yml
+# Commit id: https://github.com/scylladb/scylla-code-samples/commit/76d50335fa14a76c1b35790a45602a07382b2f6a
+
+# docs:
+# https://university.scylladb.com/courses/the-mutant-monitoring-system-training-course/lessons/a-graph-data-system-powered-by-scylladb-and-janusgraph/
+# https://university.scylladb.com/courses/the-mutant-monitoring-system-training-course/lessons/a-graph-data-system-powered-by-scylladb-and-janusgraph-part-2/
+
+# docker compose up -d
+# docker exec -it scylla-node1 nodetool status
+# docker run --rm --network janusgraph_web --link janusgraph-server:janusgraph -e GREMLIN_REMOTE_HOSTS=janusgraph  -it janusgraph/janusgraph:latest ./bin/gremlin.sh
+# :remote connect tinkerpop.server conf/remote.yaml
+# :remote console
+# g
+# g.V().count()
+# g.addV('person').property('name', 'guy')
+# g.addV('person').property('name', 'john')
+# g.addV('person').property('name', 'jane')
+# g.addV('person').property('name', 'tom')
+# g.addV('person').property('name', 'ben')
+# g.addV('person').property('name', 'mike')
+# g.addV('person').property('name', 'ron')
+# g.addV('person').property('name', 'kevin')
+# g.addV('person').property('name', 'marc')
+# g.addV('person').property('name', 'nicolas')
+# g.addV('person').property('name', 'justin')
+# g.addV('person').property('name', 'harold')
+# g.addV('person').property('name', 'manon')
+# g.addV('person').property('name', 'rachel')
+
+# import static org.janusgraph.core.attribute.Text.*
+# g.V().has('name', textContains('guy'))
+# g.V().values('name')
+
+# :remote connect tinkerpop.server conf/remote.yaml session
+# :remote console
+# mgmt = graph.openManagement()
+# a_person_name = mgmt.makePropertyKey('a_person_name').dataType(String.class).make()
+# mgmt.buildIndex('personByName', Vertex.class).addKey(a_person_name, Mapping.STRING.asParameter()).buildMixedIndex("search")
+# mgmt.commit()
+
+# import static org.apache.tinkerpop.gremlin.process.traversal.P.*
+# import static org.janusgraph.core.attribute.Text.*
+# g.V().has('a_person_name', eq('guy'))
+# g.V().has('a_person_name', textContains('rachel')).profile()
+
+# docker exec -it scylla-node1 cqlsh
+# cqlsh> desc KEYSPACES;
+
+# janusgraph   system_schema       system         system_distributed_everywhere
+# system_auth  system_distributed  system_traces
+
+# use db_dev ;
+# desc TABLEs
+
+services:
+  janusgraph:
+    image: janusgraph/janusgraph:latest
+    container_name: janusgraph-server
+    restart: unless-stopped
+    environment:
+      JANUS_PROPS_TEMPLATE: cql-es
+      janusgraph.storage.hostname: scylla-node1
+      janusgraph.index.search.hostname: elastic
+      janusgraph.graph.replace-instance-if-exists: true
+      janusgraph.graph.force-index: true
+      # janusgraph.graph.set-vertex-id: true
+      janusgraph.tx.log-tx: true
+      janusgraph.tx.max-commit-time: 10000
+      janusgraph.storage.cql.keyspace: db_dev
+      janusgraph.storage.cql.replication-strategy-class: NetworkTopologyStrategy
+      janusgraph.storage.cql.replication-factor: 3
+      janusgraph.storage.cql.local-datacenter: datacenter1
+      janusgraph.storage.cql.read-consistency-level: LOCAL_QUORUM
+      janusgraph.storage.cql.write-consistency-level: LOCAL_QUORUM
+      janusgraph.storage.cql.replication-strategy-options: datacenter1,3
+      # # JAVA_OPTIONS: "-Xms1024m -Xmx3074m -Xss2048k" # increased docker engine to use all ram available on my system, otherwise it is OOM ...
+      # DEBUG: 1 # needed when it does not work, even with that there is not much....
+    ports:
+      - "8182:8182"
+    networks:
+      - web
+    # healthcheck:
+    #   test: ["CMD", "bin/gremlin.sh", "-e", "scripts/remote-connect.groovy"]
+    #   interval: 10s
+    #   timeout: 30s
+    #   retries: 3
+
+  scylla-node1:
+    container_name: scylla-node1
+    image: scylladb/scylla:5.4.6
+    restart: unless-stopped
+    command: --seeds=scylla-node1,scylla-node2 --smp 1 --memory 750M --overprovisioned 1 --api-address 0.0.0.0 --reactor-backend=epoll
+    volumes:
+      - node1:/var/lib/scylla
+    networks:
+      web:
+
+  scylla-node2:
+    container_name: scylla-node2
+    image: scylladb/scylla:5.4.6
+    restart: unless-stopped
+    command: --seeds=scylla-node1,scylla-node2 --smp 1 --memory 750M --overprovisioned 1 --api-address 0.0.0.0 --reactor-backend=epoll
+    volumes:
+      - node2:/var/lib/scylla
+    networks:
+      web:
+
+  scylla-node3:
+    container_name: scylla-node3
+    image: scylladb/scylla:5.4.6
+    restart: unless-stopped
+    command: --seeds=scylla-node1,scylla-node2 --smp 1 --memory 750M --overprovisioned 1 --api-address 0.0.0.0 --reactor-backend=epoll
+    volumes:
+      - node3:/var/lib/scylla
+    networks:
+      web:
+
+  # http://localhost:9200/_cat/nodes
+  # http://localhost:9200/_cluster/stats
+  # http://localhost:9200/_stats
+  # http://localhost:9200/janusgraph_peoplebyname/stats
+  # http://localhost:9200/janusgraph_peoplebyname/
+  # http://localhost:9200/janusgraph_peoplebyname/_stats
+  # http://localhost:9200/janusgraph_personbyname/
+  elastic:
+    platform: linux/amd64
+    restart: unless-stopped
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.13.4
+    container_name: elastic
+    ports:
+      - 9200:9200
+      - 9300:9300
+    environment:
+      discovery.type: single-node
+      ES_JAVA_OPTS: "-Xms512m -Xmx512m"
+      xpack.security.enabled: false
+    networks:
+      web:
+
+networks:
+  web:
+    driver: bridge
+
+volumes:
+  node1:
+  node2:
+  node3:
+#
+# simple:
+# docker run -it  janusgraph/janusgraph:latest # It goes OOM
+# docker run -it --rm -e JAVA_OPTIONS="-Xms1024m -Xmx3074m -Xss2048k" janusgraph/janusgraph:latest # this one works
+
+# docker run --rm --link funny_elgamal:janusgraph -e GREMLIN_REMOTE_HOSTS=janusgraph \
+#     -it janusgraph/janusgraph:latest ./bin/gremlin.sh
+# :remote connect tinkerpop.server conf/remote.yaml
+# :remote console

@@ -1,7 +1,6 @@
-/* eslint-disable import/no-extraneous-dependencies */
-const express = require('express');
-const bodyParser = require('body-parser');
-const WebuxLogger = require('../src/index');
+import express from 'express';
+import bodyParser from 'body-parser';
+import WebuxLogger from '../src/index.js';
 
 const app = express();
 

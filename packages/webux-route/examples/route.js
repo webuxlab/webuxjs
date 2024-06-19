@@ -1,9 +1,10 @@
-/* eslint-disable import/no-dynamic-require */
-/* eslint-disable global-require */
-/* eslint-disable import/no-extraneous-dependencies */
-const path = require('path');
-const express = require('express');
-const WebuxRoute = require('../src/index');
+import express from 'express';
+import WebuxRoute from '../src/index.js';
+import { route as create } from './actions/user/create.js';
+import { route as find } from './actions/user/find.js';
+import { route as findOne } from './actions/user/findOne.js';
+import { route as remove } from './actions/user/remove.js';
+import { route as update } from './actions/user/update.js';
 
 const app = express();
 const router = express.Router();
@@ -22,9 +23,10 @@ const routes = {
         {
           method: 'get',
           middlewares: [],
-          action: (req, res) => res.success({
-            msg: 'Welcome ! The Documentation is available here : /api/',
-          }),
+          action: (req, res) =>
+            res.success({
+              msg: 'Welcome ! The Documentation is available here : /api/',
+            }),
         },
       ],
       '/healthcheck': [
@@ -57,34 +59,29 @@ const routes = {
         {
           method: 'get',
           middlewares: [isAuthenticated()],
-          action: require(path.join(__dirname, 'actions', 'user', 'find'))
-            .route,
+          action: find,
         },
         {
           method: 'post',
           middlewares: [],
-          action: require(path.join(__dirname, 'actions', 'user', 'create'))
-            .route,
+          action: create,
         },
       ],
       '/:id': [
         {
           method: 'get',
           middlewares: [isAuthenticated()],
-          action: require(path.join(__dirname, 'actions', 'user', 'findOne'))
-            .route,
+          action: findOne,
         },
         {
           method: 'put',
           middlewares: [isAuthenticated()],
-          action: require(path.join(__dirname, 'actions', 'user', 'update'))
-            .route,
+          action: update,
         },
         {
           method: 'delete',
           middlewares: [isAuthenticated()],
-          action: require(path.join(__dirname, 'actions', 'user', 'remove'))
-            .route,
+          action: remove,
         },
       ],
     },

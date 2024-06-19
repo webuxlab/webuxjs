@@ -1,4 +1,4 @@
-const { PubSub } = require('../src/index');
+import { PubSub } from '../src/index.js';
 
 function waitForIt(t) {
   return new Promise((resolve) => setTimeout(async () => resolve(), t));

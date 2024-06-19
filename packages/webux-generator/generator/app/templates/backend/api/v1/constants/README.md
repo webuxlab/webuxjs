@@ -1,1 +1,0 @@
-your constants separated in module

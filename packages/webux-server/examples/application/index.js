@@ -1,5 +1,5 @@
-/* eslint-disable global-require */
-const instance = require('./instance');
+import instance from './instance.js';
+import myFn from './myFn.js';
 
 async function loadApp() {
   // Request interceptor
@@ -10,6 +10,7 @@ async function loadApp() {
     next();
   });
 
+  // curl localhost:1337/hello
   instance.app.use('/hello', (req, res) => {
     res.status(200).send(instance.myFn());
   });
@@ -20,11 +21,9 @@ async function loadApp() {
 
   await instance.server.StartCluster();
 
-  console.log(
-    'Load something else too, like a socket.io server or MQTT and others',
-  );
+  console.log('Load something else too, like a socket.io server or MQTT and others');
 
-  instance.myFn = require('./myFn');
+  instance.myFn = myFn;
 }
 
 try {

@@ -1,15 +1,14 @@
-/* eslint-disable global-require */
-/* eslint-disable import/no-extraneous-dependencies */
+import express from 'express';
+import WebuxServer from '../src/index.js';
+import packageJson from '../package.json' assert { type: 'json' };
+
 const options = {
   enterprise: 'Studio Webux',
   author: 'Tommy Gingras',
   project: '@studiowebux/bin',
-  version: require('../package.json').version,
+  version: packageJson.version,
   endpoint: '/api/v1',
 };
-
-const express = require('express');
-const WebuxServer = require('../src/index');
 
 const app = express();
 const webuxServer = new WebuxServer(options, app, console);

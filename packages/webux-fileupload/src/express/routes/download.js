@@ -5,7 +5,7 @@
  * License: All rights reserved Studio Webux 2015-Present
  */
 
-const path = require('path');
+import path from 'node:path';
 
 /**
  * The default download action
@@ -24,7 +24,7 @@ const download = (filename, destination) => Promise.resolve(path.join(destinatio
  * @param {Function} downloadFn Custom action: downloadFn(destination)(req)=>{return Promise<String>}
  * @param {Object} log Custom logger, by default : console
  */
-const downloadRoute =
+export const downloadRoute =
   (destination, key = 'id', downloadFn = null, log = console) =>
   async (req, res) => {
     try {
@@ -46,5 +46,3 @@ const downloadRoute =
       return res.status(422).json({ message: 'File unprocessable !', error: e });
     }
   };
-
-module.exports = { downloadRoute };

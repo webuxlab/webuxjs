@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   bodyParser: {
     limit: '1mb',
     extended: false,
@@ -13,8 +13,7 @@ module.exports = {
     trustProxy: true,
     allowedMethods: 'GET, POST, PUT, DELETE, PATCH, OPTIONS',
     allowedCredentials: false,
-    allowedHeaders:
-      'Origin, X-Requested-with, Accept, Authorization, Content-Type, Accept-Language',
+    allowedHeaders: 'Origin, X-Requested-with, Accept, Authorization, Content-Type, Accept-Language',
   },
   rateLimiters: [
     {
@@ -26,7 +25,7 @@ module.exports = {
     {
       name: 'Global',
       time: 60, // blocked for 1 minute
-      maxReq: 5, // after 5 tries the requester will be blocked for 1 minute
+      maxReq: 10, // after 5 tries the requester will be blocked for 1 minute
       pattern: '', // It applies globally
     },
   ],

@@ -1,4 +1,4 @@
-const WebuxMailer = require('../src/index');
+import WebuxMailer from '../src/index.js';
 
 const opts = {
   isEnabled: true,

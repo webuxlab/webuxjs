@@ -5,11 +5,11 @@
  * License: All rights reserved Studio Webux 2015-Present
  */
 
-const socketio = require('socket.io');
+import { Server } from 'socket.io';
 
-const ConfigureRedis = require('./helpers/redis');
-const ConfigureAuthentication = require('./helpers/authentication');
-const LoadActions = require('./helpers/actions');
+import ConfigureRedis from './helpers/redis/index.js';
+import ConfigureAuthentication from './helpers/authentication/index.js';
+import LoadActions from './helpers/actions/index.js';
 
 /**
  * @class Socket
@@ -17,7 +17,7 @@ const LoadActions = require('./helpers/actions');
  * - Redis
  * - Authentication
  */
-class Socket {
+export default class Socket {
   /**
    * It initializes the Socket.IO instance
    * @param {Object} opts The configuration
@@ -28,7 +28,7 @@ class Socket {
     this.config = opts;
     this.log = log;
     if (server) {
-      this.io = socketio(server); // Socket io instance with Express or HTTP
+      this.io = new Server(server); // Socket io instance with Express or HTTP
     } else {
       log.debug('The io instance is not configured, to initialize it later, use Initialize(server)');
       this.io = null;
@@ -42,7 +42,7 @@ class Socket {
    */
   Initialize(server) {
     if (server) {
-      this.io = socketio(server);
+      this.io = new Server(server);
       return this.io;
     }
     throw new Error('A server instance is required');
@@ -73,5 +73,3 @@ class Socket {
 Socket.prototype.AddRedis = ConfigureRedis;
 Socket.prototype.AddAuthentication = ConfigureAuthentication;
 Socket.prototype.LoadActions = LoadActions;
-
-module.exports = Socket;

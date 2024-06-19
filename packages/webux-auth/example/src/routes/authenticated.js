@@ -1,5 +1,5 @@
-const express = require('express');
-const auth = require('../auth');
+import express from 'express';
+import auth from '../auth.js';
 
 const router = express.Router();
 
@@ -43,4 +43,4 @@ router.get('/kitty', auth.is_authenticated(), (req, res) => {
   });
 });
 
-module.exports = router;
+export default router;

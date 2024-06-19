@@ -1,7 +1,6 @@
-const Core = require('./Core');
+import Core from './Core.js';
 
-// eslint-disable-next-line no-use-before-define
-module.exports = MyCore;
+export default MyCore;
 
 function MyCore() {
   return new Core();

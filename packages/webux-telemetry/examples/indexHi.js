@@ -1,8 +1,10 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
-require('../src/tracing').tracing('service-hi', require('../package.json').version);
-const express = require('express');
-const { middlewareTracing } = require('../src/tracing');
-const { requestCounterMiddleware, metricsMiddleware } = require('../src/metrics');
+
+import { metricsMiddleware, requestCounterMiddleware, tracing_v2 } from '../src/index.js';
+tracing_v2();
+
+import express from 'express';
+import packageJson from '../package.json' assert { type: 'json' };
 
 function waitForIt() {
   return new Promise((resolve) => setTimeout(async () => resolve(), Math.random() * 10000));
@@ -12,20 +14,22 @@ const app = express();
 const port = 3001;
 
 // /metrics
-app.use(requestCounterMiddleware('example-hi', 'service-hi', require('../package.json').version));
-app.use(metricsMiddleware('example-hi', 'service-hi', require('../package.json').version));
+app.use(requestCounterMiddleware('example-hi', 'service-hi', packageJson.version));
+app.use(metricsMiddleware('example-hi', 'service-hi', packageJson.version));
 
 app.use(express.json()); // for parsing application/json
 app.use(express.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 
-app.all('/hi', middlewareTracing, async (req, res) =>
+// curl http://localhost:3001/hi
+app.all('/hi', async (req, res) =>
   res.json({
     statusCode: 200,
     body: JSON.stringify({ message: 'Bonjour !' }),
   }),
 );
 
-app.all('/unstable', middlewareTracing, async (req, res) => {
+// curl http://localhost:3001/unstable
+app.all('/unstable', async (req, res) => {
   const code = Math.round(Math.random()) ? 200 : 500;
   res.statusCode = code;
   res.json({
@@ -34,7 +38,8 @@ app.all('/unstable', middlewareTracing, async (req, res) => {
   });
 });
 
-app.all('/waitforit', middlewareTracing, async (req, res) => {
+// curl http://localhost:3001/waitforit
+app.all('/waitforit', async (req, res) => {
   await waitForIt();
   const code = Math.round(Math.random()) ? 200 : 500;
   res.statusCode = code;

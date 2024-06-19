@@ -5,18 +5,18 @@
  * License: All rights reserved Studio Webux 2015-Present
  */
 
-const loadConfiguration = require('./configuration');
-const { onRequest, configure } = require('./i18n');
-const { GlobalHandler, NotFoundHandler, Handler, ApiError } = require('./errorhandler');
-const getIP = require('./ip');
-const idToURL = require('./idToUrl');
-const toObject = require('./toObject');
+import loadConfiguration from './configuration/index.js';
+import { onRequest, configure } from './i18n/index.js';
+import { GlobalHandler, NotFoundHandler, Handler, ApiError } from './errorhandler/index.js';
+import getIP from './ip/index.js';
+import idToURL from './idToUrl/index.js';
+import toObject from './toObject/index.js';
 
 /**
  * The application
  * @class App
  */
-class App {
+export default class App {
   /**
    * Initialize the application
    * @param {Object} opts
@@ -37,10 +37,10 @@ class App {
    * @param {String} configuration The absolute path where the configuration are stored
    * @returns {Object} The application configuration
    */
-  LoadConfiguration(configuration) {
+  async LoadConfiguration(configuration) {
     this.config = {
       ...this.config,
-      ...loadConfiguration(configuration || this.config.configuration, this.log),
+      ...(await loadConfiguration(configuration || this.config.configuration, this.log)),
     };
     return this.config;
   }
@@ -63,7 +63,6 @@ class App {
    * by default the value defined in the server will be used.
    * @returns {String} converted id to URL '/endpoint/resource/id'
    */
-  // eslint-disable-next-line class-methods-use-this
   IdToURL(id, resource, endpoint) {
     return idToURL(id, resource, endpoint);
   }
@@ -73,7 +72,6 @@ class App {
    * @param {Array} array must be an array
    * @returns {Object} converted array to JSON
    */
-  // eslint-disable-next-line class-methods-use-this
   ToObject(array) {
     return toObject(array);
   }
@@ -100,7 +98,6 @@ class App {
    * @param {Object} request The request
    * @returns {String} The client IP
    */
-  // eslint-disable-next-line class-methods-use-this
   GetIP(request) {
     return getIP(request);
   }
@@ -113,7 +110,6 @@ class App {
    * @param {String} devMsg The error message for the dev. team
    * @returns {Error} It returns an error ready to be catch by the global error handler
    */
-  // eslint-disable-next-line class-methods-use-this
   ErrorHandler(code, msg, extra, devMsg) {
     return Handler(code, msg, extra, devMsg);
   }
@@ -148,5 +144,4 @@ class App {
   }
 }
 
-module.exports = App;
-module.exports.i18n = App.i18n;
+export const i18n = App.i18n;

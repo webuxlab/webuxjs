@@ -1,6 +1,14 @@
-/* eslint-disable import/no-dynamic-require */
-/* eslint-disable global-require */
-const path = require('path');
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { route as create } from './actions/user/create.js';
+import { route as find } from './actions/user/find.js';
+import { route as findOne } from './actions/user/findOne.js';
+import { route as remove } from './actions/user/remove.js';
+import { route as update } from './actions/user/update.js';
+
+// mimic CommonJS variables -- not needed if using CommonJS
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // Include the middlewares somehow...
 const isAuthenticated = () => (req, res, next) => {
@@ -8,7 +16,7 @@ const isAuthenticated = () => (req, res, next) => {
   return next();
 };
 
-module.exports = {
+export default {
   routes: {
     '/': {
       resources: {
@@ -41,29 +49,29 @@ module.exports = {
           {
             method: 'get',
             middlewares: [isAuthenticated()],
-            action: require(path.join(__dirname, 'actions', 'user', 'find')).route,
+            action: find,
           },
           {
             method: 'post',
             middlewares: [],
-            action: require(path.join(__dirname, 'actions', 'user', 'create')).route,
+            action: create,
           },
         ],
         '/:id': [
           {
             method: 'get',
             middlewares: [isAuthenticated()],
-            action: require(path.join(__dirname, 'actions', 'user', 'findOne')).route,
+            action: findOne,
           },
           {
             method: 'put',
             middlewares: [isAuthenticated()],
-            action: require(path.join(__dirname, 'actions', 'user', 'update')).route,
+            action: update,
           },
           {
             method: 'delete',
             middlewares: [isAuthenticated()],
-            action: require(path.join(__dirname, 'actions', 'user', 'remove')).route,
+            action: remove,
           },
         ],
       },

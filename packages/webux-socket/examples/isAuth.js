@@ -1,4 +1,4 @@
-const jwt = require('jsonwebtoken');
+import jwt from 'jsonwebtoken';
 
 /**
  * This function is used to authenticate the user using the socket.io.
@@ -6,7 +6,7 @@ const jwt = require('jsonwebtoken');
  * @param {string} accessToken
  * @return {Promise<Object>} an error or a user decoded from the jwt token.
  */
-function isAuth(accessToken) {
+export default function isAuth(accessToken) {
   return new Promise((resolve, reject) => {
     jwt.verify(accessToken, 'HARDCODED_JWT_SECRET', (err, user) => {
       if (err || !user) {
@@ -22,5 +22,3 @@ function isAuth(accessToken) {
     });
   });
 }
-
-module.exports = isAuth;

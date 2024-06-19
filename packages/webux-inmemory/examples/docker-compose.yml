@@ -1,0 +1,101 @@
+# Copyright VMware, Inc.
+# SPDX-License-Identifier: APACHE-2.0
+# Source: https://github.com/bitnami/containers/blob/main/bitnami/redis-cluster/docker-compose.yml
+# commit id: https://github.com/bitnami/containers/commit/6a908496d163dd84786700c219be54e362ee9b79
+
+services:
+  redis-node-0:
+    image: docker.io/bitnami/redis-cluster:7.2
+    volumes:
+      - redis-cluster_data-0:/bitnami/redis/data
+    ports:
+      - 6479:6379
+    environment:
+      - 'REDIS_PASSWORD=bitnami'
+      - 'REDIS_NODES=redis-node-0 redis-node-1 redis-node-2 redis-node-3 redis-node-4 redis-node-5'
+
+  redis-node-1:
+    image: docker.io/bitnami/redis-cluster:7.2
+    volumes:
+      - redis-cluster_data-1:/bitnami/redis/data
+    ports:
+      - 6579:6379
+    environment:
+      - 'REDIS_PASSWORD=bitnami'
+      - 'REDIS_NODES=redis-node-0 redis-node-1 redis-node-2 redis-node-3 redis-node-4 redis-node-5'
+
+  redis-node-2:
+    image: docker.io/bitnami/redis-cluster:7.2
+    volumes:
+      - redis-cluster_data-2:/bitnami/redis/data
+    ports:
+      - 6679:6379
+    environment:
+      - 'REDIS_PASSWORD=bitnami'
+      - 'REDIS_NODES=redis-node-0 redis-node-1 redis-node-2 redis-node-3 redis-node-4 redis-node-5'
+
+  redis-node-3:
+    image: docker.io/bitnami/redis-cluster:7.2
+    volumes:
+      - redis-cluster_data-3:/bitnami/redis/data
+    ports:
+      - 6779:6379
+    environment:
+      - 'REDIS_PASSWORD=bitnami'
+      - 'REDIS_NODES=redis-node-0 redis-node-1 redis-node-2 redis-node-3 redis-node-4 redis-node-5'
+
+  redis-node-4:
+    image: docker.io/bitnami/redis-cluster:7.2
+    volumes:
+      - redis-cluster_data-4:/bitnami/redis/data
+    ports:
+      - 6879:6379
+    environment:
+      - 'REDIS_PASSWORD=bitnami'
+      - 'REDIS_NODES=redis-node-0 redis-node-1 redis-node-2 redis-node-3 redis-node-4 redis-node-5'
+
+  redis-node-5:
+    image: docker.io/bitnami/redis-cluster:7.2
+    volumes:
+      - redis-cluster_data-5:/bitnami/redis/data
+    ports:
+      - 6979:6379
+    depends_on:
+      - redis-node-0
+      - redis-node-1
+      - redis-node-2
+      - redis-node-3
+      - redis-node-4
+    environment:
+      - 'REDIS_PASSWORD=bitnami'
+      - 'REDISCLI_AUTH=bitnami'
+      - 'REDIS_CLUSTER_REPLICAS=1'
+      - 'REDIS_NODES=redis-node-0 redis-node-1 redis-node-2 redis-node-3 redis-node-4 redis-node-5'
+      - 'REDIS_CLUSTER_CREATOR=yes'
+
+  # It will fail the first few times
+  # you need to restart it manually
+  # you should implement a retry strategy directly in your code.
+  app:
+    depends_on:
+      - redis-node-0
+      - redis-node-1
+      - redis-node-2
+      - redis-node-3
+      - redis-node-4
+      - redis-node-5
+    build: ../
+
+volumes:
+  redis-cluster_data-0:
+    driver: local
+  redis-cluster_data-1:
+    driver: local
+  redis-cluster_data-2:
+    driver: local
+  redis-cluster_data-3:
+    driver: local
+  redis-cluster_data-4:
+    driver: local
+  redis-cluster_data-5:
+    driver: local

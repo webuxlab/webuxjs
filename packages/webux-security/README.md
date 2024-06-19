@@ -13,6 +13,7 @@ This module offers these features:
 9. compression
 10. x-powered-by
 11. trust proxy
+12. api-key simple implementation
 
 > This module is built to be use with Express.
 

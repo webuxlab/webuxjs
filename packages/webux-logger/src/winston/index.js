@@ -5,18 +5,18 @@
  * License: All rights reserved Studio Webux 2015-Present
  */
 
-const { createLogger, format, transports } = require('winston');
-
+import { createLogger, format, transports } from 'winston';
 const { combine, timestamp, label, json, colorize } = format;
-const WinstonLogStash = require('winston3-logstash-transport');
-const { filterSecret } = require('./filter');
+
+import WinstonLogStash from 'winston3-logstash-transport';
+import { filterSecret } from './filter.js';
 
 /**
  * Creates a custom logger with or without options.
  * @param {Object} options The configuration of the module, Optional
  * @returns {Object} Returns the logger.
  */
-module.exports = (options = {}) => {
+export default (options = {}) => {
   // Creates the logger
   const logger = createLogger({
     defaultMeta: options.meta,
@@ -68,7 +68,6 @@ module.exports = (options = {}) => {
 
   // Adds console redirection,
   // If not in 'production' or 'forced' to print.
-  // eslint-disable-next-line eqeqeq
   if (process.env.LOGGER_FORCE_CONSOLE == true || options.forceConsole === true || process.env.NODE_ENV !== 'production') {
     logger.info('Adding Console to transport');
     logger.add(
@@ -97,7 +96,7 @@ module.exports = (options = {}) => {
         cleaned.url = JSON.parse(message).url ? JSON.parse(message).url : '';
 
         logger.info({ ...object, ...cleaned });
-      } catch (e) {
+      } catch {
         // It goes here when the JSON.parse fail
         // This is expected based on the type configured.
         logger.info({ message });
