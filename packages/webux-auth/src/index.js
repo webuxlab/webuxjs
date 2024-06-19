@@ -63,12 +63,22 @@ export default class Auth {
   //
   // KEYCLOAK
   //
+  /**
+   * 
+   * KEYCLOAK ONLY
+   * @returns 
+   */
   async initialize_keycloak_issuer() {
     // Fetch issuer information from Keycloak
     this.issuer = await Issuer.discover(this.config.keycloak.keycloak_issuer);
     return this.issuer;
   }
 
+  /**
+   * 
+   * KEYCLOAK ONLY 
+   * @returns 
+   */
   initialize_keycloak_client() {
     // Setup Keycloak client using openid-client
     this.client = new this.issuer.Client({
@@ -101,6 +111,7 @@ export default class Auth {
 
   /**
    * Force to logout the user session using keycloak
+   * KEYCLOAK ONLY
    * @param {Object} res express response
    * @param {String} idToken The latest id_token to logout the user session, it skips the keycloak UI doing so.
    * @returns redirect to logout redirect uri, if it is an array, this is not implemented.
@@ -132,6 +143,7 @@ export default class Auth {
    *
    * The serialize function keeps only the user.id
    * The deserialize function takes the user.id and fetch extra values from the database
+   * LOCAL ONLY
    * @param {Function} login_function a function that authenticate the user, (username, password, done)=>done(err,user)
    * @param {Function} deserialize_function (user_id)=>Promise<{}>
    * @returns
@@ -166,6 +178,7 @@ export default class Auth {
 
   /**
    * Initialize Passport with local authentication (username/password)
+   * LOCAL ONLY
    * @returns
    */
   initialize_passport() {
@@ -174,6 +187,7 @@ export default class Auth {
 
   /**
    * Initialize passport with keycloak
+   * KEYCLOAK ONLY
    * @returns
    */
   initialize_oidc_passport() {
@@ -205,6 +219,7 @@ export default class Auth {
   /**
    * Verify if the user token is valid
    * Works only when using keycloak
+   * KEYCLOAK ONLY
    * @returns
    */
   is_authenticated() {
@@ -225,6 +240,7 @@ export default class Auth {
 
   /**
    * Check if the user is authenticated when using local (username/password) session based
+   * LOCAL ONLY
    * @returns
    */
   is_local_authenticated() {
@@ -295,6 +311,7 @@ export default class Auth {
    * It supports multiple format:
    * resource uri: `/uri/*` or `/uri/abc` and so on..
    * resource uri + scope: `/uri/*#create,view` or `/uri/abc#view` and so on..
+   * KEYCLOAK ONLY
    * @param {String} uri
    * @returns next() or not authorized
    */
@@ -329,6 +346,7 @@ export default class Auth {
 
   /**
    * Check in the user group claim if the required group is present
+   * KEYCLOAK ONLY
    * @param {String} group Required group to access the resource
    * @returns next() or not authorized
    */
@@ -343,6 +361,7 @@ export default class Auth {
 
   /**
    * Authenticate the user using local database
+   * LOCAL ONLY
    * @param {string} success_redirect Path to redirect the user when the login is successful
    * @param {string} error_redirect Path to redirect the user when the login fails
    * @returns

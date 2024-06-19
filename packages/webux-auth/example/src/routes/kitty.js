@@ -40,4 +40,4 @@ router.get(
     res.send('A bunch of kitties !');
   }
 );
-module.exports = router;
+export default router;

@@ -7,4 +7,4 @@ router.get('/', function (req, res) {
   res.render('pages/home', { isAuthenticated: req.isAuthenticated() });
 });
 
-module.exports = router;
+export default router;

@@ -24,7 +24,7 @@ const app = express();
   app.use(auth.load_express_session());
   await auth.initialize_keycloak_issuer();
   auth.initialize_keycloak_client();
-  auth.initialize_passport();
+  auth.initialize_oidc_passport();
   app.use(auth.passport_session());
 
   app.use(authentication(auth.passport, auth.client));

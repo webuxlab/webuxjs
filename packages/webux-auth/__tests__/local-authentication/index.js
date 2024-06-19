@@ -67,13 +67,16 @@ app.post('/register', async (req, res, next) => {
   }
 });
 
-// curl -XPOST http://localhost:4444/login -H "Content-Type: application/json" -d '{"username":"tommy","password":"12345"}'
+// curl -v -XPOST http://localhost:4444/login -H "Content-Type: application/json" -d '{"username":"tommy","password":"12345"}'
+// Should print: Found. Redirecting to /account
+// Grab the Set-Cookie value for next step.
 app.post('/login', auth.local_login('/account', '/login'), (req, res, next) => {
-  console.log('User', req.user, req.session);
+  console.log('User', req.user, req.session, req.cookies);
   return res.json({ message: 'Ok !' });
 });
 
-// curl http://127.0.0.1:4444/c
+// curl http://127.0.0.1:4444/c -H "cookie: connect.sid=s%3A2CZc2ys5-z7KVQ8j6_fepc96LA4T2Er0.hFoUKnz%2Fs%2B12lMb2xG2S%2FcgGSgMRjvFx3s5Y%2FTXLYR4; Path=/; HttpOnly"
+// Should print: {"message":"Yes","user":[{"username":"tommy","id":1}]}
 app.get('/c', auth.is_local_authenticated(), (req, res, next) => {
   console.log('User', req.user, req.session, req.isAuthenticated());
   return res.json({ message: 'Yes', user: req.user });
