@@ -1,8 +1,8 @@
 # docker compose build && docker compose up
 
 services:
-  redis:
-    container_name: redis
+  demo-wl-redis:
+    container_name: demo-wl-redis
     image: redis
     command: 'redis-server --save 60 1 --loglevel verbose'
     volumes:
@@ -10,14 +10,14 @@ services:
     # ports:
     #   - 6379:6379
 
-  redis-readonly:
+  demo-wl-redis-readonly:
     image: redis
     depends_on:
-      - redis
-    container_name: redis-readonly
-    command: redis-server --slaveof redis 6379
+      - demo-wl-redis
+    container_name: demo-wl-redis-readonly
+    command: redis-server --slaveof demo-wl-redis 6379
 
-  backend:
+  demo-wl-backend:
     build: .
     volumes:
       - ./log:/usr/src/app/log
@@ -32,9 +32,9 @@ services:
     # extra_hosts:
     #   - 'host.docker.internal:host-gateway'
 
-  jaeger:
+  demo-wl-jaeger:
     image: jaegertracing/all-in-one:latest
-    container_name: jaeger
+    container_name: demo-wl-jaeger
     ports:
       #   - 6831:6831/udp
       #   - 6832:6832/udp
@@ -46,13 +46,14 @@ services:
       #   - 14268:14268
       #   - 14269:14269
       #   - 9411:9411
-    environment: []
+    environment:
+      []
       # COLLECTOR_ZIPKIN_HTTP_PORT: 9411
       # COLLECTOR_ZIPKIN_HOST_PORT: 9411
       # COLLECTOR_OTLP_ENABLED: true
 
-  kc-postgres:
-    container_name: kc-postgres
+  demo-wl-kc-postgres:
+    container_name: demo-wl-kc-postgres
     restart: unless-stopped
     image: postgres:16-alpine
     # ports:
@@ -69,11 +70,11 @@ services:
       timeout: 5s
       retries: 5
 
-  keycloak-1:
+  demo-wl-keycloak-1:
     depends_on:
-      kc-postgres:
+      demo-wl-kc-postgres:
         condition: service_healthy
-    container_name: keycloak-1
+    container_name: demo-wl-keycloak-1
     restart: unless-stopped
     image: quay.io/keycloak/keycloak:24.0.3
     ports:
@@ -91,15 +92,15 @@ services:
       - start
       - --db=postgres
       - --hostname=localhost
-      - --db-url=jdbc:postgresql://kc-postgres:5432/keycloak
+      - --db-url=jdbc:postgresql://demo-wl-kc-postgres:5432/keycloak
       - --db-username=postgres
       - --db-password=keycloak-db-password
       - --https-key-store-file=/conf/server.keystore
       - --https-key-store-password=secured-store-password
 
-  redis-auth-session:
+  demo-wl-redis-auth-session:
     image: redis
-    container_name: redis-auth-session
+    container_name: demo-wl-redis-auth-session
     ports:
       - 6379:6379
     volumes:
