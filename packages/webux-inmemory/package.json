@@ -1,6 +1,6 @@
 {
   "name": "@studiowebux/inmemory",
-  "version": "6.0.0",
+  "version": "6.0.0-alpha",
   "description": "A wrapper around redis",
   "type": "module",
   "main": "src/index.js",

@@ -1,6 +1,6 @@
 {
   "name": "@studiowebux/sitemap",
-  "version": "6.0.0",
+  "version": "6.0.0-alpha",
   "description": "Sitemap plugin",
   "type": "module",
   "main": "src/index.js",

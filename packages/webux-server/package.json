@@ -1,6 +1,6 @@
 {
   "name": "@studiowebux/server",
-  "version": "6.0.0",
+  "version": "6.0.0-alpha",
   "description": "The entry point for our framework, http or https and port configuration",
   "main": "src/index.js",
   "author": "Studio Webux",
