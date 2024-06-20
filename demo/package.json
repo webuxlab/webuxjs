@@ -35,7 +35,7 @@
     "@studiowebux/logger": "^6.0.0-alpha",
     "@studiowebux/route": "^6.0.0-alpha",
     "@studiowebux/security": "^6.0.0-alpha",
-    "@studiowebux/server": "^6.0.0-alpha",
+    "@studiowebux/server": "^6.0.1-alpha",
     "@studiowebux/socket": "^6.0.0-alpha",
     "@studiowebux/sql": "^6.0.0-alpha",
     "@studiowebux/telemetry": "^6.0.0-alpha",

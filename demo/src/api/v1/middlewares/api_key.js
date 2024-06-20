@@ -7,6 +7,7 @@ import Webux from '../../../app/index.js';
 export default (security) => async (req, _res, next) => {
   const api_key = req.headers['x-api-key'];
   if (!api_key) return next(Webux.ErrorHandler(400, 'Missing API Key'));
+  if (process.env.BYPASS_API_KEY === api_key) return next();
   const usage = await Webux.getApiKeyStore.client.get(`apikey.${api_key}`);
   if (usage <= 0) {
     return next(Webux.ErrorHandler(429, 'API Key usage limit reached'));
